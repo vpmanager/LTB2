@@ -1,0 +1,2155 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2 Lietuvių kalbos kursas</title>
+<style>
+:root {
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --primary: #2563eb;
+  --primary-light: #dbeafe;
+  --primary-dark: #1d4ed8;
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --error: #dc2626;
+  --error-light: #fee2e2;
+  --warn: #d97706;
+  --warn-light: #fef3c7;
+  --text: #1e293b;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+.hidden { display:none !important; }
+
+/* NAV */
+nav { background:var(--card); border-bottom:1px solid var(--border); padding:0 24px; position:sticky; top:0; z-index:100; box-shadow:var(--shadow); }
+nav .nav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; gap:8px; height:60px; overflow-x:auto; }
+nav .logo { font-weight:800; font-size:18px; color:var(--primary); margin-right:16px; white-space:nowrap; cursor:pointer; }
+nav .logo span { color:var(--text); }
+nav button { background:none; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-size:14px; color:var(--text-secondary); white-space:nowrap; transition:.15s; font-weight:500; }
+nav button:hover { background:var(--primary-light); color:var(--primary); }
+nav button.active { background:var(--primary); color:#fff; }
+
+/* MAIN */
+main { max-width:1000px; margin:0 auto; padding:24px 16px 80px; }
+h1 { font-size:28px; margin-bottom:8px; }
+h2 { font-size:22px; margin-bottom:12px; }
+h3 { font-size:18px; margin-bottom:8px; }
+.subtitle { color:var(--text-secondary); margin-bottom:24px; font-size:15px; }
+.card { background:var(--card); border-radius:var(--radius); padding:24px; margin-bottom:16px; box-shadow:var(--shadow); border:1px solid var(--border); }
+.card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+.badge-blue { background:var(--primary-light); color:var(--primary); }
+.badge-green { background:var(--success-light); color:var(--success); }
+.badge-red { background:var(--error-light); color:var(--error); }
+.badge-yellow { background:var(--warn-light); color:var(--warn); }
+
+/* BUTTONS */
+.btn { display:inline-flex; align-items:center; gap:6px; padding:10px 20px; border:none; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; transition:.15s; }
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-primary:hover { background:var(--primary-dark); }
+.btn-success { background:var(--success); color:#fff; }
+.btn-success:hover { background:#15803d; }
+.btn-outline { background:transparent; border:2px solid var(--border); color:var(--text); }
+.btn-outline:hover { border-color:var(--primary); color:var(--primary); }
+.btn-sm { padding:6px 14px; font-size:13px; }
+.btn:disabled { opacity:.5; cursor:not-allowed; }
+
+/* GRID */
+.grid { display:grid; gap:16px; }
+.grid-2 { grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); }
+.grid-3 { grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); }
+
+/* PROGRESS BAR */
+.progress-bar { height:8px; background:var(--border); border-radius:4px; overflow:hidden; margin:8px 0; }
+.progress-bar .fill { height:100%; background:var(--primary); border-radius:4px; transition:width .4s; }
+.progress-text { font-size:13px; color:var(--text-secondary); }
+
+/* EXERCISE COMMON */
+.exercise-container { }
+.exercise-question { font-size:16px; margin-bottom:16px; line-height:1.7; }
+.exercise-question .blank { display:inline-block; min-width:120px; border-bottom:2px solid var(--primary); padding:2px 8px; margin:0 4px; }
+.exercise-hint { font-size:13px; color:var(--text-secondary); font-style:italic; margin-bottom:12px; }
+.exercise-hint .ru { color:var(--primary); }
+.options-grid { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+.option-btn { padding:10px 18px; border:2px solid var(--border); border-radius:8px; background:var(--card); cursor:pointer; font-size:15px; transition:.15s; }
+.option-btn:hover { border-color:var(--primary); background:var(--primary-light); }
+.option-btn.selected { border-color:var(--primary); background:var(--primary-light); color:var(--primary); font-weight:600; }
+.option-btn.correct { border-color:var(--success); background:var(--success-light); color:var(--success); }
+.option-btn.wrong { border-color:var(--error); background:var(--error-light); color:var(--error); }
+.option-btn.disabled { pointer-events:none; }
+
+/* INPUT EXERCISE */
+.exercise-input { padding:10px 14px; border:2px solid var(--border); border-radius:8px; font-size:15px; width:200px; max-width:100%; transition:.15s; outline:none; }
+.exercise-input:focus { border-color:var(--primary); }
+.exercise-input.correct { border-color:var(--success); background:var(--success-light); }
+.exercise-input.wrong { border-color:var(--error); background:var(--error-light); }
+
+/* FEEDBACK */
+.feedback { padding:12px 16px; border-radius:8px; margin:12px 0; font-size:14px; line-height:1.6; }
+.feedback-correct { background:var(--success-light); color:#166534; border:1px solid #bbf7d0; }
+.feedback-wrong { background:var(--error-light); color:#991b1b; border:1px solid #fecaca; }
+.feedback-info { background:var(--primary-light); color:#1e40af; border:1px solid #bfdbfe; }
+
+/* SELECT DROPDOWN */
+.exercise-select { padding:8px 12px; border:2px solid var(--border); border-radius:8px; font-size:15px; background:var(--card); cursor:pointer; min-width:160px; outline:none; }
+.exercise-select:focus { border-color:var(--primary); }
+
+/* TEXT PASSAGE */
+.text-passage { background:#fafbfc; border:1px solid var(--border); border-radius:8px; padding:20px; margin:16px 0; line-height:1.9; font-size:15px; }
+.text-passage .line-num { color:var(--text-secondary); font-size:12px; margin-right:8px; user-select:none; }
+
+/* THEORY */
+.theory-block { background:linear-gradient(135deg, #eff6ff, #f0fdf4); border:1px solid #bfdbfe; border-radius:var(--radius); padding:20px; margin:16px 0; }
+.theory-block h4 { color:var(--primary); margin-bottom:8px; }
+.theory-block .ru-note { color:#6b21a8; font-style:italic; margin-top:8px; }
+
+/* TABLE */
+.grammar-table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+.grammar-table th { background:var(--primary); color:#fff; padding:10px 12px; text-align:left; font-weight:600; }
+.grammar-table td { padding:8px 12px; border-bottom:1px solid var(--border); }
+.grammar-table tr:nth-child(even) td { background:#f8fafc; }
+.grammar-table tr:hover td { background:var(--primary-light); }
+.grammar-table .example { color:var(--text-secondary); font-style:italic; }
+
+/* TABS */
+.tabs { display:flex; gap:4px; border-bottom:2px solid var(--border); margin-bottom:20px; overflow-x:auto; }
+.tab { padding:10px 18px; border:none; background:none; cursor:pointer; font-size:14px; font-weight:500; color:var(--text-secondary); border-bottom:2px solid transparent; margin-bottom:-2px; transition:.15s; white-space:nowrap; }
+.tab:hover { color:var(--primary); }
+.tab.active { color:var(--primary); border-bottom-color:var(--primary); }
+
+/* STATS */
+.stat-num { font-size:32px; font-weight:800; color:var(--primary); }
+.stat-label { font-size:13px; color:var(--text-secondary); }
+
+/* SCORE DISPLAY */
+.score-display { text-align:center; padding:32px; }
+.score-circle { width:120px; height:120px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:32px; font-weight:800; }
+.score-good { background:var(--success-light); color:var(--success); border:4px solid var(--success); }
+.score-ok { background:var(--warn-light); color:var(--warn); border:4px solid var(--warn); }
+.score-bad { background:var(--error-light); color:var(--error); border:4px solid var(--error); }
+
+/* NAV DOTS */
+.exercise-nav { display:flex; align-items:center; justify-content:space-between; margin:20px 0; padding:16px 0; border-top:1px solid var(--border); }
+.exercise-dots { display:flex; gap:6px; flex-wrap:wrap; }
+.exercise-dot { width:32px; height:32px; border-radius:50%; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; cursor:pointer; transition:.15s; background:var(--card); }
+.exercise-dot.current { border-color:var(--primary); background:var(--primary-light); color:var(--primary); }
+.exercise-dot.done { border-color:var(--success); background:var(--success-light); color:var(--success); }
+.exercise-dot.wrong-dot { border-color:var(--error); background:var(--error-light); color:var(--error); }
+
+/* TIMER */
+.timer { font-size:14px; color:var(--text-secondary); font-variant-numeric:tabular-nums; }
+.timer.warn { color:var(--warn); font-weight:600; }
+
+/* RESPONSIVE */
+@media (max-width:600px) {
+  main { padding:16px 10px 60px; }
+  h1 { font-size:22px; }
+  .card { padding:16px; }
+  nav .nav-inner { gap:4px; }
+  nav button { padding:6px 10px; font-size:13px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">LT<span>B2</span></div>
+    <button onclick="showPage('home')" data-page="home">Pradžia</button>
+    <button onclick="showPage('dalyviai')" data-page="dalyviai">Dalyviai</button>
+    <button onclick="showPage('linksniai')" data-page="linksniai">Linksniai</button>
+    <button onclick="showPage('veiksmazodziai')" data-page="veiksmazodziai">Veiksmažodžiai</button>
+    <button onclick="showPage('kalbos-vartojimas')" data-page="kalbos-vartojimas">Kalbos vartojimas</button>
+    <button onclick="showPage('jungtukai')" data-page="jungtukai">Jungtukai</button>
+    <button onclick="showPage('zodziu-daryba')" data-page="zodziu-daryba">Žodžių daryba</button>
+    <button onclick="showPage('skyryba')" data-page="skyryba">Skyryba</button>
+    <button onclick="showPage('zinynas')" data-page="zinynas">Žinynas</button>
+    <button onclick="showPage('skaitymas')" data-page="skaitymas">Skaitymas</button>
+    <button onclick="showPage('rasymas')" data-page="rasymas">Rašymas</button>
+    <button onclick="showPage('egzaminas')" data-page="egzaminas">Egzaminas</button>
+  </div>
+</nav>
+
+<main id="app"></main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STORAGE & STATE
+// ═══════════════════════════════════════════════════════════════
+const STORE_KEY = 'ltb2_progress';
+let state = loadState();
+
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (s && s.version === 2) return s;
+  } catch(e) {}
+  return { version:2, scores:{}, completed:{}, streakDays:[], lastVisit:null };
+}
+function saveState() { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+function recordScore(module, score, total) {
+  if (!state.scores[module]) state.scores[module] = [];
+  state.scores[module].push({ score, total, date: new Date().toISOString() });
+  const today = new Date().toISOString().slice(0,10);
+  if (!state.streakDays.includes(today)) state.streakDays.push(today);
+  state.lastVisit = today;
+  saveState();
+}
+function getBestScore(module) {
+  const s = state.scores[module];
+  if (!s || !s.length) return null;
+  return Math.max(...s.map(x => Math.round(x.score/x.total*100)));
+}
+function getStreak() {
+  const days = state.streakDays.sort().reverse();
+  if (!days.length) return 0;
+  let streak = 1;
+  for (let i = 1; i < days.length; i++) {
+    const d1 = new Date(days[i-1]), d2 = new Date(days[i]);
+    if ((d1 - d2) / 86400000 <= 1.5) streak++; else break;
+  }
+  return streak;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+let currentPage = 'home';
+function showPage(page) {
+  currentPage = page;
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  const app = document.getElementById('app');
+  const renderers = { home:renderHome, dalyviai:renderDalyviai, linksniai:renderLinksniai, veiksmazodziai:renderVeiksmazodziai, 'kalbos-vartojimas':renderKalbosVartojimas, jungtukai:renderJungtukai, 'zodziu-daryba':renderZodziuDaryba, skyryba:renderSkyryba, zinynas:renderZinynas, skaitymas:renderSkaitymas, rasymas:renderRasymas, egzaminas:renderEgzaminas };
+  if (renderers[page]) { app.innerHTML = ''; renderers[page](app); }
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HOME PAGE
+// ═══════════════════════════════════════════════════════════════
+function renderHome(el) {
+  const streak = getStreak();
+  const modules = [
+    { id:'dalyviai', name:'Dalyviai (причастия)', desc:'Самая сложная тема B2: все типы причастий', icon:'📝' },
+    { id:'linksniai', name:'Linksniai (падежи)', desc:'7 падежей — таблицы склонений и упражнения', icon:'📊' },
+    { id:'veiksmazodziai', name:'Veiksmažodžiai (глаголы)', desc:'Спряжения, времена, возвратные глаголы', icon:'🔄' },
+    { id:'kalbos-vartojimas', name:'Kalbos vartojimas', desc:'Формат экзамена: выбор правильной формы слова', icon:'🎯' },
+    { id:'jungtukai', name:'Jungtukai (союзы)', desc:'Союзы и сложные предложения — ключ к B2 письму', icon:'🔗' },
+    { id:'zodziu-daryba', name:'Žodžių daryba (словообразование)', desc:'Приставки, суффиксы и производные слова', icon:'🧩' },
+    { id:'skyryba', name:'Skyryba (пунктуация)', desc:'Правила пунктуации — запятые, тире, двоеточия', icon:'✏️' },
+    { id:'zinynas', name:'Gramatikos žinynas (справочник)', desc:'Полный справочник: наклонения, пассив, прилагательные, управление', icon:'📚' },
+    { id:'skaitymas', name:'Skaitymas (чтение)', desc:'Тексты и задания в формате экзамена', icon:'📖' },
+    { id:'rasymas', name:'Rašymas (письмо)', desc:'Деловые письма, жалобы, заявления', icon:'✍️' },
+    { id:'egzaminas', name:'Bandomasis egzaminas', desc:'Пробный экзамен — полный формат B2', icon:'🏆' }
+  ];
+  el.innerHTML = `
+    <h1>Pasiruošimas B2 egzaminui</h1>
+    <p class="subtitle">Подготовка к экзамену III категории — 8 недель интенсивной практики</p>
+    <div class="grid grid-3" style="margin-bottom:24px">
+      <div class="card" style="text-align:center">
+        <div class="stat-num">${streak}</div>
+        <div class="stat-label">dienų iš eilės / дней подряд</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="stat-num">${Object.keys(state.scores).length}</div>
+        <div class="stat-label">modulių pradėta / модулей начато</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="stat-num">${state.streakDays.length}</div>
+        <div class="stat-label">treniruočių dienų / дней занятий</div>
+      </div>
+    </div>
+    <h2>Moduliai / Модули</h2>
+    <div class="grid grid-2">
+      ${modules.map(m => {
+        const best = getBestScore(m.id);
+        return `<div class="card" style="cursor:pointer" onclick="showPage('${m.id}')">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="font-size:28px">${m.icon}</div>
+            <div style="flex:1">
+              <h3 style="margin-bottom:4px">${m.name}</h3>
+              <p style="font-size:13px;color:var(--text-secondary)">${m.desc}</p>
+              ${best !== null ? `<div class="progress-bar" style="margin-top:8px"><div class="fill" style="width:${best}%"></div></div>
+              <div class="progress-text">Лучший результат: ${best}%</div>` : '<div style="margin-top:8px"><span class="badge badge-blue">Nepradėta / Не начато</span></div>'}
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="card" style="margin-top:24px">
+      <h3>Структура экзамена B2 (III kategorija)</h3>
+      <table class="grammar-table">
+        <tr><th>Dalis</th><th>Trukmė</th><th>Taškai</th></tr>
+        <tr><td><strong>I. Skaitymas ir kalbos vartojimas</strong><br><span class="example">Чтение и использование языка</span></td><td>1 val. 30 min.</td><td>40 (20+20)</td></tr>
+        <tr><td><strong>II. Rašymas</strong><br><span class="example">Письмо</span></td><td>1 val.</td><td>20</td></tr>
+        <tr><td><strong>III. Klausymas</strong><br><span class="example">Аудирование</span></td><td>35 min.</td><td>20</td></tr>
+        <tr><td><strong>IV. Kalbėjimas</strong><br><span class="example">Говорение (отдельно)</span></td><td>~15 min.</td><td>20</td></tr>
+      </table>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EXERCISE ENGINE
+// ═══════════════════════════════════════════════════════════════
+function createExerciseRunner(el, exercises, moduleId, title, subtitle) {
+  let current = 0;
+  let answers = new Array(exercises.length).fill(null);
+  let checked = new Array(exercises.length).fill(false);
+  let score = 0;
+  let finished = false;
+
+  function render() {
+    if (finished) { renderResults(); return; }
+    const ex = exercises[current];
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <div><h2 style="margin:0">${title}</h2><div class="subtitle" style="margin:0">${subtitle}</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="badge badge-blue">${current+1} / ${exercises.length}</span>
+          ${ex.topic ? `<span class="badge badge-yellow">${ex.topic}</span>` : ''}
+        </div>
+        ${ex.theory ? `<div class="theory-block"><h4>${ex.theory.title}</h4><p>${ex.theory.text}</p>${ex.theory.ru ? `<p class="ru-note">🇷🇺 ${ex.theory.ru}</p>` : ''}</div>` : ''}
+        <div class="exercise-question">${ex.question}</div>
+        ${ex.hint ? `<div class="exercise-hint">💡 ${ex.hint}</div>` : ''}
+        <div id="exercise-area"></div>
+        <div id="feedback-area"></div>
+      </div>
+      <div class="exercise-nav">
+        <button class="btn btn-outline btn-sm" ${current===0?'disabled':''} onclick="window._exNav(-1)">← Ankstesnis</button>
+        <div class="exercise-dots">${exercises.map((_,i) => `<div class="exercise-dot ${i===current?'current':''} ${checked[i]?(answers[i]===true?'done':'wrong-dot'):''}" onclick="window._exNav(${i})">${i+1}</div>`).join('')}</div>
+        ${current < exercises.length - 1 ?
+          `<button class="btn btn-primary btn-sm" onclick="window._exNav(1)">Kitas →</button>` :
+          `<button class="btn btn-success btn-sm" onclick="window._exFinish()">Baigti ✓</button>`}
+      </div>`;
+    renderExercise(ex, document.getElementById('exercise-area'), document.getElementById('feedback-area'));
+  }
+
+  function renderExercise(ex, area, fbArea) {
+    if (ex.type === 'choice') {
+      area.innerHTML = `<div class="options-grid">${ex.options.map((o,i) => {
+        let cls = 'option-btn';
+        if (checked[current]) {
+          cls += ' disabled';
+          if (i === ex.correct) cls += ' correct';
+          else if (answers[current] !== true && i === ex._chosen) cls += ' wrong';
+        } else if (ex._chosen === i) cls += ' selected';
+        return `<button class="${cls}" onclick="window._exChoose(${i})">${o}</button>`;
+      }).join('')}</div>`;
+      if (!checked[current]) {
+        area.innerHTML += `<button class="btn btn-primary" onclick="window._exCheck()" ${ex._chosen===undefined?'disabled':''} id="check-btn">Patikrinti / Проверить</button>`;
+      }
+      if (checked[current]) showFeedback(ex, fbArea);
+    } else if (ex.type === 'input') {
+      const val = ex._input || '';
+      area.innerHTML = `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <input class="exercise-input ${checked[current]?(answers[current]?'correct':'wrong'):''}" id="ex-input" value="${val}" placeholder="Įrašykite..." ${checked[current]?'disabled':''} onkeydown="if(event.key==='Enter')window._exCheck()">
+        ${!checked[current] ? `<button class="btn btn-primary" onclick="window._exCheck()">Patikrinti</button>` : ''}
+      </div>`;
+      if (checked[current]) showFeedback(ex, fbArea);
+    } else if (ex.type === 'multi-input') {
+      if (!ex._inputs) ex._inputs = new Array(ex.blanks.length).fill('');
+      area.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px">
+        ${ex.blanks.map((b,i) => `<div style="display:flex;gap:10px;align-items:center">
+          <span style="font-weight:600;min-width:40px">(${b.num})</span>
+          <input class="exercise-input ${checked[current]?(b.answer.map(a=>a.toLowerCase()).includes(ex._inputs[i]?.toLowerCase())?'correct':'wrong'):''}" 
+            value="${ex._inputs[i]||''}" placeholder="..." ${checked[current]?'disabled':''}
+            oninput="window._exMultiInput(${i}, this.value)" onkeydown="if(event.key==='Enter')window._exCheck()">
+          ${checked[current] && !b.answer.map(a=>a.toLowerCase()).includes(ex._inputs[i]?.toLowerCase()) ? `<span style="color:var(--success);font-weight:600">${b.answer[0]}</span>` : ''}
+        </div>`).join('')}
+        ${!checked[current] ? `<button class="btn btn-primary" onclick="window._exCheck()" style="align-self:flex-start;margin-top:8px">Patikrinti</button>` : ''}
+      </div>`;
+      if (checked[current]) showFeedback(ex, fbArea);
+    } else if (ex.type === 'select') {
+      if (!ex._selects) ex._selects = new Array(ex.gaps.length).fill('');
+      area.innerHTML = ex.text.replace(/\{(\d+)\}/g, (_, idx) => {
+        const g = ex.gaps[+idx];
+        const val = ex._selects[+idx] || '';
+        let cls = '';
+        if (checked[current]) {
+          cls = val === g.answer ? 'correct' : 'wrong';
+        }
+        return `<select class="exercise-select ${cls}" onchange="window._exSelect(${idx}, this.value)" ${checked[current]?'disabled':''}>
+          <option value="">– pasirinkite –</option>
+          ${g.options.map(o => `<option value="${o}" ${val===o?'selected':''}>${o}</option>`).join('')}
+        </select>`;
+      });
+      if (!checked[current]) {
+        area.innerHTML += `<div style="margin-top:16px"><button class="btn btn-primary" onclick="window._exCheck()">Patikrinti</button></div>`;
+      }
+      if (checked[current]) showFeedback(ex, fbArea);
+    }
+  }
+
+  function showFeedback(ex, fbArea) {
+    const isCorrect = answers[current] === true;
+    let explanation = ex.explanation || '';
+    let ruExplanation = ex.ruExplanation || '';
+    fbArea.innerHTML = `<div class="feedback ${isCorrect?'feedback-correct':'feedback-wrong'}">
+      ${isCorrect ? '✅ Teisingai! / Правильно!' : '❌ Neteisingai. / Неправильно.'}
+      ${explanation ? `<br>${explanation}` : ''}
+      ${ruExplanation ? `<br><em style="opacity:.85">🇷🇺 ${ruExplanation}</em>` : ''}
+    </div>`;
+  }
+
+  function renderResults() {
+    const pct = Math.round(score / exercises.length * 100);
+    const cls = pct >= 70 ? 'score-good' : pct >= 50 ? 'score-ok' : 'score-bad';
+    recordScore(moduleId, score, exercises.length);
+    el.innerHTML = `
+      <div class="card score-display">
+        <div class="score-circle ${cls}">${pct}%</div>
+        <h2>${pct >= 70 ? 'Puiku! / Отлично!' : pct >= 50 ? 'Gerai, bet reikia praktikos / Неплохо, но нужна практика' : 'Reikia daugiau praktikos / Нужно больше практики'}</h2>
+        <p style="color:var(--text-secondary);margin:12px 0">Teisingai: ${score} iš ${exercises.length}</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
+          <button class="btn btn-primary" onclick="showPage('${currentPage}')">Kartoti / Повторить</button>
+          <button class="btn btn-outline" onclick="showPage('home')">Į pradžią / На главную</button>
+        </div>
+      </div>`;
+  }
+
+  window._exChoose = (i) => { if (checked[current]) return; exercises[current]._chosen = i; render(); };
+  window._exMultiInput = (i, v) => { exercises[current]._inputs[i] = v; };
+  window._exSelect = (i, v) => { exercises[current]._selects[i] = v; };
+  window._exCheck = () => {
+    if (checked[current]) return;
+    const ex = exercises[current];
+    checked[current] = true;
+    if (ex.type === 'choice') {
+      answers[current] = ex._chosen === ex.correct;
+    } else if (ex.type === 'input') {
+      const v = document.getElementById('ex-input')?.value?.trim() || '';
+      ex._input = v;
+      const ok = ex.answer.map(a => a.toLowerCase()).includes(v.toLowerCase());
+      answers[current] = ok;
+    } else if (ex.type === 'multi-input') {
+      let allOk = true;
+      ex.blanks.forEach((b, i) => {
+        if (!b.answer.map(a=>a.toLowerCase()).includes((ex._inputs[i]||'').trim().toLowerCase())) allOk = false;
+      });
+      answers[current] = allOk;
+    } else if (ex.type === 'select') {
+      let allOk = true;
+      ex.gaps.forEach((g, i) => {
+        if (ex._selects[i] !== g.answer) allOk = false;
+      });
+      answers[current] = allOk;
+    }
+    if (answers[current]) score++;
+    render();
+  };
+  window._exNav = (d) => {
+    if (typeof d === 'number' && d >= 0 && d < exercises.length) { current = d; }
+    else if (d === 1 && current < exercises.length-1) { current++; }
+    else if (d === -1 && current > 0) { current--; }
+    render();
+  };
+  window._exFinish = () => {
+    exercises.forEach((ex, i) => { if (!checked[i]) { checked[i] = true; answers[i] = false; } });
+    finished = true; render();
+  };
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DALYVIAI (PARTICIPLES)
+// ═══════════════════════════════════════════════════════════════
+function renderDalyviai(el) {
+  let currentTab = 'theory';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Dalyviai / Причастия</h1>
+      </div>
+      <p class="subtitle">Самая важная грамматическая тема для B2. Причастия используются в литовском гораздо чаще, чем в русском.</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._dlTab('theory')">Teorija / Теория</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._dlTab('drill1')">Pratimas 1: Формы</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._dlTab('drill2')">Pratimas 2: Контекст</button>
+        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._dlTab('drill3')">Pratimas 3: Экзамен</button>
+      </div>
+      <div id="dalyviai-content"></div>`;
+    const ct = document.getElementById('dalyviai-content');
+    if (currentTab === 'theory') renderDalyviaiTheory(ct);
+    else if (currentTab === 'drill1') createExerciseRunner(ct, getDalyviaiDrill1(), 'dalyviai-1', 'Dalyviai: formavimas', 'Образование причастий — выберите правильную форму');
+    else if (currentTab === 'drill2') createExerciseRunner(ct, getDalyviaiDrill2(), 'dalyviai-2', 'Dalyviai: kontekstas', 'Причастия в контексте — вставьте нужную форму');
+    else if (currentTab === 'drill3') createExerciseRunner(ct, getDalyviaiDrill3(), 'dalyviai-3', 'Dalyviai: egzamino formatas', 'Формат экзамена — выберите из вариантов');
+  }
+  window._dlTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderDalyviaiTheory(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Что такое dalyviai?</h3>
+      <p>Литовский язык имеет одну из самых богатых систем причастий в Европе. В B2 экзамене они проверяются очень активно — в заданиях 4, 5 и 6 части "Kalbos vartojimas".</p>
+      <div class="theory-block">
+        <h4>Сравнение с русским</h4>
+        <p>В русском: читающий, читавший, читаемый, прочитанный — 4 формы.<br>
+        В литовском: <strong>13+ форм</strong> причастий от каждого глагола!</p>
+        <p class="ru-note">Главная трудность: в литовском причастия используются там, где русский использует придаточные предложения с "который".</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Veikiamieji dalyviai / Действительные причастия</h3>
+      <p style="margin-bottom:12px">Образуются от активного залога — "тот, кто делает"</p>
+      <table class="grammar-table">
+        <tr><th>Laikas</th><th>Vyriškoji (м.р.)</th><th>Moteriškoji (ж.р.)</th><th>Русский аналог</th></tr>
+        <tr><td><strong>Esamasis</strong> (наст.)</td><td>skait<strong>antis</strong> / skait<strong>ąs</strong></td><td>skait<strong>anti</strong> / skait<strong>anti</strong></td><td>читающий / читающая</td></tr>
+        <tr><td><strong>Būtasis kartinis</strong> (прош. однокр.)</td><td>skait<strong>ęs</strong></td><td>skaič<strong>iusi</strong></td><td>прочитавший / прочитавшая</td></tr>
+        <tr><td><strong>Būtasis dažninis</strong> (прош. многокр.)</td><td>skait<strong>ydavęs</strong></td><td>skait<strong>ydavusi</strong></td><td>тот, кто обычно читал</td></tr>
+        <tr><td><strong>Būsimasis</strong> (буд.)</td><td>skait<strong>ysiantis</strong></td><td>skait<strong>ysianti</strong></td><td>тот, кто будет читать</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Как образовать?</h4>
+        <p><strong>Esamasis:</strong> 3-е лицо наст. вр. + <em>-antis/-anti</em> (I спр.) или <em>-intis/-inti</em> (II спр.)<br>
+        skaito → skait<strong>antis</strong> &nbsp; | &nbsp; myli → myl<strong>intis</strong></p>
+        <p><strong>Būtasis kartinis:</strong> основа прош. вр. + <em>-ęs/-usi</em><br>
+        skaitė → skait<strong>ęs</strong> / skaič<strong>iusi</strong></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Neveikiamieji dalyviai / Страдательные причастия</h3>
+      <table class="grammar-table">
+        <tr><th>Laikas</th><th>Vyriškoji</th><th>Moteriškoji</th><th>Русский аналог</th></tr>
+        <tr><td><strong>Esamasis</strong> (наст.)</td><td>skait<strong>omas</strong></td><td>skait<strong>oma</strong></td><td>читаемый / читаемая</td></tr>
+        <tr><td><strong>Būtasis</strong> (прош.)</td><td>skait<strong>ytas</strong></td><td>skait<strong>yta</strong></td><td>прочитанный / прочитанная</td></tr>
+        <tr><td><strong>Būsimasis</strong> (буд.)</td><td>skait<strong>ysimas</strong></td><td>skait<strong>ysima</strong></td><td>тот, что будет прочитан</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Очень важно для B2!</h4>
+        <p>Страдательные причастия прошедшего времени (<em>-tas/-ta</em>) используются повсеместно:</p>
+        <p><em>Parašytas laiškas</em> = написанное письмо<br>
+        <em>Išspręsta problema</em> = решённая проблема<br>
+        <em>Nustatytas laikas</em> = установленное время</p>
+        <p class="ru-note">В экзамене часто нужно выбрать между -amas (наст.) и -ytas (прош.) — разница как между "решаемый" и "решённый".</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Pusdalyvis ir padalyvis / Полупричастие и деепричастие</h3>
+      <table class="grammar-table">
+        <tr><th>Tipas</th><th>Vyriškoji</th><th>Moteriškoji</th><th>Русский аналог</th></tr>
+        <tr><td><strong>Pusdalyvis</strong></td><td>skait<strong>ydamas</strong></td><td>skait<strong>ydama</strong></td><td>читая (одноврем. действие)</td></tr>
+        <tr><td><strong>Padalyvis</strong> (прош.)</td><td colspan="2">paskaič<strong>ius</strong></td><td>прочитав (предшеств. действие)</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Pusdalyvis = "-ydamas/-ydama"</h4>
+        <p>Описывает одновременное действие того же субъекта:</p>
+        <p><em>Eidamas namo, jis galvojo apie darbą.</em><br>= Идя домой, он думал о работе.</p>
+        <p class="ru-note">Pusdalyvis согласуется с подлежащим по роду! Если женщина: <em>Eidama namo, ji galvojo...</em></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Склонение причастий (dalyvių linksniavimas)</h3>
+      <div class="theory-block">
+        <h4>Важно!</h4>
+        <p>Причастия склоняются как прилагательные! На экзамене нужно согласовать причастие с определяемым словом по роду, числу и падежу.</p>
+        <p class="ru-note">Это главная сложность: нужно одновременно знать и тип причастия, и правильный падеж!</p>
+      </div>
+      <h4>Veikiamasis esamojo laiko (действ. наст.): skaitantis/skaitanti</h4>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Vyr. vns.</th><th>Mot. vns.</th><th>Vyr. dgs.</th><th>Mot. dgs.</th></tr>
+        <tr><td>V.</td><td>skaitant<strong>is</strong></td><td>skaitant<strong>i</strong></td><td>skaitant<strong>ys</strong></td><td>skaitanč<strong>ios</strong></td></tr>
+        <tr><td>K.</td><td>skaitanč<strong>io</strong></td><td>skaitanč<strong>ios</strong></td><td>skaitanč<strong>ių</strong></td><td>skaitanč<strong>ių</strong></td></tr>
+        <tr><td>N.</td><td>skaitanč<strong>iam</strong></td><td>skaitanč<strong>iai</strong></td><td>skaitant<strong>iems</strong></td><td>skaitanč<strong>ioms</strong></td></tr>
+        <tr><td>G.</td><td>skaitant<strong>į</strong></td><td>skaitanč<strong>ią</strong></td><td>skaitanč<strong>ius</strong></td><td>skaitanč<strong>ias</strong></td></tr>
+        <tr><td>Įn.</td><td>skaitanč<strong>iu</strong></td><td>skaitanč<strong>ia</strong></td><td>skaitanč<strong>iais</strong></td><td>skaitanč<strong>iomis</strong></td></tr>
+        <tr><td>Vt.</td><td>skaitanč<strong>iame</strong></td><td>skaitanč<strong>ioje</strong></td><td>skaitanč<strong>iuose</strong></td><td>skaitanč<strong>iose</strong></td></tr>
+      </table>
+
+      <h4 style="margin-top:16px">Neveikiamasis būtojo laiko (страд. прош.): skaitytas/skaityta</h4>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Vyr. vns.</th><th>Mot. vns.</th><th>Vyr. dgs.</th><th>Mot. dgs.</th></tr>
+        <tr><td>V.</td><td>skaityt<strong>as</strong></td><td>skaityt<strong>a</strong></td><td>skaityt<strong>i</strong></td><td>skaityt<strong>os</strong></td></tr>
+        <tr><td>K.</td><td>skaityt<strong>o</strong></td><td>skaityt<strong>os</strong></td><td>skaityt<strong>ų</strong></td><td>skaityt<strong>ų</strong></td></tr>
+        <tr><td>N.</td><td>skaityt<strong>am</strong></td><td>skaityt<strong>ai</strong></td><td>skaityt<strong>iems</strong></td><td>skaityt<strong>oms</strong></td></tr>
+        <tr><td>G.</td><td>skaityt<strong>ą</strong></td><td>skaityt<strong>ą</strong></td><td>skaityt<strong>us</strong></td><td>skaityt<strong>as</strong></td></tr>
+        <tr><td>Įn.</td><td>skaityt<strong>u</strong></td><td>skaityt<strong>a</strong></td><td>skaityt<strong>ais</strong></td><td>skaityt<strong>omis</strong></td></tr>
+        <tr><td>Vt.</td><td>skaityt<strong>ame</strong></td><td>skaityt<strong>oje</strong></td><td>skaityt<strong>uose</strong></td><td>skaityt<strong>ose</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Все формы причастий от 5 основных глаголов</h3>
+      <p style="margin-bottom:12px">Выучите эти формы — они покрывают 80% экзаменационных заданий.</p>
+      <table class="grammar-table" style="font-size:13px">
+        <tr><th>Tipas</th><th>dirbti<br>(работать)</th><th>rašyti<br>(писать)</th><th>mylėti<br>(любить)</th><th>skaityti<br>(читать)</th><th>eiti<br>(идти)</th></tr>
+        <tr><td><strong>Veik. esam.</strong> м.</td><td>dirb<strong>antis</strong></td><td>raš<strong>antis</strong></td><td>myl<strong>intis</strong></td><td>skait<strong>antis</strong></td><td>ein<strong>antis</strong></td></tr>
+        <tr><td><strong>Veik. esam.</strong> ж.</td><td>dirb<strong>anti</strong></td><td>raš<strong>anti</strong></td><td>myl<strong>inti</strong></td><td>skait<strong>anti</strong></td><td>ein<strong>anti</strong></td></tr>
+        <tr><td><strong>Veik. būt.kart.</strong> м.</td><td>dirb<strong>ęs</strong></td><td>raš<strong>ęs</strong></td><td>mylėj<strong>ęs</strong></td><td>skaič<strong>ęs</strong></td><td>ėj<strong>ęs</strong></td></tr>
+        <tr><td><strong>Veik. būt.kart.</strong> ж.</td><td>dirb<strong>usi</strong></td><td>raš<strong>iusi</strong></td><td>mylėj<strong>usi</strong></td><td>skaič<strong>iusi</strong></td><td>ėj<strong>usi</strong></td></tr>
+        <tr><td><strong>Veik. būs.</strong> м.</td><td>dirb<strong>siantis</strong></td><td>rašy<strong>siantis</strong></td><td>mylė<strong>siantis</strong></td><td>skaity<strong>siantis</strong></td><td>ei<strong>siantis</strong></td></tr>
+        <tr><td><strong>Neveik. esam.</strong> м.</td><td>dirb<strong>amas</strong></td><td>raš<strong>omas</strong></td><td>myl<strong>imas</strong></td><td>skait<strong>omas</strong></td><td>ein<strong>amas</strong></td></tr>
+        <tr><td><strong>Neveik. esam.</strong> ж.</td><td>dirb<strong>ama</strong></td><td>raš<strong>oma</strong></td><td>myl<strong>ima</strong></td><td>skait<strong>oma</strong></td><td>ein<strong>ama</strong></td></tr>
+        <tr><td><strong>Neveik. būt.</strong> м.</td><td>dirb<strong>tas</strong></td><td>rašy<strong>tas</strong></td><td>mylė<strong>tas</strong></td><td>skaity<strong>tas</strong></td><td>ei<strong>tas</strong></td></tr>
+        <tr><td><strong>Neveik. būt.</strong> ж.</td><td>dirb<strong>ta</strong></td><td>rašy<strong>ta</strong></td><td>mylė<strong>ta</strong></td><td>skaity<strong>ta</strong></td><td>ei<strong>ta</strong></td></tr>
+        <tr><td><strong>Pusdalyvis</strong> м.</td><td>dirb<strong>damas</strong></td><td>rašy<strong>damas</strong></td><td>mylė<strong>damas</strong></td><td>skaity<strong>damas</strong></td><td>ei<strong>damas</strong></td></tr>
+        <tr><td><strong>Pusdalyvis</strong> ж.</td><td>dirb<strong>dama</strong></td><td>rašy<strong>dama</strong></td><td>mylė<strong>dama</strong></td><td>skaity<strong>dama</strong></td><td>ei<strong>dama</strong></td></tr>
+        <tr><td><strong>Padalyvis</strong> м.</td><td>dirb<strong>ęs</strong>*</td><td>paraš<strong>ius</strong></td><td>pamylėj<strong>ęs</strong></td><td>perskaič<strong>ius</strong></td><td>nuėj<strong>ęs</strong></td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Как запомнить?</h4>
+        <p><strong>Veikiamasis</strong> (действительный) — КТО делает: dirbantis = работающий<br>
+        <strong>Neveikiamasis</strong> (страдательный) — ЧТО делается: dirbamas = выполняемый<br>
+        <strong>Pusdalyvis</strong> — одновременное действие: dirbdamas = работая (в то время как)<br>
+        <strong>Padalyvis</strong> — предшествующее действие: padirbęs = поработав (и потом...)</p>
+        <p class="ru-note">Мнемоника: -antis = "-ающий", -amas = "-аемый", -tas = "-анный", -damas = "-ая" (дееприч.), -ęs (padalyvis) = "-ав"</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:24px 0">
+      <button class="btn btn-primary" onclick="window._dlTab('drill1')">Pradėti pratimus / Начать упражнения →</button>
+    </div>`;
+}
+
+function getDalyviaiDrill1() {
+  return [
+    { type:'choice', question:'Образуйте <strong>veikiamąjį esamojo laiko dalyvį</strong> (действ. прич. наст. вр.) от глагола <strong>dirbti</strong> (работать), м.р., ед.ч.:', options:['dirbantis','dirbęs','dirbamas','dirbdamas'], correct:0, topic:'Veik. esam.', hint:'3-е лицо наст. вр.: dirba → dirb + antis', explanation:'dirba → dirb-antis. I спряжение, поэтому -antis.', ruExplanation:'Работающий. По аналогии с русским "работающий", но образование другое: от 3-го лица настоящего времени.' },
+    { type:'choice', question:'Veikiamasis <strong>būtojo kartinio</strong> laiko dalyvis от <strong>rašyti</strong> (писать), ж.р.:', options:['rašiusi','rašanti','rašoma','rašydama'], correct:0, topic:'Veik. būt. kart.', hint:'Основа прош. вр.: rašė → raš + iusi', explanation:'rašė → raš-iusi (ж.р.). Написавшая.', ruExplanation:'Написавшая. Прошедшее однократное — действие совершилось один раз.' },
+    { type:'choice', question:'Neveikiamasis <strong>esamojo</strong> laiko dalyvis от <strong>statyti</strong> (строить), м.р.:', options:['statomas','statęs','statantis','statytas'], correct:0, topic:'Neveik. esam.', hint:'Страдательное причастие наст. вр.: -omas/-oma', explanation:'statyti → stat-omas. Строимый (тот, что строится сейчас).', ruExplanation:'Строимый / строящийся. Аналог русского страдательного причастия настоящего времени.' },
+    { type:'choice', question:'Neveikiamasis <strong>būtojo</strong> laiko dalyvis от <strong>parašyti</strong> (написать), ж.р.:', options:['parašyta','parašoma','parašanti','parašiusi'], correct:0, topic:'Neveik. būt.', hint:'Страд. прич. прош. вр.: -ytas/-yta', explanation:'parašyti → paraš-yta. Написанная.', ruExplanation:'Написанная. Это самый частый тип причастия в текстах!' },
+    { type:'choice', question:'<strong>Pusdalyvis</strong> от <strong>eiti</strong> (идти), м.р.:', options:['eidamas','eidama','einantis','ėjęs'], correct:0, topic:'Pusdalyvis', hint:'Pusdalyvis = основа инфинитива + -damas/-dama', explanation:'ei-ti → ei-damas. Идя (о мужчине).', ruExplanation:'Идя. Полупричастие — аналог русского деепричастия несовершенного вида, но согласуется по роду!' },
+    { type:'choice', question:'Neveikiamasis <strong>būsimojo</strong> laiko dalyvis от <strong>skaityti</strong> (читать), м.р.:', options:['skaitysimas','skaitomas','skaitytas','skaitantis'], correct:0, topic:'Neveik. būs.', hint:'Будущее страдательное: -ysimas/-ysima', explanation:'skaityti → skait-ysimas. Тот, что будет прочитан.', ruExplanation:'То, что будет прочитано. Редкая форма, но встречается в формальных текстах.' },
+    { type:'choice', question:'Veikiamasis esamojo laiko dalyvis от <strong>mylėti</strong> (любить), ж.р. <em>(II спряжение!)</em>:', options:['mylinti','mylanti','mylima','myliusi'], correct:0, topic:'Veik. esam. II', hint:'II спряжение: myli → myl-intis/-inti (не -antis!)', explanation:'myli → myl-inti. II спряжение → -intis/-inti.', ruExplanation:'Любящая. Обратите внимание: II спряжение даёт -intis/-inti, а не -antis/-anti!' },
+    { type:'choice', question:'<strong>Padalyvis</strong> от <strong>perskaityti</strong> (прочитать):', options:['perskaičius','perskaitydamas','perskaitęs','perskaitomas'], correct:0, topic:'Padalyvis', hint:'Padalyvis прош. вр. = основа прош. вр. + -us/-ius', explanation:'perskaitė → perskaič-ius. Прочитав (предшествующее действие).', ruExplanation:'Прочитав. Деепричастие совершенного вида — действие произошло раньше главного.' },
+    { type:'choice', question:'Veikiamasis <strong>būtojo dažninio</strong> laiko dalyvis от <strong>vaikščioti</strong> (гулять), м.р.:', options:['vaikščiodavęs','vaikščiojantis','vaikščiojęs','vaikščiojamas'], correct:0, topic:'Veik. būt. dažn.', hint:'Būtasis dažninis = многократное прошедшее. Основа + -davęs/-davusi', explanation:'vaikščioti → vaikščio-davęs. Тот, кто обычно/бывало гулял.', ruExplanation:'Тот, кто обычно ходил. Эта форма не имеет аналога в русском — передаёт привычное действие в прошлом.' },
+    { type:'choice', question:'Какое причастие в предложении: <em>"Vaikai, <strong>žaidžiantys</strong> kieme, buvo linksmi."</em>?', options:['Veikiamasis esamojo laiko','Neveikiamasis esamojo laiko','Pusdalyvis','Padalyvis'], correct:0, topic:'Atpažinimas', hint:'žaidžiantys = играющие (кто? — действующее лицо)', explanation:'žaidžiantys — veikiamasis esamojo laiko dalyvis (dgs., V.). Играющие дети.', ruExplanation:'Играющие — действительное причастие настоящего времени, множественное число, именительный падеж.' },
+    { type:'choice', question:'Veikiamasis esamojo laiko dalyvis от <strong>turėti</strong> (иметь), м.р. <em>(II спр.)</em>:', options:['turintis','turantis','turimas','turėjęs'], correct:0, topic:'Veik. esam. II', hint:'II спряжение: turi → tur-intis', explanation:'turi → tur-intis. II спряжение → -intis.', ruExplanation:'Имеющий. II спряжение — окончание -intis, не -antis!' },
+    { type:'choice', question:'Neveikiamasis esamojo laiko dalyvis от <strong>gerinti</strong> (улучшать), ж.р.:', options:['gerinama','gerinanti','gerinusi','gerinta'], correct:0, topic:'Neveik. esam.', hint:'Страдательное наст. вр.: -ama (ж.р.)', explanation:'gerinti → gerin-ama. Улучшаемая.', ruExplanation:'Улучшаемая. Страдательное причастие настоящего времени, женский род.' },
+    { type:'choice', question:'<strong>Pusdalyvis</strong> от <strong>bėgti</strong> (бежать), ж.р.:', options:['bėgdama','bėgdamas','bėganti','bėgusi'], correct:0, topic:'Pusdalyvis', hint:'Основа инф. + -dama (ж.р.)', explanation:'bėg-ti → bėg-dama. Бежа (о женщине).', ruExplanation:'Бежа. Полупричастие женского рода — согласуется с подлежащим.' },
+    { type:'choice', question:'Veikiamasis <strong>būsimojo</strong> laiko dalyvis от <strong>mokytis</strong> (учиться), м.р.:', options:['mokysiantis','mokantis','mokęsis','mokomas'], correct:0, topic:'Veik. būs.', hint:'Будущее действительное: основа буд. + -iantis', explanation:'mokysis → moky-siantis. Тот, кто будет учиться.', ruExplanation:'Тот, кто будет учиться. Будущее действительное — используется в обещаниях и планах.' },
+    { type:'choice', question:'Какой тип: <em>"<strong>Išgirdusi</strong> naujieną, ji nustebo."</em>', options:['Padalyvis','Pusdalyvis','Veik. būt. kart. dalyvis','Neveik. dalyvis'], correct:0, topic:'Atpažinimas', hint:'Išgirdusi — предшествующее действие, ж.р.', explanation:'Išgirdusi — padalyvis (деепричастие), mot. giminė. Услышав новость, она удивилась.', ruExplanation:'Услышав. Padalyvis — деепричастие совершенного вида: действие произошло раньше главного.' },
+    { type:'choice', question:'Neveikiamasis būtojo laiko dalyvis от <strong>išspręsti</strong> (решить), mot.g., dgs., K.:', options:['išspręstų','išspręstos','išspręstoms','išspręstas'], correct:0, topic:'Neveik. būt. + linksniai', hint:'Dgs. Kilmininkas mot.g.: -ų', explanation:'išspręstų — neveik. būt. laiko, dgs., K. Решённых (проблем).', ruExplanation:'Решённых. Множественное число, родительный падеж. Причастие склоняется как прилагательное!' },
+  ];
+}
+
+function getDalyviaiDrill2() {
+  return [
+    { type:'input', question:'Вставьте правильную форму причастия.<br><br><em>"Moteris, _____ (skaityti, veik. esam., mot.) knygą, sėdėjo ant suolo."</em><br><br>Женщина, <u>читающая</u> книгу, сидела на скамейке.', answer:['skaitanti','skaitančia'], hint:'Veikiamasis esamojo laiko, moteriškoji giminė, vardininkas', explanation:'skaitanti — veik. esam. laiko dalyvis, mot. giminė, vns., V.', ruExplanation:'Читающая. Женский род, именительный падеж, единственное число.' },
+    { type:'input', question:'<em>"_____ (grįžti, pusdalyvis, vyr.) namo, jis pamatė kaimyną."</em><br><br><u>Возвращаясь</u> домой, он увидел соседа.', answer:['Grįždamas'], hint:'Pusdalyvis, vyriškoji giminė: основа + -damas', explanation:'Grįždamas — pusdalyvis, vyr. giminė. Grįž-ti → grįž-damas.', ruExplanation:'Возвращаясь. Полупричастие согласуется с подлежащим "jis" (он) — мужской род.' },
+    { type:'input', question:'<em>"Laiškas buvo _____ (parašyti, neveik. būt.) vakar."</em><br><br>Письмо было <u>написано</u> вчера.', answer:['parašytas'], hint:'Neveikiamasis būtojo laiko: -ytas (vyr. giminė)', explanation:'parašytas — neveik. būt. laiko dalyvis. Laiškas (vyr. g.) → parašytas.', ruExplanation:'Написано/написанный. Согласуется с "laiškas" (письмо, м.р.) — parašytas.' },
+    { type:'input', question:'<em>"_____ (baigti, padalyvis) darbą, ji išėjo namo."</em><br><br><u>Закончив</u> работу, она ушла домой.', answer:['Baigusi'], hint:'Padalyvis прош. вр., mot. giminė: основа прош. вр. + -usi', explanation:'Baigusi — padalyvis. Baigė → baig-usi (mot. g., nes „ji").', ruExplanation:'Закончив. Деепричастие сов. вида — действие предшествует главному. Женский род, т.к. "ji" (она).' },
+    { type:'input', question:'<em>"Ši knyga yra labai _____ (skaityti, neveik. esam.)."</em><br><br>Эта книга очень <u>читаемая</u> (популярная).', answer:['skaitoma'], hint:'Neveikiamasis esamojo laiko, mot. giminė (knyga): -oma', explanation:'skaitoma — neveik. esam. laiko dalyvis, mot. giminė.', ruExplanation:'Читаемая. Страдательное причастие наст. вр. Knyga — ж.р., поэтому -oma.' },
+    { type:'input', question:'<em>"Studentai, _____ (išlaikyti, veik. būt. kart., dgs.) egzaminą, džiaugėsi."</em><br><br>Студенты, <u>сдавшие</u> экзамен, радовались.', answer:['išlaikę'], hint:'Veik. būtojo kartinio, vyr. giminė, daugiskaita, V.: -ę', explanation:'išlaikę — veik. būt. kart. dalyvis, vyr. g., dgs., V. Išlaikė → išlaik-ę.', ruExplanation:'Сдавшие. Множественное число, именительный падеж. В дgs. vyr. g. окончание -ę.' },
+    { type:'input', question:'<em>"_____ (vairuoti, pusdalyvis, mot.) automobilį, ji klausėsi muzikos."</em><br><br><u>Ведя</u> машину, она слушала музыку.', answer:['Vairuodama'], hint:'Pusdalyvis, moteriškoji: -dama', explanation:'Vairuodama — pusdalyvis, mot. giminė. Vairuo-ti → vairuo-dama.', ruExplanation:'Ведя/управляя. Женский род, т.к. подлежащее "ji" (она).' },
+    { type:'input', question:'<em>"Tai yra gerai _____ (žinoti, neveik. esam.) faktas."</em><br><br>Это хорошо <u>известный</u> факт.', answer:['žinomas'], hint:'Neveik. esamojo, vyr. giminė (faktas): -omas', explanation:'žinomas — neveik. esam. laiko dalyvis. Факт (vyr. g.) → žinomas.', ruExplanation:'Известный / знаемый. Одно из самых распространённых причастий в литовском!' },
+    { type:'input', question:'<em>"Problema buvo sėkmingai _____ (išspręsti, neveik. būt., mot.)."</em><br><br>Проблема была успешно <u>решена</u>.', answer:['išspręsta'], hint:'Neveik. būt., mot. giminė (problema): -ta', explanation:'išspręsta — neveik. būt., mot. g. Problema → išspręsta.', ruExplanation:'Решена. Problema — ж.р., поэтому -ta (не -tas).' },
+    { type:'input', question:'<em>"Mes matėme _____ (bėgti, veik. esam., vyr., G.) vaiką."</em><br><br>Мы видели <u>бегущего</u> ребёнка.', answer:['bėgantį'], hint:'Veik. esam., vyr. g., Galininkas (ką?): -antį', explanation:'bėgantį — veik. esam. laiko, vyr. g., G. Matėme KĄ? — bėgantį vaiką.', ruExplanation:'Бегущего. Причастие в винительном падеже, т.к. matėme KĄ?' },
+    { type:'input', question:'<em>"Tai _____ (padaryti, neveik. būt.) klaida."</em><br><br>Это <u>сделанная</u> ошибка.', answer:['padaryta'], hint:'Neveik. būt., mot. giminė (klaida): -yta', explanation:'padaryta — neveik. būt. laiko, mot. g. Сделанная ошибка.', ruExplanation:'Сделанная/совершённая. Klaida — ж.р. → padaryta.' },
+    { type:'input', question:'<em>"_____ (atvykti, padalyvis, vyr.) į Vilnių, jis iškart ėjo į muziejų."</em><br><br><u>Приехав</u> в Вильнюс, он сразу пошёл в музей.', answer:['Atvykęs'], hint:'Padalyvis, vyr. giminė: основа прош. + -ęs', explanation:'Atvykęs — padalyvis, vyr. g. Atvyko → atvyk-ęs.', ruExplanation:'Приехав. Мужской род, т.к. подлежащее "jis".' },
+  ];
+}
+
+function getDalyviaiDrill3() {
+  return [
+    { type:'choice', question:'<em>"Šiemet vykstantis Kauno kino festivalis taps svarbiu _____ ne tik miestui, bet ir visai Lietuvai."</em>', options:['įvykiu','įvykis','įvykį','įvykyje'], correct:0, topic:'Linksniai + kontekstas', hint:'taps svarbiu KUO? → Įnagininkas', explanation:'taps svarbiu įvykiu — tapti + Įnagininkas. "Станет важным событием" — творительный падеж.', ruExplanation:'Станет важным ЧЕМ? → Творительный падеж (Įnagininkas). В русском тоже: станет событиеМ.' },
+    { type:'choice', question:'<em>"Mane sužavėjo slaugytojų _____ ir dėmesingumas."</em>', options:['rūpestingumas','rūpestingumą','rūpestingumo','rūpestingumu'], correct:0, topic:'Linksniai', hint:'Kas sužavėjo? → Vardininkas (подлежащее)', explanation:'rūpestingumas — Vardininkas (именительный), подлежащее предложения.', ruExplanation:'Что поразило? → Заботливость (именительный падеж). Подлежащее стоит в Vardininkas.' },
+    { type:'choice', question:'<em>"Žmonių, _____ keliauti dviračiais, daugėja."</em><br>Людей, _____ путешествовать на велосипедах, становится больше.', options:['nusprendžiančių','nusprendžiantys','nuspręstų','nusprendžiančiais'], correct:0, topic:'Dalyviai + linksniai', hint:'Žmonių (K.) → причастие тоже в Kilmininkas, dgs.', explanation:'nusprendžiančių — veik. esam. laiko dalyvis, dgs., Kilmininkas. Согласуется с „žmonių".', ruExplanation:'Решающих/решивших. Причастие согласуется с определяемым словом "žmonių" (людей) — родительный падеж множественного числа.' },
+    { type:'choice', question:'<em>"Festivalio tikslas — skatinti kino meno _____ ."</em><br>Цель фестиваля — способствовать _____ киноискусства.', options:['plėtrą','plėtra','plėtros','plėtrai'], correct:0, topic:'Linksniai', hint:'skatinti KĄ? → Galininkas', explanation:'skatinti plėtrą — skatinti + Galininkas (винительный). Содействовать ЧЕМУ? но в литовском — KĄ?', ruExplanation:'Содействовать ЧЕМУ? В русском — дательный, но в литовском skatinti требует Galininkas (винительный): skatinti KĄ?' },
+    { type:'choice', question:'<em>"Norėčiau padėkoti visiems skyriaus administracijos _____ ."</em><br>Я хотел бы поблагодарить всех _____ администрации отделения.', options:['darbuotojams','darbuotojai','darbuotojų','darbuotojus'], correct:0, topic:'Linksniai', hint:'padėkoti KAM? → Naudininkas', explanation:'padėkoti darbuotojams — padėkoti + Naudininkas (дательный).', ruExplanation:'Поблагодарить КОМУ? → Дательный падеж (Naudininkas). Как в русском: благодарить кому? — сотрудникАМ.' },
+    { type:'choice', question:'<em>"Jų _____ mano gydymo procesas buvo sklandus."</em><br>Благодаря их _____ процесс моего лечения был гладким.', options:['dėka','dėkui','dėl','dėkas'], correct:0, topic:'Prielinksnis', hint:'Благодаря = dėka (с Kilmininkas)', explanation:'Jų dėka — благодаря им. „Dėka" используется с Kilmininkas.', ruExplanation:'Благодаря. "Dėka" — постпозитивный предлог с родительным падежом. Jų (их) dėka = благодаря им.' },
+    { type:'choice', question:'<em>"Kiekvienas gali rasti sau _____ vietą."</em><br>Каждый может найти себе _____ место.', options:['tinkamą','tinkamas','tinkanti','tinkančią'], correct:0, topic:'Dalyviai vs būdvardžiai', hint:'rasti KĄ? vietą → Galininkas. Прилагательное или причастие?', explanation:'tinkamą — neveik. esam. laiko dalyvis (= подходящее), Galininkas, mot. giminė. Vietą (G.) → tinkamą.', ruExplanation:'Подходящее (место). Tinkamas — по форме страдательное причастие, но по значению = прилагательное "подходящий". Galininkas (вин.п.).' },
+    { type:'choice', question:'<em>"Galėdama viešai pasidalinti savo gera patirtimi, esu _____ ."</em><br>Имея возможность публично поделиться опытом, я _____ .', options:['dėkinga','dėkingas','dėkingai','dėkingumo'], correct:0, topic:'Būdvardis + giminė', hint:'Esu KOKIA? (ji/mot.) → Vardininkas, mot. giminė', explanation:'dėkinga — būdvardis, mot. giminė, V. Говорящая — женщина (galėdama → mot. giminė).', ruExplanation:'Благодарна. Женский род определяется по "galėdama" (полупричастие ж.р.) — значит говорящая женщина.' },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LINKSNIAI (CASES)
+// ═══════════════════════════════════════════════════════════════
+function renderLinksniai(el) {
+  let currentTab = 'theory';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Linksniai / Падежи</h1>
+      </div>
+      <p class="subtitle">7 падежей литовского языка — сравнение с русским и практика</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._lnTab('theory')">Teorija / Теория</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._lnTab('drill1')">Pratimas 1: Падеж</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._lnTab('drill2')">Pratimas 2: Окончания</button>
+        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._lnTab('drill3')">Pratimas 3: Предлоги</button>
+      </div>
+      <div id="linksniai-content"></div>`;
+    const ct = document.getElementById('linksniai-content');
+    if (currentTab === 'theory') renderLinksniaiTheory(ct);
+    else if (currentTab === 'drill1') createExerciseRunner(ct, getLinksniaiDrill1(), 'linksniai-1', 'Linksniai: atpažinimas', 'Определите правильный падеж');
+    else if (currentTab === 'drill2') createExerciseRunner(ct, getLinksniaiDrill2(), 'linksniai-2', 'Linksniai: galūnės', 'Впишите правильное окончание');
+    else if (currentTab === 'drill3') createExerciseRunner(ct, getLinksniaiDrill3(), 'linksniai-3', 'Prielinksniai + linksniai', 'Предлоги и управление падежами');
+  }
+  window._lnTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderLinksniaiTheory(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>7 литовских падежей vs 6 русских</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Klausimas</th><th>Русский аналог</th><th>Пример</th></tr>
+        <tr><td><strong>Vardininkas</strong> (V.)</td><td>Kas?</td><td>Именительный</td><td>namas, katė</td></tr>
+        <tr><td><strong>Kilmininkas</strong> (K.)</td><td>Ko?</td><td>Родительный</td><td>namo, katės</td></tr>
+        <tr><td><strong>Naudininkas</strong> (N.)</td><td>Kam?</td><td>Дательный</td><td>namui, katei</td></tr>
+        <tr><td><strong>Galininkas</strong> (G.)</td><td>Ką?</td><td>Винительный</td><td>namą, katę</td></tr>
+        <tr><td><strong>Įnagininkas</strong> (Įn.)</td><td>Kuo?</td><td>Творительный</td><td>namu, kate</td></tr>
+        <tr><td><strong>Vietininkas</strong> (Vt.)</td><td>Kur?</td><td>Предложный*</td><td>name, katėje</td></tr>
+        <tr><td><strong>Šauksmininkas</strong> (Š.)</td><td>—</td><td>Звательный</td><td>name!, kate!</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Главное отличие от русского</h4>
+        <p><strong>Vietininkas</strong> (местный падеж) — в русском его функции разделены между предложным падежом и предлогами. В литовском он показывает местонахождение <em>без предлога</em>:</p>
+        <p><em>Vilniuje</em> = в Вильнюсе &nbsp;|&nbsp; <em>namuose</em> = дома &nbsp;|&nbsp; <em>mokykloje</em> = в школе</p>
+        <p class="ru-note">В русском: "в школе" (предлог + предложный). В литовском: "mokykloje" (только падеж, без предлога!).</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>I linksniuotė (1-е склонение): vyriškoji giminė -as, -is, -ys</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>-as (namas)</th><th>-is (brolis)</th><th>-ys (arklys)</th></tr>
+        <tr><td>V.</td><td>nam<strong>as</strong></td><td>brol<strong>is</strong></td><td>arkl<strong>ys</strong></td></tr>
+        <tr><td>K.</td><td>nam<strong>o</strong></td><td>brol<strong>io</strong></td><td>arkl<strong>io</strong></td></tr>
+        <tr><td>N.</td><td>nam<strong>ui</strong></td><td>brol<strong>iui</strong></td><td>arkl<strong>iui</strong></td></tr>
+        <tr><td>G.</td><td>nam<strong>ą</strong></td><td>brol<strong>į</strong></td><td>arkl<strong>į</strong></td></tr>
+        <tr><td>Įn.</td><td>nam<strong>u</strong></td><td>brol<strong>iu</strong></td><td>arkl<strong>iu</strong></td></tr>
+        <tr><td>Vt.</td><td>nam<strong>e</strong></td><td>brol<strong>yje</strong></td><td>arkl<strong>yje</strong></td></tr>
+        <tr><td>Š.</td><td>nam<strong>e</strong>!</td><td>brol<strong>i</strong>!</td><td>arkl<strong>y</strong>!</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>III linksniuotė (3-е склонение): moteriškoji giminė -a</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Vns. (mokykla)</th><th>Dgs. (mokyklos)</th></tr>
+        <tr><td>V.</td><td>mokykl<strong>a</strong></td><td>mokykl<strong>os</strong></td></tr>
+        <tr><td>K.</td><td>mokykl<strong>os</strong></td><td>mokykl<strong>ų</strong></td></tr>
+        <tr><td>N.</td><td>mokykl<strong>ai</strong></td><td>mokykl<strong>oms</strong></td></tr>
+        <tr><td>G.</td><td>mokykl<strong>ą</strong></td><td>mokykl<strong>as</strong></td></tr>
+        <tr><td>Įn.</td><td>mokykl<strong>a</strong></td><td>mokykl<strong>omis</strong></td></tr>
+        <tr><td>Vt.</td><td>mokykl<strong>oje</strong></td><td>mokykl<strong>ose</strong></td></tr>
+        <tr><td>Š.</td><td>mokykl<strong>a</strong>!</td><td>mokykl<strong>os</strong>!</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>IV linksniuotė (4-е склонение): moteriškoji giminė -ė</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Vns. (katė)</th><th>Dgs. (katės)</th></tr>
+        <tr><td>V.</td><td>kat<strong>ė</strong></td><td>kat<strong>ės</strong></td></tr>
+        <tr><td>K.</td><td>kat<strong>ės</strong></td><td>kač<strong>ių</strong></td></tr>
+        <tr><td>N.</td><td>kat<strong>ei</strong></td><td>kat<strong>ėms</strong></td></tr>
+        <tr><td>G.</td><td>kat<strong>ę</strong></td><td>kat<strong>es</strong></td></tr>
+        <tr><td>Įn.</td><td>kat<strong>e</strong></td><td>kat<strong>ėmis</strong></td></tr>
+        <tr><td>Vt.</td><td>kat<strong>ėje</strong></td><td>kat<strong>ėse</strong></td></tr>
+        <tr><td>Š.</td><td>kat<strong>e</strong>!</td><td>kat<strong>ės</strong>!</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>II linksniuotė (2-е склонение): vyriškoji giminė -us, -ius</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>-us (sūnus)</th><th>-ius (profesorius)</th><th>Dgs. (sūnūs)</th></tr>
+        <tr><td>V.</td><td>sūn<strong>us</strong></td><td>profesor<strong>ius</strong></td><td>sūn<strong>ūs</strong></td></tr>
+        <tr><td>K.</td><td>sūn<strong>aus</strong></td><td>profesor<strong>iaus</strong></td><td>sūn<strong>ų</strong></td></tr>
+        <tr><td>N.</td><td>sūn<strong>ui</strong></td><td>profesor<strong>iui</strong></td><td>sūn<strong>ums</strong></td></tr>
+        <tr><td>G.</td><td>sūn<strong>ų</strong></td><td>profesor<strong>ių</strong></td><td>sūn<strong>us</strong></td></tr>
+        <tr><td>Įn.</td><td>sūn<strong>umi</strong></td><td>profesor<strong>iumi</strong></td><td>sūn<strong>umis</strong></td></tr>
+        <tr><td>Vt.</td><td>sūn<strong>uje</strong></td><td>profesor<strong>iuje</strong></td><td>sūn<strong>uose</strong></td></tr>
+        <tr><td>Š.</td><td>sūn<strong>au</strong>!</td><td>profesor<strong>iau</strong>!</td><td>sūn<strong>ūs</strong>!</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Частые слова II linksniuotė</h4>
+        <p><em>žmogus</em> (человек — особое склонение!), <em>sūnus</em> (сын), <em>profesorius</em> (профессор), <em>viršininkas... нет, тот I</em></p>
+        <p class="ru-note">II склонение — самое редкое. Всего несколько десятков слов. Но "žmogus" — одно из самых частых!</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>V linksniuotė (5-е склонение): особые слова</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>-uo (sesuo)</th><th>-uo (vanduo)</th><th>-ė (duktė)</th></tr>
+        <tr><td>V.</td><td>ses<strong>uo</strong></td><td>vand<strong>uo</strong></td><td>dukt<strong>ė</strong></td></tr>
+        <tr><td>K.</td><td>ses<strong>ers</strong></td><td>vand<strong>ens</strong></td><td>dukter<strong>s</strong></td></tr>
+        <tr><td>N.</td><td>ses<strong>eriai</strong></td><td>vand<strong>eniui</strong></td><td>dukter<strong>iai</strong></td></tr>
+        <tr><td>G.</td><td>ses<strong>erį</strong></td><td>vand<strong>enį</strong></td><td>dukter<strong>į</strong></td></tr>
+        <tr><td>Įn.</td><td>ses<strong>erimi</strong></td><td>vand<strong>eniu</strong></td><td>dukter<strong>imi</strong></td></tr>
+        <tr><td>Vt.</td><td>ses<strong>eryje</strong></td><td>vand<strong>enyje</strong></td><td>dukter<strong>yje</strong></td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Ещё слова V linksniuotė</h4>
+        <p><em>akmuo</em> (камень) → K. akmen<strong>s</strong>, <em>šuo</em> (собака) → K. šun<strong>s</strong>, <em>mėnuo</em> (месяц) → K. mėnes<strong>io</strong> (особое!)</p>
+        <p class="ru-note">V склонение — слова с изменяющейся основой. Похоже на русские слова типа "мать → матери", "дочь → дочери".</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Склонение прилагательных (būdvardžių linksniavimas)</h3>
+      <p style="margin-bottom:12px">Прилагательные согласуются с существительным по роду, числу и падежу.</p>
+      <h4>Geras/gera (хороший/хорошая) — типичное склонение</h4>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Vyr. vns.</th><th>Mot. vns.</th><th>Vyr. dgs.</th><th>Mot. dgs.</th></tr>
+        <tr><td>V.</td><td>ger<strong>as</strong></td><td>ger<strong>a</strong></td><td>ger<strong>i</strong></td><td>ger<strong>os</strong></td></tr>
+        <tr><td>K.</td><td>ger<strong>o</strong></td><td>ger<strong>os</strong></td><td>ger<strong>ų</strong></td><td>ger<strong>ų</strong></td></tr>
+        <tr><td>N.</td><td>ger<strong>am</strong></td><td>ger<strong>ai</strong></td><td>ger<strong>iems</strong></td><td>ger<strong>oms</strong></td></tr>
+        <tr><td>G.</td><td>ger<strong>ą</strong></td><td>ger<strong>ą</strong></td><td>ger<strong>us</strong></td><td>ger<strong>as</strong></td></tr>
+        <tr><td>Įn.</td><td>ger<strong>u</strong></td><td>ger<strong>a</strong></td><td>ger<strong>ais</strong></td><td>ger<strong>omis</strong></td></tr>
+        <tr><td>Vt.</td><td>ger<strong>ame</strong></td><td>ger<strong>oje</strong></td><td>ger<strong>uose</strong></td><td>ger<strong>ose</strong></td></tr>
+      </table>
+
+      <h4 style="margin-top:16px">Gražus/graži (красивый/красивая) — тип на -us</h4>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Vyr. vns.</th><th>Mot. vns.</th><th>Vyr. dgs.</th><th>Mot. dgs.</th></tr>
+        <tr><td>V.</td><td>graž<strong>us</strong></td><td>graž<strong>i</strong></td><td>graž<strong>ūs</strong></td><td>graž<strong>ios</strong></td></tr>
+        <tr><td>K.</td><td>graž<strong>aus</strong></td><td>graž<strong>ios</strong></td><td>graž<strong>ių</strong></td><td>graž<strong>ių</strong></td></tr>
+        <tr><td>N.</td><td>graž<strong>iam</strong></td><td>graž<strong>iai</strong></td><td>graž<strong>iems</strong></td><td>graž<strong>ioms</strong></td></tr>
+        <tr><td>G.</td><td>graž<strong>ų</strong></td><td>graž<strong>ią</strong></td><td>graž<strong>ius</strong></td><td>graž<strong>ias</strong></td></tr>
+        <tr><td>Įn.</td><td>graž<strong>iu</strong></td><td>graž<strong>ia</strong></td><td>graž<strong>iais</strong></td><td>graž<strong>iomis</strong></td></tr>
+        <tr><td>Vt.</td><td>graž<strong>iame</strong></td><td>graž<strong>ioje</strong></td><td>graž<strong>iuose</strong></td><td>graž<strong>iose</strong></td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Степени сравнения (laipsniai)</h4>
+        <p><strong>Aukštesnysis laipsnis</strong> (сравнительная): geras → ger<strong>esnis</strong> (лучший), gražus → graž<strong>esnis</strong> (красивее)<br>
+        <strong>Aukščiausiasis laipsnis</strong> (превосходная): geras → ger<strong>iausias</strong> (наилучший), gražus → graž<strong>iausias</strong> (красивейший)</p>
+        <p>Формула: корень + <strong>-esnis/-esnė</strong> (сравн.) | корень + <strong>-iausias/-iausia</strong> (превосх.)</p>
+        <p><em>Šis namas yra <strong>didesnis</strong> už aną.</em> — Этот дом больше того.<br>
+        <em>Tai <strong>gražiausias</strong> miestas Lietuvoje.</em> — Это красивейший город в Литве.</p>
+        <p class="ru-note">Сравнение: -esnis + <strong>už + G.</strong> (чем) или <strong>nei</strong> (чем). Didesnis <strong>už</strong> tą = больше, чем тот. Didesnis <strong>nei</strong> tas = больше, чем тот.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Daugiskaitos linksniai: I linksniuotė (мн. число I склонение)</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>-as (namai)</th><th>-is (broliai)</th><th>-ys (arkliai)</th></tr>
+        <tr><td>V.</td><td>nam<strong>ai</strong></td><td>brol<strong>iai</strong></td><td>arkl<strong>iai</strong></td></tr>
+        <tr><td>K.</td><td>nam<strong>ų</strong></td><td>brol<strong>ių</strong></td><td>arkl<strong>ių</strong></td></tr>
+        <tr><td>N.</td><td>nam<strong>ams</strong></td><td>brol<strong>iams</strong></td><td>arkl<strong>iams</strong></td></tr>
+        <tr><td>G.</td><td>nam<strong>us</strong></td><td>brol<strong>ius</strong></td><td>arkl<strong>ius</strong></td></tr>
+        <tr><td>Įn.</td><td>nam<strong>ais</strong></td><td>brol<strong>iais</strong></td><td>arkl<strong>iais</strong></td></tr>
+        <tr><td>Vt.</td><td>nam<strong>uose</strong></td><td>brol<strong>iuose</strong></td><td>arkl<strong>iuose</strong></td></tr>
+      </table>
+    </div>
+
+    <div style="text-align:center;margin:24px 0">
+      <button class="btn btn-primary" onclick="window._lnTab('drill1')">Pradėti pratimus →</button>
+    </div>`;
+}
+
+function getLinksniaiDrill1() {
+  return [
+    { type:'choice', question:'<em>"Aš gyvenu <strong>Vilniuje</strong>."</em><br>Определите падеж выделенного слова.', options:['Vietininkas','Galininkas','Kilmininkas','Naudininkas'], correct:0, hint:'Kur? Где? → Vietininkas', explanation:'Vilniuje — Vietininkas (местный падеж). Kur gyveni? — Vilniuje.', ruExplanation:'Где живёшь? В Вильнюсе. Местный падеж — аналог русского предложного, но без предлога.' },
+    { type:'choice', question:'<em>"Daviau knygą <strong>draugui</strong>."</em><br>Определите падеж.', options:['Naudininkas','Galininkas','Kilmininkas','Įnagininkas'], correct:0, hint:'Kam? Кому?', explanation:'draugui — Naudininkas (дательный). Kam daviau? — Draugui.', ruExplanation:'Кому дал? Другу. Дательный падеж — полностью совпадает с русским.' },
+    { type:'choice', question:'<em>"Jis rašo laišką <strong>pieštuku</strong>."</em><br>Определите падеж слова "pieštuku".', options:['Įnagininkas','Vietininkas','Galininkas','Naudininkas'], correct:0, hint:'Kuo? Чем?', explanation:'pieštuku — Įnagininkas (творительный). Kuo rašo? — Pieštuku.', ruExplanation:'Чем пишет? Карандашом. Творительный — совпадает с русским.' },
+    { type:'choice', question:'<em>"<strong>Miesto</strong> centras yra gražus."</em><br>Определите падеж слова "miesto".', options:['Kilmininkas','Vardininkas','Galininkas','Vietininkas'], correct:0, hint:'Ko? Чей? Чего?', explanation:'miesto — Kilmininkas (родительный). Ko centras? — Miesto.', ruExplanation:'Чей центр? Города. Родительный падеж — совпадает с русским.' },
+    { type:'choice', question:'<em>"Matau <strong>gražią moterį</strong>."</em><br>Определите падеж.', options:['Galininkas','Vardininkas','Kilmininkas','Įnagininkas'], correct:0, hint:'Ką matau? Кого вижу?', explanation:'gražią moterį — Galininkas (винительный). Ką matau?', ruExplanation:'Кого вижу? Красивую женщину. Винительный падеж.' },
+    { type:'choice', question:'<em>"Tai yra mano <strong>tėvo</strong> automobilis."</em><br>Какой падеж у слова "tėvo"?', options:['Kilmininkas','Naudininkas','Vardininkas','Galininkas'], correct:0, hint:'Ko automobilis? Чья машина?', explanation:'tėvo — Kilmininkas. Ko automobilis? — Tėvo (отца).', ruExplanation:'Чья машина? Отца. Родительный падеж принадлежности.' },
+    { type:'choice', question:'<em>"<strong>Vaikai</strong> žaidžia parke."</em><br>Какой падеж у слова "vaikai"?', options:['Vardininkas','Galininkas','Naudininkas','Šauksmininkas'], correct:0, hint:'Kas žaidžia? Кто играет?', explanation:'vaikai — Vardininkas (именительный), подлежащее.', ruExplanation:'Кто играет? Дети. Именительный — подлежащее.' },
+    { type:'choice', question:'<em>"Einu <strong>į parduotuvę</strong>."</em><br>Какой падеж после предлога "į"?', options:['Galininkas','Vietininkas','Kilmininkas','Naudininkas'], correct:0, hint:'į + Ką? Куда? → Galininkas', explanation:'į parduotuvę — į + Galininkas. Предлог į (в, куда) требует винительного падежа.', ruExplanation:'Куда иду? В магазин. Предлог "į" всегда с Galininkas! В русском "в" + винительный при направлении.' },
+  ];
+}
+
+function getLinksniaiDrill2() {
+  return [
+    { type:'input', question:'Поставьте слово <strong>miestas</strong> в Kilmininkas (K.):<br><br><em>"Tai yra _____ centras."</em> (Это центр города.)', answer:['miesto'], hint:'I linksniuotė, -as: K. = -o', explanation:'miestas → miesto. I linksniuotė: -as → -o (Kilmininkas).', ruExplanation:'Город → города. Окончание -as меняется на -o.' },
+    { type:'input', question:'Поставьте <strong>mokykla</strong> в Vietininkas (Vt.):<br><br><em>"Vaikai mokosi _____."</em> (Дети учатся в школе.)', answer:['mokykloje'], hint:'III linksniuotė, -a: Vt. = -oje', explanation:'mokykla → mokykloje. III linksniuotė: -a → -oje (Vietininkas).', ruExplanation:'Школа → в школе. Окончание -a → -oje. В литовском предлог "в" не нужен!' },
+    { type:'input', question:'Поставьте <strong>draugas</strong> в Naudininkas (N.):<br><br><em>"Nupirkau dovaną _____."</em> (Купил подарок другу.)', answer:['draugui'], hint:'I linksniuotė, -as: N. = -ui', explanation:'draugas → draugui. I linksniuotė: -as → -ui (Naudininkas).', ruExplanation:'Друг → другу. Окончание -as → -ui.' },
+    { type:'input', question:'Поставьте <strong>knyga</strong> в Galininkas (G.):<br><br><em>"Skaitau _____."</em> (Читаю книгу.)', answer:['knygą'], hint:'III linksniuotė, -a: G. = -ą', explanation:'knyga → knygą. III linksniuotė: -a → -ą (Galininkas).', ruExplanation:'Книга → книгу. Окончание -a → -ą. Носовая "ą" — произносится как долгое "а".' },
+    { type:'input', question:'Поставьте <strong>automobilis</strong> в Įnagininkas (Įn.):<br><br><em>"Važiuoju _____."</em> (Еду на машине.)', answer:['automobiliu'], hint:'I linksniuotė, -is: Įn. = -iu', explanation:'automobilis → automobiliu. I linksniuotė (-is): Įn. = -iu.', ruExplanation:'Машина → машиной. Еду ЧЕМ? Окончание -is → -iu.' },
+    { type:'input', question:'Поставьте <strong>gydytojas</strong> в Galininkas, daugiskaita (G., dgs.):<br><br><em>"Matau _____."</em> (Вижу врачей.)', answer:['gydytojus'], hint:'I linksniuotė, -as, dgs.: G. = -us', explanation:'gydytojas → gydytojus. Dgs. Galininkas: -us.', ruExplanation:'Врач → врачей. Множественное число, винительный: -as → -us (dgs.).' },
+    { type:'input', question:'Поставьте <strong>Lietuva</strong> в Kilmininkas (K.):<br><br><em>"_____ istorija yra sena."</em> (История Литвы древняя.)', answer:['Lietuvos'], hint:'III linksniuotė, -a: K. = -os', explanation:'Lietuva → Lietuvos. III linksniuotė: -a → -os (Kilmininkas).', ruExplanation:'Литва → Литвы. Окончание -a → -os.' },
+    { type:'input', question:'Поставьте <strong>žmogus</strong> в Naudininkas, daugiskaita (N., dgs.):<br><br><em>"Padėkite _____."</em> (Помогите людям.)', answer:['žmonėms'], hint:'Особое склонение! Dgs.: žmonės → žmonėms', explanation:'žmogus → žmonėms. Внимание: основа меняется во множественном числе! žmogus → žmonės (dgs. V.).', ruExplanation:'Человек → людям. Основа меняется: žmogus → žmonės (как в русском: человек → люди).' },
+  ];
+}
+
+function getLinksniaiDrill3() {
+  return [
+    { type:'choice', question:'Какой падеж требует предлог <strong>ant</strong> (на)?<br><em>"Knyga guli ant _____."</em> (stalo / stalui / stalą)', options:['Kilmininkas (stalo)','Naudininkas (stalui)','Galininkas (stalą)','Vietininkas (stale)'], correct:0, hint:'ant + Ko?', explanation:'ant + Kilmininkas. Ant stalo = на столе.', ruExplanation:'НА чём? "Ant" всегда требует Kilmininkas (родительный). Ant stalo = на столе.' },
+    { type:'choice', question:'<strong>į</strong> (в, куда) + какой падеж?<br><em>"Einu į _____."</em> (parkas)', options:['Galininkas (parką)','Kilmininkas (parko)','Vietininkas (parke)','Naudininkas (parkui)'], correct:0, hint:'į + Ką?', explanation:'į + Galininkas. Į parką = в парк (направление).', ruExplanation:'КУДА? В парк. Предлог "į" — направление, всегда + Galininkas (винительный).' },
+    { type:'choice', question:'<strong>iš</strong> (из) + какой падеж?<br><em>"Grįžtu iš _____."</em> (darbas)', options:['Kilmininkas (darbo)','Galininkas (darbą)','Vietininkas (darbe)','Įnagininkas (darbu)'], correct:0, hint:'iš + Ko?', explanation:'iš + Kilmininkas. Iš darbo = с работы.', ruExplanation:'ОТКУДА? С работы. "Iš" = из, всегда + Kilmininkas (родительный). Как в русском: из чего?' },
+    { type:'choice', question:'<strong>su</strong> (с) + какой падеж?<br><em>"Einu su _____."</em> (draugas)', options:['Įnagininkas (draugu)','Kilmininkas (draugo)','Naudininkas (draugui)','Galininkas (draugą)'], correct:0, hint:'su + Kuo?', explanation:'su + Įnagininkas. Su draugu = с другом.', ruExplanation:'С КЕМ? С другом. "Su" = с, всегда + Įnagininkas (творительный). Как в русском: с кем? — с другОМ.' },
+    { type:'choice', question:'<strong>apie</strong> (о, про) + какой падеж?<br><em>"Kalbame apie _____."</em> (darbas)', options:['Galininkas (darbą)','Kilmininkas (darbo)','Naudininkas (darbui)','Vietininkas (darbe)'], correct:0, hint:'apie + Ką?', explanation:'apie + Galininkas. Apie darbą = о работе.', ruExplanation:'О ЧЁМ? О работе. "Apie" = о/про + Galininkas (винительный). В русском "о" + предложный, а в литовском apie + винительный!' },
+    { type:'choice', question:'<strong>prie</strong> (у, около) + какой падеж?<br><em>"Stoviu prie _____."</em> (durys)', options:['Kilmininkas (durų)','Galininkas (duris)','Vietininkas (duryse)','Įnagininkas (durimis)'], correct:0, hint:'prie + Ko?', explanation:'prie + Kilmininkas. Prie durų = у дверей.', ruExplanation:'У ЧЕГО? У дверей. "Prie" = у/около + Kilmininkas (родительный).' },
+    { type:'choice', question:'<strong>dėl</strong> (из-за, ради) + какой падеж?<br><em>"Dėl _____ negaliu ateiti."</em> (liga)', options:['Kilmininkas (ligos)','Galininkas (ligą)','Naudininkas (ligai)','Įnagininkas (liga)'], correct:0, hint:'dėl + Ko?', explanation:'dėl + Kilmininkas. Dėl ligos = из-за болезни.', ruExplanation:'ИЗ-ЗА ЧЕГО? Из-за болезни. "Dėl" = из-за/ради + Kilmininkas (родительный).' },
+    { type:'choice', question:'<strong>po</strong> (после / под) + какой падеж?<br><em>"Po _____ eisime namo."</em> (pamoka)', options:['Kilmininkas (pamokos)','Galininkas (pamoką)','Vietininkas (pamokoje)','Įnagininkas (pamoka)'], correct:0, hint:'po (после) + Ko?', explanation:'po + Kilmininkas (в значении "после"). Po pamokos = после урока.', ruExplanation:'ПОСЛЕ чего? После урока. "Po" в значении "после" + Kilmininkas. Внимание: "po" в значении "под" + Įnagininkas!' },
+    { type:'choice', question:'<strong>per</strong> (через, за) + какой падеж?<br><em>"Per _____ padarėme daug."</em> (savaitė)', options:['Galininkas (savaitę)','Kilmininkas (savaitės)','Vietininkas (savaitėje)','Įnagininkas (savaite)'], correct:0, hint:'per + Ką?', explanation:'per + Galininkas. Per savaitę = за неделю.', ruExplanation:'ЗА сколько? За неделю. "Per" = через/за + Galininkas (винительный).' },
+    { type:'choice', question:'<strong>be</strong> (без) + какой падеж?<br><em>"Be _____ negaliu gyventi."</em> (muzika)', options:['Kilmininkas (muzikos)','Galininkas (muziką)','Naudininkas (muzikai)','Vietininkas (muzikoje)'], correct:0, hint:'be + Ko?', explanation:'be + Kilmininkas. Be muzikos = без музыки.', ruExplanation:'БЕЗ чего? Без музыки. "Be" = без + Kilmininkas (родительный).' },
+    { type:'choice', question:'<strong>pas</strong> (у, к) + какой падеж?<br><em>"Einu pas _____."</em> (gydytojas)', options:['Galininkas (gydytoją)','Kilmininkas (gydytojo)','Naudininkas (gydytojui)','Įnagininkas (gydytoju)'], correct:0, hint:'pas + Ką?', explanation:'pas + Galininkas. Pas gydytoją = к врачу / у врача.', ruExplanation:'К КОМУ? К врачу. "Pas" = к/у (человека) + Galininkas. Отличие от русского: "к" + дательный.' },
+    { type:'choice', question:'<strong>tarp</strong> (между) + какой падеж?<br><em>"Tarp _____ ir mokyklos yra parkas."</em> (namas)', options:['Kilmininkas (namo)','Galininkas (namą)','Vietininkas (name)','Naudininkas (namui)'], correct:0, hint:'tarp + Ko?', explanation:'tarp + Kilmininkas. Tarp namo ir mokyklos = между домом и школой.', ruExplanation:'МЕЖДУ чем? "Tarp" = между + Kilmininkas (родительный). В русском: между + творительный!' },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// VEIKSMAŽODŽIAI (VERBS)
+// ═══════════════════════════════════════════════════════════════
+function renderVeiksmazodziai(el) {
+  let currentTab = 'theory';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Veiksmažodžiai / Глаголы</h1>
+      </div>
+      <p class="subtitle">Спряжения, времена и возвратные глаголы</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._vzTab('theory')">Teorija</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._vzTab('drill1')">Pratimas 1: Спряжение</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._vzTab('drill2')">Pratimas 2: Времена</button>
+        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._vzTab('drill3')">Pratimas 3: Приставки</button>
+      </div>
+      <div id="vz-content"></div>`;
+    const ct = document.getElementById('vz-content');
+    if (currentTab === 'theory') renderVzTheory(ct);
+    else if (currentTab === 'drill1') createExerciseRunner(ct, getVzDrill1(), 'vz-1', 'Veiksmažodžiai: asmenavimas', 'Спряжение глаголов');
+    else if (currentTab === 'drill2') createExerciseRunner(ct, getVzDrill2(), 'vz-2', 'Veiksmažodžiai: laikai', 'Выберите правильное время глагола');
+    else if (currentTab === 'drill3') createExerciseRunner(ct, getVzDrill3(), 'vz-3', 'Priešdėliai', 'Глагольные приставки — тонкие различия');
+  }
+  window._vzTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderVzTheory(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>3 спряжения литовских глаголов</h3>
+      <div class="theory-block">
+        <h4>Как определить спряжение?</h4>
+        <p>По форме 3-го лица настоящего времени:</p>
+        <p><strong>I asmenuotė:</strong> 3 л. наст. вр. = <em>-a</em> &nbsp; (dirba, skaito, rašo)<br>
+        <strong>II asmenuotė:</strong> 3 л. наст. вр. = <em>-i</em> &nbsp; (myli, turi, nori)<br>
+        <strong>III asmenuotė:</strong> 3 л. наст. вр. = <em>-o</em> (от -oti) &nbsp; (dėkoja, tiksloja) — <em>редкое</em></p>
+      </div>
+      <h4>I asmenuotė: dirbti (работать)</h4>
+      <table class="grammar-table">
+        <tr><th></th><th>Esamasis (наст.)</th><th>Būtasis kart. (прош.)</th><th>Būsimasis (буд.)</th></tr>
+        <tr><td><strong>aš</strong></td><td>dirb<strong>u</strong></td><td>dirb<strong>au</strong></td><td>dirb<strong>siu</strong></td></tr>
+        <tr><td><strong>tu</strong></td><td>dirb<strong>i</strong></td><td>dirb<strong>ai</strong></td><td>dirb<strong>si</strong></td></tr>
+        <tr><td><strong>jis/ji</strong></td><td>dirb<strong>a</strong></td><td>dirb<strong>o</strong></td><td>dirb<strong>s</strong></td></tr>
+        <tr><td><strong>mes</strong></td><td>dirb<strong>ame</strong></td><td>dirb<strong>ome</strong></td><td>dirb<strong>sime</strong></td></tr>
+        <tr><td><strong>jūs</strong></td><td>dirb<strong>ate</strong></td><td>dirb<strong>ote</strong></td><td>dirb<strong>site</strong></td></tr>
+        <tr><td><strong>jie/jos</strong></td><td>dirb<strong>a</strong></td><td>dirb<strong>o</strong></td><td>dirb<strong>s</strong></td></tr>
+      </table>
+
+      <h4 style="margin-top:20px">II asmenuotė: mylėti (любить)</h4>
+      <table class="grammar-table">
+        <tr><th></th><th>Esamasis</th><th>Būtasis kart.</th><th>Būsimasis</th></tr>
+        <tr><td><strong>aš</strong></td><td>myl<strong>iu</strong></td><td>mylėj<strong>au</strong></td><td>mylė<strong>siu</strong></td></tr>
+        <tr><td><strong>tu</strong></td><td>myl<strong>i</strong></td><td>mylėj<strong>ai</strong></td><td>mylė<strong>si</strong></td></tr>
+        <tr><td><strong>jis/ji</strong></td><td>myl<strong>i</strong></td><td>mylėj<strong>o</strong></td><td>mylė<strong>s</strong></td></tr>
+        <tr><td><strong>mes</strong></td><td>myl<strong>ime</strong></td><td>mylėj<strong>ome</strong></td><td>mylė<strong>sime</strong></td></tr>
+        <tr><td><strong>jūs</strong></td><td>myl<strong>ite</strong></td><td>mylėj<strong>ote</strong></td><td>mylė<strong>site</strong></td></tr>
+        <tr><td><strong>jie/jos</strong></td><td>myl<strong>i</strong></td><td>mylėj<strong>o</strong></td><td>mylė<strong>s</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Sangrąžiniai veiksmažodžiai / Возвратные глаголы</h3>
+      <div class="theory-block">
+        <h4>Отличие от русского -ся</h4>
+        <p>В русском возвратная частица <em>-ся</em> всегда в конце. В литовском <em>-si-</em> вставляется <strong>перед окончанием</strong> или после приставки!</p>
+        <p><em>praustis</em> = мыться → aš <em>praus<strong>iuo</strong>si</em> (я моюсь)<br>
+        <em>mokytis</em> = учиться → aš <em>mok<strong>au</strong>si</em> (я учусь)<br>
+        С приставкой: <em>nu<strong>si</strong>prausti</em> = помыться → aš <em>nu<strong>si</strong>prausiu</em></p>
+        <p class="ru-note">Запомните: приставка + SI + корень. Без приставки: корень + окончание + SI.</p>
+      </div>
+      <h4>Спряжение: mokytis (учиться)</h4>
+      <table class="grammar-table">
+        <tr><th></th><th>Esamasis</th><th>Būtasis</th><th>Būsimasis</th><th>Tariamoji</th></tr>
+        <tr><td><strong>aš</strong></td><td>mok<strong>au</strong>si</td><td>mokt<strong>au</strong>si</td><td>moky<strong>siuo</strong>si</td><td>moky<strong>čiau</strong>si</td></tr>
+        <tr><td><strong>tu</strong></td><td>mok<strong>ai</strong>si</td><td>mokė<strong>ai</strong>si</td><td>moky<strong>sie</strong>si</td><td>moky<strong>tum</strong>eisi</td></tr>
+        <tr><td><strong>jis/ji</strong></td><td>mok<strong>o</strong>si</td><td>mokė<strong></strong>si</td><td>moky<strong>s</strong>is</td><td>moky<strong>tų</strong>si</td></tr>
+        <tr><td><strong>mes</strong></td><td>mok<strong>omė</strong>s</td><td>mokė<strong>mė</strong>s</td><td>moky<strong>simė</strong>s</td><td>moky<strong>tumėmė</strong>s</td></tr>
+        <tr><td><strong>jūs</strong></td><td>mok<strong>otė</strong>s</td><td>mokė<strong>tė</strong>s</td><td>moky<strong>sitė</strong>s</td><td>moky<strong>tumėtė</strong>s</td></tr>
+        <tr><td><strong>jie/jos</strong></td><td>mok<strong>o</strong>si</td><td>mokė<strong></strong>si</td><td>moky<strong>s</strong>is</td><td>moky<strong>tų</strong>si</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Tariamoji nuosaka / Сослагательное наклонение (кратко)</h3>
+      <div class="theory-block">
+        <h4>Самое важное для формальных писем!</h4>
+        <p><strong>Образование:</strong> основа инфинитива + <em>-čiau, -tum, -tų, -tumėme, -tumėte, -tų</em></p>
+        <p><em>Norė<strong>čiau</strong> paprašyti...</em> — Хотел бы попросить...<br>
+        <em>Ar galė<strong>tumėte</strong> atsiųsti?</em> — Не могли бы вы прислать?<br>
+        <em>Bū<strong>čiau</strong> dėkingas...</em> — Был бы благодарен...</p>
+        <p class="ru-note">Полную таблицу смотрите в разделе "Žinynas → Nuosakos"</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:24px 0">
+      <button class="btn btn-primary" onclick="window._vzTab('drill1')">Pradėti pratimus →</button>
+    </div>`;
+}
+
+function getVzDrill1() {
+  return [
+    { type:'input', question:'Проспрягайте <strong>skaityti</strong> (читать) — <strong>aš</strong>, esamasis laikas (наст. вр.):', answer:['skaitau'], hint:'I asmenuotė: aš → -au', explanation:'skaityti → aš skaitau. I спряжение, наст. вр.', ruExplanation:'Я читаю. I спряжение: основа + -au (1 л. ед.ч.).' },
+    { type:'input', question:'<strong>turėti</strong> (иметь) — <strong>mes</strong>, esamasis laikas:', answer:['turime'], hint:'II asmenuotė: mes → -ime', explanation:'turėti → mes turime. II спряжение.', ruExplanation:'Мы имеем. II спряжение: основа + -ime (1 л. мн.ч.).' },
+    { type:'input', question:'<strong>rašyti</strong> (писать) — <strong>jis</strong>, būtasis kartinis (прош. вр.):', answer:['rašė'], hint:'I asmenuotė, būt. kart.: jis → -ė', explanation:'rašyti → jis rašė. Прошедшее однократное, 3 л.', ruExplanation:'Он писал / написал. 3-е лицо прош. вр. I спряжения.' },
+    { type:'input', question:'<strong>dirbti</strong> (работать) — <strong>jūs</strong>, būsimasis laikas (буд. вр.):', answer:['dirbsite'], hint:'I asmenuotė, būs.: jūs → -site', explanation:'dirbti → jūs dirbsite. Будущее время.', ruExplanation:'Вы будете работать. Будущее: основа + -site (2 л. мн.ч.).' },
+    { type:'input', question:'<strong>mokytis</strong> (учиться) — <strong>aš</strong>, esamasis laikas:', answer:['mokausi'], hint:'Возвратный! Основа + окончание + si', explanation:'mokytis → aš mokausi. Возвратный глагол: moka-u-si.', ruExplanation:'Я учусь. Возвратный: основа + окончание 1 л. + si. Mok-au-si → mokausi.' },
+    { type:'input', question:'<strong>galėti</strong> (мочь) — <strong>tu</strong>, esamasis laikas:', answer:['gali'], hint:'II asmenuotė: tu → -i', explanation:'galėti → tu gali. II спряжение.', ruExplanation:'Ты можешь. II спряжение: gal-i (2 л. ед.ч.).' },
+    { type:'input', question:'<strong>eiti</strong> (идти) — <strong>aš</strong>, esamasis laikas:', answer:['einu'], hint:'Неправильный глагол: ein-u', explanation:'eiti → aš einu. Неправильное спряжение.', ruExplanation:'Я иду. "Eiti" — неправильный глагол: einu, eini, eina, einame, einate, eina.' },
+    { type:'input', question:'<strong>norėti</strong> (хотеть) — <strong>ji</strong>, būtasis kartinis laikas:', answer:['norėjo'], hint:'II asmenuotė, būt. kart.: jis/ji → -ėjo', explanation:'norėti → ji norėjo. II спряжение, прош. вр., 3 л.', ruExplanation:'Она хотела. II спряжение прош. вр.: -ėjo (3 л.).' },
+    { type:'input', question:'<strong>valgyti</strong> (есть/кушать) — <strong>jie</strong>, būsimasis laikas:', answer:['valgys'], hint:'I asmenuotė, būs.: jie → -s', explanation:'valgyti → jie valgys. Будущее, 3 л.', ruExplanation:'Они будут есть. I спряжение, 3 лицо будущего времени.' },
+    { type:'input', question:'<strong>žinoti</strong> (знать) — <strong>mes</strong>, esamasis laikas:', answer:['žinome'], hint:'I asmenuotė: mes → -ome', explanation:'žinoti → mes žinome. I спряжение (žino → -ome).', ruExplanation:'Мы знаем. I спряжение, 1 лицо множ. числа.' },
+    { type:'input', question:'<strong>nusipirkti</strong> (купить себе, возвр.) — <strong>aš</strong>, būtasis kartinis:', answer:['nusipirkau'], hint:'Приставка + si + корень + окончание', explanation:'nu-si-pirk-au. Возвратный с приставкой: nu + si + pirkau.', ruExplanation:'Я купил(а) себе. Приставка "nu" + возвратная частица "si" + pirk + au.' },
+  ];
+}
+
+function getVzDrill2() {
+  return [
+    { type:'choice', question:'<em>"Vakar aš _____ į kiną."</em> (Вчера я ходил в кино.)', options:['ėjau','einu','eisiu','eidavau'], correct:0, topic:'Būtasis kartinis', hint:'Vakar = вчера → прошедшее время', explanation:'Vakar (вчера) → būtasis kartinis laikas. Aš ėjau.', ruExplanation:'Вчера = прошедшее однократное. Ėjau — я ходил/шёл.' },
+    { type:'choice', question:'<em>"Kitą savaitę mes _____ atostogas."</em> (На следующей неделе мы будем отпуске.)', options:['turėsime','turime','turėjome','turėdavome'], correct:0, topic:'Būsimasis', hint:'Kitą savaitę = на следующей неделе → будущее', explanation:'Kitą savaitę → būsimasis laikas. Mes turėsime.', ruExplanation:'На следующей неделе → будущее время. Turėsime — будем иметь.' },
+    { type:'choice', question:'<em>"Kai buvau mažas, kiekvieną vasarą _____ pas senelius."</em> (Когда был маленьким, каждое лето ездил к бабушке.)', options:['važiuodavau','važiavau','važiuoju','važiuosiu'], correct:0, topic:'Būtasis dažninis', hint:'Kiekvieną vasarą = каждое лето → многократное прошедшее', explanation:'Kiekvieną vasarą (регулярно) → būtasis dažninis. Aš važiuodavau.', ruExplanation:'Каждое лето (регулярно) → многократное прошедшее (būtasis dažninis). Аналога в русском нет — "бывало, ездил".' },
+    { type:'choice', question:'<em>"Šiuo metu ji _____ universitetе."</em> (Сейчас она учится в университете.)', options:['mokosi','mokėsi','mokysis','mokydavosi'], correct:0, topic:'Esamasis', hint:'Šiuo metu = сейчас → настоящее', explanation:'Šiuo metu → esamasis laikas. Ji mokosi (возвр.).', ruExplanation:'Сейчас → настоящее время. Mokosi — учится (возвратный глагол).' },
+    { type:'choice', question:'<em>"Jis man pasakė, kad rytoj _____ anksčiau."</em> (Он сказал, что завтра придёт раньше.)', options:['ateis','ateina','atėjo','ateidavo'], correct:0, topic:'Būsimasis', hint:'Rytoj = завтра → будущее', explanation:'Rytoj → būsimasis laikas. Jis ateis.', ruExplanation:'Завтра → будущее. Ateis — придёт.' },
+    { type:'choice', question:'<em>"Seniau žmonės _____ laiškus ranka."</em> (Раньше люди писали письма от руки.)', options:['rašydavo','rašė','rašo','rašys'], correct:0, topic:'Būtasis dažninis', hint:'Seniau = раньше (обычно) → многократное прошедшее', explanation:'Seniau (обычно раньше) → būtasis dažninis. Rašydavo.', ruExplanation:'Раньше (бывало) → būtasis dažninis. Rašydavo — писали обычно/регулярно.' },
+    { type:'choice', question:'<em>"Ar tu jau _____ tą filmą?"</em> (Ты уже смотрел(а) тот фильм?)', options:['žiūrėjai','žiūri','žiūrėsi','žiūrėdavai'], correct:0, topic:'Būtasis kartinis', hint:'Jau = уже → совершённое действие → прошедшее', explanation:'Jau (уже) → būtasis kartinis. Tu žiūrėjai.', ruExplanation:'Уже → свершившийся факт → прошедшее однократное.' },
+    { type:'choice', question:'<em>"Kol jūs _____, aš paruošiu vakarienę."</em> (Пока вы будете отдыхать, я приготовлю ужин.)', options:['ilsėsitės','ilsitės','ilsėjotės','ilsėdavotės'], correct:0, topic:'Būsimasis', hint:'Kol = пока (в будущем) → будущее', explanation:'Kol + būsimasis laikas. Jūs ilsėsitės.', ruExplanation:'Пока будете → будущее время. Ilsėtis → ilsėsitės (II спр. возвр.).' },
+  ];
+}
+
+function getVzDrill3() {
+  return [
+    { type:'choice', question:'Выберите глагол с правильной приставкой:<br><em>"Jis _____ iš namų ir nuėjo į darbą."</em> (Он вышел из дома...)', options:['išėjo','nuėjo','atėjo','parėjo'], correct:0, topic:'iš-', hint:'Iš namų = из дома → движение наружу', explanation:'iš-eiti = выйти (движение наружу). Išėjo iš namų.', ruExplanation:'Вышел. Приставка "iš-" = из, наружу. Как русское "вы-".' },
+    { type:'choice', question:'<em>"Vaikai, _____ namo! Vakarienė paruošta."</em> (Дети, приходите домой!)', options:['pareikite','ateikite','išeikite','nueikite'], correct:0, topic:'par-', hint:'Namo = домой (возвращение) → par-', explanation:'par-eiti = вернуться, прийти (домой). Pareikite namo!', ruExplanation:'Возвращайтесь. "Par-" = обратно, назад (домой). Pareiti = вернуться домой.' },
+    { type:'choice', question:'<em>"Ar galiu _____ prie jūsų?"</em> (Можно присесть к вам?)', options:['prisėsti','atsisėsti','nusėsti','pasisėsti'], correct:0, topic:'pri-', hint:'Prie jūsų = к вам → приближение', explanation:'pri-sėsti = присесть (к кому-то). Prisėsti prie jūsų.', ruExplanation:'Присесть. "Pri-" = при, к — приближение. Как русское "при-".' },
+    { type:'choice', question:'<em>"Ji _____ visą knygą per vieną vakarą."</em> (Она прочитала всю книгу за один вечер.)', options:['perskaitė','skaitė','nuskaitė','atskaitė'], correct:0, topic:'per-', hint:'Visą knygą = всю книгу (от начала до конца) → per-', explanation:'per-skaityti = прочитать (целиком, от начала до конца).', ruExplanation:'Прочитала (целиком). "Per-" = через, полностью. Perskaityti = прочитать от корки до корки.' },
+    { type:'choice', question:'<em>"Reikia _____ šitą klaidą."</em> (Нужно исправить эту ошибку.)', options:['ištaisyti','pataisyti','nutaisyti','sutaisyti'], correct:0, topic:'iš-/pa-', hint:'Исправить полностью → iš-', explanation:'iš-taisyti = исправить (полностью устранить ошибку).', ruExplanation:'Исправить. "Iš-" здесь означает завершённость действия. Ištaisyti klaidą = исправить ошибку.' },
+    { type:'choice', question:'<em>"Mes _____ naują butą pernai."</em> (Мы купили новую квартиру в прошлом году.)', options:['nusipirkome','pirkome','nupirkome','supirkome'], correct:0, topic:'nusi-', hint:'Купили ДЛЯ СЕБЯ → возвратный с приставкой nu-', explanation:'nu-si-pirkti = купить себе. Nusipirkome naują butą.', ruExplanation:'Купили себе. "Nusi-" = nu (приставка завершённости) + si (себе). Nusipirkti = купить (для себя).' },
+    { type:'choice', question:'<em>"Jie nori _____ naują verslą."</em> (Они хотят открыть новый бизнес.)', options:['pradėti','atidaryti','išdaryti','sudaryti'], correct:0, topic:'Лексика глаголов', hint:'Открыть (начать) бизнес = pradėti', explanation:'pradėti verslą = начать/открыть бизнес. Pradėti = начать.', ruExplanation:'Начать/открыть. Pradėti verslą = начать бизнес. Atidaryti = открыть (дверь, магазин физически).' },
+    { type:'choice', question:'<em>"Prašau _____ durys."</em> (Пожалуйста, закройте дверь.)', options:['uždarykite','sudarykite','pridarykite','atidarykite'], correct:0, topic:'už-', hint:'Закрыть → už-daryti', explanation:'už-daryti = закрыть. Uždarykite duris!', ruExplanation:'Закройте. "Už-" = за (закрывание). Atidaryti (от-) ↔ uždaryti (за-крыть).' },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KALBOS VARTOJIMAS (LANGUAGE USE — EXAM FORMAT)
+// ═══════════════════════════════════════════════════════════════
+function renderKalbosVartojimas(el) {
+  let currentTab = 'drill1';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Kalbos vartojimas</h1>
+      </div>
+      <p class="subtitle">Формат экзамена: задания 4, 5, 6 — выбор формы слова и заполнение пропусков</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._kvTab('drill1')">4 užd.: Выбор формы</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._kvTab('drill2')">5 užd.: Формы слов</button>
+        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._kvTab('drill3')">6 užd.: Свободный ввод</button>
+      </div>
+      <div id="kv-content"></div>`;
+    const ct = document.getElementById('kv-content');
+    if (currentTab === 'drill1') createExerciseRunner(ct, getKvDrill1(), 'kv-1', '4 užduotis: žodžių formos', 'Выберите правильную форму слова из вариантов');
+    else if (currentTab === 'drill2') createExerciseRunner(ct, getKvDrill2(), 'kv-2', '5 užduotis: žodžių formos', 'Выберите правильную форму — причастия и прилагательные');
+    else if (currentTab === 'drill3') createExerciseRunner(ct, getKvDrill3(), 'kv-3', '6 užduotis: laisvas įrašymas', 'Впишите подходящее слово — без вариантов!');
+  }
+  window._kvTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function getKvDrill1() {
+  return [
+    { type:'choice', question:'<em>"Šiemet vykstantis festivalis taps svarbiu _____ ne tik miestui."</em>', options:['įvykiu','įvykis','įvykį','įvykio'], correct:0, topic:'Įnagininkas', explanation:'taps (станет) + Įnagininkas. Taps svarbiu įvykiu = станет важным событием.', ruExplanation:'Станет ЧЕМ? → Творительный падеж. Как в русском: станет событиЕМ.' },
+    { type:'choice', question:'<em>"Festivalis pritrauks kino _____ iš viso pasaulio."</em>', options:['mylėtojų','mylėtojai','mylėtojus','mylėtojams'], correct:0, topic:'Kilmininkas', hint:'pritrauks KĄ? → G., bet "iš viso pasaulio" modifikuoja mylėtojus...', explanation:'pritrauks kino mylėtojų — Kilmininkas (dalies). "Привлечёт любителей кино". Kilmininkas используется для обозначения части.', ruExplanation:'Привлечёт (некоторое количество) любителей. Родительный количественный — частая конструкция в литовском!' },
+    { type:'choice', question:'<em>"Galėsite pamatyti tiek Lietuvoje _____ filmų."</em>', options:['sukurtų','sukurti','sukurtas','sukurtus'], correct:0, topic:'Dalyviai + K.', hint:'filmų (K., dgs.) → причастие тоже в Kilmininkas, dgs.', explanation:'sukurtų — neveik. būt. laiko dalyvis, K., dgs. Согласуется с filmų.', ruExplanation:'Созданных фильмов. Причастие согласуется с определяемым словом "filmų" — родительный, множественное число.' },
+    { type:'choice', question:'<em>"Festivalio tikslas — skatinti kino meno _____."</em>', options:['plėtrą','plėtra','plėtros','plėtrai'], correct:0, topic:'Galininkas', hint:'skatinti + KĄ? → Galininkas', explanation:'skatinti plėtrą — skatinti требует Galininkas (винительный).', ruExplanation:'Содействовать ЧЕМУ? В русском — дательный, но в литовском skatinti + Galininkas! Частая ошибка русскоязычных.' },
+    { type:'choice', question:'<em>"Programoje daug dėmesio _____ aktualioms socialinėms temoms."</em>', options:['skiriama','skiriamas','skirti','skiriant'], correct:0, topic:'Neveik. dalyvis', hint:'dėmesio skiriama = внимание уделяется', explanation:'skiriama — neveik. esamojo laiko dalyvis (безличная форма). Dėmesio skiriama = внимание уделяется.', ruExplanation:'Уделяется. Безличная конструкция с причастием: dėmesio skiriama = внимание уделяется.' },
+    { type:'choice', question:'<em>"Žiūrovai gali _____ dokumentinių filmų sekciją."</em>', options:['aplankyti','aplanko','aplankytų','aplankydami'], correct:0, topic:'Bendratis', hint:'gali + инфинитив', explanation:'gali aplankyti — gali + bendratis (инфинитив). Могут посетить.', ruExplanation:'Могут посетить. После "gali" (могут) всегда инфинитив — как в русском.' },
+    { type:'choice', question:'<em>"Kauno kino festivalis kasmet auga ir tampa _____ kultūrine platforma."</em>', options:['svarbia','svarbi','svarbią','svarbios'], correct:0, topic:'Įnagininkas', hint:'tampa + Kuo? → Įnagininkas', explanation:'tampa svarbia — tampa + Įnagininkas. Становится важной (чем?) платформой.', ruExplanation:'Становится ЧЕМ? → Творительный. Tampa svarbia kultūrine platforma.' },
+    { type:'choice', question:'<em>"Jis praturtina miesto gyvenimą bei _____ naujas galimybes."</em>', options:['atveria','atverti','atverdamas','atvertų'], correct:0, topic:'Veiksmažodis', hint:'Однородные сказуемые: praturtina ir _____', explanation:'atveria — esamojo laiko veiksmažodis, 3 asmuo. Параллельно с "praturtina" (обогащает и открывает).', ruExplanation:'Открывает. Однородные сказуемые: обогащает и открывает — оба в настоящем времени, 3-е лицо.' },
+  ];
+}
+
+function getKvDrill2() {
+  return [
+    { type:'choice', question:'<em>"Žinau, kad mūsų mieste vis dažniau apsilanko _____ žmonių."</em><br>...всё чаще посещают _____ людей.', options:['atvykstančių','atvykstantys','atvykstančius','atvykstančiomis'], correct:0, topic:'Dalyviai + K.', hint:'žmonių (K., dgs.) → причастие согласуется', explanation:'atvykstančių — veik. esam. laiko dalyvis, K., dgs. Прибывающих людей.', ruExplanation:'Прибывающих. Согласуется с "žmonių" (людей) в родительном падеже множественного числа.' },
+    { type:'choice', question:'<em>"Kiekvienas gali rasti sau _____ vietą."</em><br>Каждый может найти подходящее место.', options:['tinkamą','tinkamas','tinkanti','tinkančią'], correct:0, topic:'Dalyviai vs būdv.', hint:'rasti KĄ? vietą (G., mot.) → tinkamą', explanation:'tinkamą — Galininkas, mot. giminė. Rasti tinkamą vietą = найти подходящее место.', ruExplanation:'Подходящее (место). Винительный падеж, женский род. Tinkamas/tinkama — причастие в роли прилагательного.' },
+    { type:'choice', question:'<em>"Daugumą viešbučių kambarių _____ rezervuoti internetu."</em><br>Большинство номеров можно забронировать онлайн.', options:['galima','galimas','galimi','gali'], correct:0, topic:'Безличная конструкция', hint:'galima + bendratis = можно + инфинитив', explanation:'galima rezervuoti — безличная конструкция "можно забронировать".', ruExplanation:'Можно забронировать. "Galima" — безличная форма. Очень частая конструкция!' },
+    { type:'choice', question:'<em>"_____ ilgesniam laikui, verta pagalvoti apie apartamentus."</em><br>Собираясь на более длительный срок...', options:['Apsistojant','Apsistodamas','Apsistoti','Apsistojantis'], correct:0, topic:'Padalyvis', hint:'Безличный деепричастный оборот → padalyvis', explanation:'Apsistojant — padalyvis (безличная форма). Если/когда останавливаешься...', ruExplanation:'При проживании / если останавливаешься. Безличная форма деепричастия — частая в официальных текстах.' },
+    { type:'choice', question:'<em>"Mane sužavėjo slaugytojų _____ ir dėmesingumas."</em><br>Меня поразила _____ медсестёр и внимательность.', options:['rūpestingumas','rūpestingumą','rūpestingumo','rūpestingu'], correct:0, topic:'Vardininkas', hint:'Kas sužavėjo? → подлежащее → Vardininkas', explanation:'rūpestingumas — Vardininkas, подлежащее. Что поразило? Заботливость.', ruExplanation:'ЧТО поразило? Заботливость. Подлежащее → именительный падеж.' },
+    { type:'choice', question:'<em>"Norėčiau _____ nuoširdžią padėką."</em><br>Я хотел бы _____ искреннюю благодарность.', options:['išreikšti','išreiškiu','išreikšdamas','išreikštas'], correct:0, topic:'Bendratis', hint:'norėčiau + инфинитив', explanation:'norėčiau išreikšti — norėčiau + bendratis (инфинитив).', ruExplanation:'Хотел бы ВЫРАЗИТЬ. После "norėčiau" (хотел бы) — инфинитив.' },
+    { type:'choice', question:'<em>"Čia džiaugiausi aukščiausios kokybės _____ paslaugomis."</em><br>Здесь я радовался медицинским услугам высочайшего качества.', options:['medicininėmis','medicinines','medicininių','medicininės'], correct:0, topic:'Įnagininkas', hint:'džiaugtis KUO? → Įnagininkas', explanation:'medicininėmis — Įnagininkas, dgs. Džiaugtis + Įnagininkas.', ruExplanation:'Радоваться ЧЕМУ? В литовском: džiaugtis + Įnagininkas (творительный). Медицинскими услугами.' },
+    { type:'choice', question:'<em>"Jų kasdienės šypsenos ir padrąsinimai kėlė gerą _____."</em><br>Их ежедневные улыбки поднимали хорошее _____.', options:['nuotaiką','nuotaika','nuotaikos','nuotaikai'], correct:0, topic:'Galininkas', hint:'kėlė KĄ? → Galininkas', explanation:'kėlė gerą nuotaiką — Galininkas. Поднимали ЧТО? Настроение.', ruExplanation:'Поднимали ЧТО? Настроение → Galininkas (винительный).' },
+  ];
+}
+
+function getKvDrill3() {
+  return [
+    { type:'input', question:'<em>"_____ nuoširdžią padėką už puikų gydymą ir priežiūrą, kurią gavau jūsų ligoninėje."</em><br><br>Хотел бы выразить искреннюю благодарность... (вставьте глагол "хотел бы выразить")', answer:['Norėčiau išreikšti','Norėčiau pareikšti'], hint:'Формальное начало письма: Norėčiau + инфинитив', explanation:'Norėčiau išreikšti — стандартное начало официального благодарственного письма.', ruExplanation:'Хотел бы выразить. Стандартная формула: Norėčiau išreikšti + padėką.' },
+    { type:'input', question:'<em>"Čia džiaugiausi aukščiausios kokybės medicininėmis paslaugomis, bet ir patyriau žmogišką šilumą _____ dėmesį."</em><br><br>...но и испытал человеческое тепло и (= а также) внимание.', answer:['bei','ir'], hint:'Союз "а также / и" = bei / ir', explanation:'bei dėmesį — "bei" = и, а также (соединительный союз).', ruExplanation:'"Bei" или "ir" = и, а также. Оба варианта правильны.' },
+    { type:'input', question:'<em>"Jau nuo pat _____ dienos ligoninėje skyriaus gydytojai buvo pasirengę atsakyti į visus klausimus."</em><br><br>С самого _____ дня в больнице... (первого)', answer:['pirmos','pirmosios'], hint:'nuo pat + какой? → первой (Kilmininkas, mot.g.)', explanation:'nuo pat pirmos dienos — с самого первого дня. Kilmininkas.', ruExplanation:'С первого дня. Pirmos/pirmosios — родительный падеж, женский род (dienos — ж.р.).' },
+    { type:'input', question:'<em>"Mano gydymo procesas buvo _____."</em><br><br>Процесс лечения был _____ (гладким/без проблем).', answer:['sklandus'], hint:'Buvo + какой? → прилагательное в Vardininkas, vyr.g. (procesas)', explanation:'sklandus — гладкий, без осложнений. Vardininkas, vyr. giminė.', ruExplanation:'Гладкий / без проблем. "Sklandus" — прилагательное: гладкий, беспроблемный, плавный.' },
+    { type:'input', question:'<em>"Galėdama viešai pasidalinti savo gera _____, esu dėkinga."</em><br><br>Имея возможность поделиться хорошим _____ (опытом)...', answer:['patirtimi'], hint:'pasidalinti + Kuo? → Įnagininkas', explanation:'patirtimi — Įnagininkas (творительный). Pasidalinti patirtimi = поделиться опытом.', ruExplanation:'Поделиться ЧЕМ? Опытом. Pasidalinti + Įnagininkas. Patirtis → patirtimi.' },
+    { type:'input', question:'<em>"Visų Jūsų profesionalumas yra tikras _____ sveikatos priežiūros įstaigoms."</em><br><br>Ваш профессионализм — настоящий _____ (пример) для учреждений.', answer:['pavyzdys'], hint:'Vardininkas, vyr. giminė', explanation:'pavyzdys — пример. Vardininkas (именительный).', ruExplanation:'Пример. Является ЧЕМ/КТО? Подлежащее/сказуемое → именительный падеж.' },
+    { type:'input', question:'<em>"_____ kartą dėkoju už jūsų pastangas."</em><br><br>Ещё _____ благодарю за ваши старания.', answer:['Dar vieną'], hint:'Ещё раз = dar vieną kartą', explanation:'Dar vieną kartą — ещё раз. Galininkas (vieną kartą).', ruExplanation:'Ещё раз. "Dar vieną kartą" = ещё один раз. Kartą — винительный падеж от "kartas" (раз).' },
+    { type:'input', question:'<em>"Linkiu visiems _____ šiame svarbiame darbe."</em><br><br>Желаю всем _____ (успехов) в этой важной работе.', answer:['sėkmės'], hint:'linkėti + Ko? → Kilmininkas', explanation:'sėkmės — Kilmininkas. Linkėti + Kilmininkas (желать ЧЕГО? успехов).', ruExplanation:'Желать ЧЕГО? Успехов. В литовском "linkėti" тоже требует родительный падеж, как русское "желать".' },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SKAITYMAS (READING — EXAM FORMAT)
+// ═══════════════════════════════════════════════════════════════
+function renderSkaitymas(el) {
+  let currentTab = 'task1';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Skaitymas / Чтение</h1>
+      </div>
+      <p class="subtitle">Задания 1–3 части "Skaitymas" — формат экзамена</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='task1'?'active':''}" onclick="window._skTab('task1')">1 užd.: Teisingas/Neteisingas</button>
+        <button class="tab ${currentTab==='task1b'?'active':''}" onclick="window._skTab('task1b')">1 užd.: Tekstas 2</button>
+        <button class="tab ${currentTab==='task2'?'active':''}" onclick="window._skTab('task2')">2 užd.: Tekstų atitikimas</button>
+        <button class="tab ${currentTab==='task3'?'active':''}" onclick="window._skTab('task3')">3 užd.: Sakinių įterpimas</button>
+      </div>
+      <div id="sk-content"></div>`;
+    const ct = document.getElementById('sk-content');
+    if (currentTab === 'task1') renderSkTask1(ct);
+    else if (currentTab === 'task1b') renderSkTask1b(ct);
+    else if (currentTab === 'task2') createExerciseRunner(ct, getSkTask2(), 'sk-2', '2 užduotis: teksto atitikimas', 'Определите, в каком тексте (A, B или C) выражена мысль');
+    else if (currentTab === 'task3') createExerciseRunner(ct, getSkTask3(), 'sk-3', '3 užduotis: sakinių įterpimas', 'Вставьте предложения A–F в пропуски в тексте');
+  }
+  window._skTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderSkTask1(el) {
+  const text = `1  Europos Sąjunga kasmet rugsėjo 22 dieną organizuoja akciją „Diena be automobilio".
+2  Ši akcija skatina gyventojus bent vieną dieną atsisakyti automobilio ir rinktis
+3  alternatyvius judėjimo būdus: viešąjį transportą, dviratį arba vaikščiojimą pėsčiomis.
+4  Akciją koordinuoja kiekvienos šalies aplinkos ministerija, o ne Europos Komisija tiesiogiai.
+5  Akcijos tikslas — ne tik mažinti taršą, bet ir atkreipti dėmesį į miestų planavimą.
+6  Ji siekia paskatinti ilgalaikius pokyčius gyventojų elgesyje.
+7  „Diena be automobilio" vyksta kartą per metus, rugsėjo mėnesį.
+8  Tyrimai rodo, kad po šios dienos vis daugiau žmonių pradeda dažniau naudotis
+9  viešuoju transportu arba dviračiais.
+10 Europos miestai akcijos metu taiko įvairias priemones: kai kurie uždraudžia automobilių
+11 eismą centro gatvėse, kiti siūlo nemokamą viešąjį transportą.
+12 Tačiau bendro sprendimo visoms šalims nėra — kiekvienas miestas sprendžia pats.
+13 Akcijos koordinatorė Aistė pastebi, kad vis daugiau miesto gyventojų domisi
+14 ekologiškomis alternatyvomis, tačiau turistų dalyvavimas vis dar menkas.`;
+
+  const questions = [
+    { q:'Akcijos „Diena be automobilio" vienas iš tikslų — spręsti ekologines problemas.', answer:'Teisingas', lines:'5', explanation:'Eilutė 5: tikslas — mažinti taršą (= решать экологические проблемы).' },
+    { q:'„Diena be automobilio" vyksta kas mėnesį.', answer:'Neteisingas', lines:'7', explanation:'Eilutė 7: vyksta kartą per metus (раз в год, а не каждый месяц).' },
+    { q:'Akcijos metu Europos miestai laikosi bendrų sprendimų.', answer:'Neteisingas', lines:'12', explanation:'Eilutė 12: bendro sprendimo nėra — kiekvienas miestas sprendžia pats.' },
+    { q:'Koordinatorė patenkinta, kad į akciją įsitraukia ir turistai.', answer:'Neteisingas', lines:'14', explanation:'Eilutė 14: turistų dalyvavimas vis dar menkas (участие туристов пока ещё слабое).' },
+    { q:'Po akcijos žmonės dažniau renkasi alternatyvų transportą.', answer:'Teisingas', lines:'8–9', explanation:'Eilutės 8–9: daugiau žmonių pradeda naudotis viešuoju transportu arba dviračiais.' },
+    { q:'Akciją tiesiogiai organizuoja Europos Komisija.', answer:'Neteisingas', lines:'4', explanation:'Eilutė 4: koordinuoja aplinkos ministerija, O NE Europos Komisija tiesiogiai.' },
+  ];
+
+  let userAnswers = new Array(questions.length).fill(null);
+  let isChecked = false;
+  let score = 0;
+
+  function renderTask() {
+    el.innerHTML = `
+      <div class="card">
+        <h3>1 užduotis: Teisingas / Neteisingas</h3>
+        <p class="exercise-hint">Прочитайте текст. Определите, правдивы ли утверждения. Укажите строки-источники.</p>
+        <div class="text-passage">${text.split('\n').map(l => { const num = l.match(/^\d+/)?.[0]||''; const rest = l.replace(/^\d+\s*/, ''); return `<span class="line-num">${num}</span>${rest}`; }).join('<br>')}</div>
+      </div>
+      <div class="card">
+        <table class="grammar-table">
+          <tr><th style="width:50%">Teiginys</th><th>Teisingas / Neteisingas</th></tr>
+          ${questions.map((q, i) => {
+            const isCorrect = isChecked && userAnswers[i] === q.answer;
+            const isWrong = isChecked && userAnswers[i] !== q.answer;
+            return `<tr style="${isChecked ? (isCorrect ? 'background:var(--success-light)' : 'background:var(--error-light)') : ''}">
+              <td><strong>${i+1}.</strong> ${q.q}</td>
+              <td>
+                <select class="exercise-select" onchange="window._sk1Answer(${i}, this.value)" ${isChecked?'disabled':''}>
+                  <option value="">—</option>
+                  <option value="Teisingas" ${userAnswers[i]==='Teisingas'?'selected':''}>Teisingas ✓</option>
+                  <option value="Neteisingas" ${userAnswers[i]==='Neteisingas'?'selected':''}>Neteisingas ✗</option>
+                </select>
+                ${isChecked ? `<div style="font-size:13px;margin-top:6px;color:${isCorrect?'var(--success)':'var(--error)'}">${isCorrect?'✅':'❌'} ${q.explanation}<br>Eilutės: ${q.lines}</div>` : ''}
+              </td>
+            </tr>`;
+          }).join('')}
+        </table>
+        ${!isChecked ? `<div style="margin-top:16px"><button class="btn btn-primary" onclick="window._sk1Check()">Patikrinti</button></div>` :
+          `<div class="feedback feedback-info" style="margin-top:16px">Результат: ${score} / ${questions.length} (${Math.round(score/questions.length*100)}%)</div>`}
+      </div>`;
+  }
+
+  window._sk1Answer = (i, v) => { userAnswers[i] = v; };
+  window._sk1Check = () => {
+    isChecked = true;
+    score = questions.reduce((s, q, i) => s + (userAnswers[i] === q.answer ? 1 : 0), 0);
+    recordScore('sk-1', score, questions.length);
+    renderTask();
+  };
+  renderTask();
+}
+
+function renderSkTask1b(el) {
+  const text = `1  Nuotolinis darbas Lietuvoje sparčiai populiarėja. Anot naujausių tyrimų, beveik trečdalis
+2  Lietuvos darbuotojų bent dalį darbo laiko praleidžia dirbdami iš namų.
+3  Darbdaviai vis palankiau žiūri į nuotolinį darbą, nes pastebėjo, kad darbuotojų produktyvumas
+4  ne tik nesumažėjo, bet kai kuriais atvejais net padidėjo.
+5  Tačiau ne visi specialistai sutinka, kad nuotolinis darbas turi vien privalumų. Psichologai
+6  pabrėžia, kad ilgalaikis izoliavimasis nuo kolegų gali neigiamai paveikti psichinę sveikatą.
+7  Kai kurie darbuotojai skundžiasi, kad namie sunku atskirti darbo ir poilsio laiką, todėl
+8  dirba ilgiau nei įprastai. Be to, ne visos profesijos tinka nuotoliniam darbui.
+9  Ekspertai siūlo hibridinį darbo modelį, kai darbuotojas dalį savaitės dirba biure,
+10 o kitą dalį — namuose. Toks modelis leidžia derinti abu būdus.
+11 Lietuvos Vyriausybė svarsto įstatymo pakeitimus, kurie geriau reguliuotų
+12 nuotolinio darbo sąlygas ir užtikrintų darbuotojų teises.`;
+
+  const questions = [
+    { q:'Dauguma Lietuvos darbuotojų dirba tik nuotoliniu būdu.', answer:'Neteisingas', lines:'1–2', explanation:'Eilutės 1–2: beveik trečdalis BENT DALĮ laiko (не большинство и не полностью).' },
+    { q:'Darbdaviai pastebėjo, kad produktyvumas dirbant nuotoliniu būdu sumažėjo.', answer:'Neteisingas', lines:'3–4', explanation:'Eilutės 3–4: ne tik nesumažėjo, bet net padidėjo (не уменьшился, а даже увеличился).' },
+    { q:'Psichologai mano, kad nuotolinis darbas gali pakenkti sveikatai.', answer:'Teisingas', lines:'5–6', explanation:'Eilutės 5–6: izoliavimasis gali neigiamai paveikti psichinę sveikatą.' },
+    { q:'Visi darbuotojai patenkinti nuotoliniu darbu.', answer:'Neteisingas', lines:'7–8', explanation:'Eilutės 7: kai kurie darbuotojai skundžiasi (некоторые жалуются).' },
+    { q:'Ekspertai rekomenduoja visiškai atsisakyti darbo biure.', answer:'Neteisingas', lines:'9–10', explanation:'Eilutės 9–10: siūlo hibridinį modelį (гибридную модель), ne atsisakyti biuro.' },
+    { q:'Vyriausybė planuoja keisti nuotolinio darbo teisinį reguliavimą.', answer:'Teisingas', lines:'11–12', explanation:'Eilutės 11–12: svarsto įstatymo pakeitimus, kurie reguliuotų sąlygas.' },
+  ];
+
+  let userAnswers = new Array(questions.length).fill(null);
+  let isChecked = false;
+  let score = 0;
+
+  function renderTask() {
+    el.innerHTML = `
+      <div class="card">
+        <h3>1 užduotis (2): Teisingas / Neteisingas — Nuotolinis darbas</h3>
+        <p class="exercise-hint">Прочитайте текст об удалённой работе. Определите, правдивы ли утверждения.</p>
+        <div class="text-passage">${text.split('\n').map(l => { const num = l.match(/^\d+/)?.[0]||''; const rest = l.replace(/^\d+\s*/, ''); return `<span class="line-num">${num}</span>${rest}`; }).join('<br>')}</div>
+      </div>
+      <div class="card">
+        <table class="grammar-table">
+          <tr><th style="width:50%">Teiginys</th><th>Teisingas / Neteisingas</th></tr>
+          ${questions.map((q, i) => {
+            const isCorrect = isChecked && userAnswers[i] === q.answer;
+            const isWrong = isChecked && userAnswers[i] !== q.answer;
+            return `<tr style="${isChecked ? (isCorrect ? 'background:var(--success-light)' : 'background:var(--error-light)') : ''}">
+              <td><strong>${i+1}.</strong> ${q.q}</td>
+              <td>
+                <select class="exercise-select" onchange="window._sk1bAnswer(${i}, this.value)" ${isChecked?'disabled':''}>
+                  <option value="">—</option>
+                  <option value="Teisingas" ${userAnswers[i]==='Teisingas'?'selected':''}>Teisingas ✓</option>
+                  <option value="Neteisingas" ${userAnswers[i]==='Neteisingas'?'selected':''}>Neteisingas ✗</option>
+                </select>
+                ${isChecked ? `<div style="font-size:13px;margin-top:6px;color:${isCorrect?'var(--success)':'var(--error)'}">${isCorrect?'✅':'❌'} ${q.explanation}<br>Eilutės: ${q.lines}</div>` : ''}
+              </td>
+            </tr>`;
+          }).join('')}
+        </table>
+        ${!isChecked ? `<div style="margin-top:16px"><button class="btn btn-primary" onclick="window._sk1bCheck()">Patikrinti</button></div>` :
+          `<div class="feedback feedback-info" style="margin-top:16px">Результат: ${score} / ${questions.length} (${Math.round(score/questions.length*100)}%)</div>`}
+      </div>`;
+  }
+
+  window._sk1bAnswer = (i, v) => { userAnswers[i] = v; };
+  window._sk1bCheck = () => {
+    isChecked = true;
+    score = questions.reduce((s, q, i) => s + (userAnswers[i] === q.answer ? 1 : 0), 0);
+    recordScore('sk-1b', score, questions.length);
+    renderTask();
+  };
+  renderTask();
+}
+
+function getSkTask2() {
+  return [
+    {
+      type:'choice',
+      question:`<div class="theory-block"><h4>Тексты о планировании отпуска</h4>
+      <p><strong>A:</strong> „Šiemet planavau atostogas ilgai iš anksto. Viską surašiau į sąrašą — viešbučius, lankytinas vietas, maršrutą. Man patinka, kai viskas aišku ir suplanuota. Netikėtumai mane stresina."</p>
+      <p><strong>B:</strong> „Aš niekada nieko neplanuoju. Tiesiog perku bilietą ir važiuoju. Man patinka spontaniškumas — geriausios kelionės vyksta tada, kai nieko nežinai iš anksto."</p>
+      <p><strong>C:</strong> „Kelionę planuoju tik iš dalies — žinau kryptį, bet detales palieku atsitiktinumui. Svarbiausia turėti gerą draugiją, o visa kita susidėlios savaime."</p></div>
+      <br><strong>Утверждение:</strong> Netikėtumai kelionę daro dar patrauklesnę ir įdomesnę.<br><em>Неожиданности делают путешествие привлекательнее.</em>`,
+      options:['B','A','C'], correct:0, hint:'Кто любит спонтанность?',
+      explanation:'B: „patinka spontaniškumas — geriausios kelionės vyksta tada, kai nieko nežinai iš anksto."', ruExplanation:'B любит спонтанность — лучшие путешествия, когда ничего не знаешь заранее.'
+    },
+    {
+      type:'choice',
+      question:'<strong>Утверждение:</strong> Svarbu turėti gerų bendrakeleivių.<br><em>Важно иметь хороших попутчиков.</em>',
+      options:['C','A','B'], correct:0, hint:'Кто говорит о компании?',
+      explanation:'C: „Svarbiausia turėti gerą draugiją."', ruExplanation:'C: самое важное — хорошая компания.'
+    },
+    {
+      type:'choice',
+      question:'<strong>Утверждение:</strong> Kruopštus planavimas padeda jaustis ramiau.<br><em>Тщательное планирование помогает чувствовать себя спокойнее.</em>',
+      options:['A','B','C'], correct:0, hint:'Кого стрессируют неожиданности?',
+      explanation:'A: „Man patinka, kai viskas aišku ir suplanuota. Netikėtumai mane stresina."', ruExplanation:'A: нравится, когда всё ясно и спланировано. Неожиданности вызывают стресс.'
+    },
+    {
+      type:'choice',
+      question:'<strong>Утверждение:</strong> Kelionės maršrutą geriausia pasirinkti vietoje.<br><em>Маршрут лучше выбирать на месте.</em>',
+      options:['B','A','C'], correct:0, hint:'Кто вообще не планирует маршрут?',
+      explanation:'B: „niekada nieko neplanuoju. Tiesiog perku bilietą ir važiuoju."', ruExplanation:'B: никогда ничего не планирует, просто покупает билет и едет.'
+    },
+    {
+      type:'choice',
+      question:'<strong>Утверждение:</strong> Kelionės kryptis turėtų būti žinoma iš anksto, o visa kita gali keistis.<br><em>Направление поездки нужно знать заранее, а остальное может меняться.</em>',
+      options:['C','A','B'], correct:0, hint:'Кто планирует только частично?',
+      explanation:'C: „planuoju tik iš dalies — žinau kryptį, bet detales palieku atsitiktinumui."', ruExplanation:'C: планирует только частично — знает направление, но детали оставляет на волю случая.'
+    },
+  ];
+}
+
+function getSkTask3() {
+  return [
+    {
+      type:'choice',
+      question:`<div class="text-passage">
+      <strong>Vilniaus viešasis transportas keičiasi</strong><br><br>
+      Vilniaus miesto savivaldybė paskelbė apie viešojo transporto atnaujinimą. <strong>(1) _____</strong> Planuojama, kad nauji autobusai bus elektriniai ir draugiški aplinkai.<br><br>
+      Keleiviai seniai skundėsi dėl vėluojančių autobusų. <strong>(2) _____</strong> Tikimasi, kad nauja sistema leis sumažinti vėlavimus bent 30 procentų.<br><br>
+      Be to, bus atnaujintos kelios svarbios stotelės miesto centre. <strong>(3) _____</strong> Jose bus įrengti elektroniniai informaciniai stendai, rodantys tikslų autobuso atvykimo laiką.</div>
+      <br><strong>Kuris sakinys tinka į tarpą (1)?</strong>`,
+      options:[
+        'A: Per artimiausius dvejus metus bus nupirkta 50 naujų autobusų.',
+        'B: Todėl savivaldybė nusprendė diegti naują GPS sekimo sistemą.',
+        'C: Stotelės bus pritaikytos ir neįgaliesiems.',
+        'D: Keleiviai galės bilietus pirkti telefono programėle.'
+      ], correct:0, hint:'После объявления об обновлении транспорта — конкретика',
+      explanation:'A: „Per artimiausius dvejus metus bus nupirkta 50 naujų autobusų." Логически продолжает тему обновления транспорта.', ruExplanation:'A: В ближайшие два года будет закуплено 50 новых автобусов. Развивает тему обновления.'
+    },
+    {
+      type:'choice',
+      question:'<strong>Kuris sakinys tinka į tarpą (2)?</strong>',
+      options:[
+        'B: Todėl savivaldybė nusprendė diegti naują GPS sekimo sistemą.',
+        'A: Per artimiausius dvejus metus bus nupirkta 50 naujų autobusų.',
+        'C: Stotelės bus pritaikytos ir neįgaliesiems.',
+        'D: Keleiviai galės bilietus pirkti telefono programėle.'
+      ], correct:0, hint:'Люди жаловались на опоздания → решение?',
+      explanation:'B: „Todėl savivaldybė nusprendė diegti naują GPS sekimo sistemą." Причинно-следственная связь: жалобы → решение.', ruExplanation:'B: Поэтому муниципалитет решил внедрить GPS-систему. "Todėl" (поэтому) — логическая связь с жалобами.'
+    },
+    {
+      type:'choice',
+      question:'<strong>Kuris sakinys tinka į tarpą (3)?</strong>',
+      options:[
+        'C: Stotelės bus pritaikytos ir neįgaliesiems.',
+        'A: Per artimiausius dvejus metus bus nupirkta 50 naujų autobusų.',
+        'B: Todėl savivaldybė nusprendė diegti naują GPS sekimo sistemą.',
+        'D: Keleiviai galės bilietus pirkti telefono programėle.'
+      ], correct:0, hint:'Речь о обновлении остановок → что ещё о них?',
+      explanation:'C: „Stotelės bus pritaikytos ir neįgaliesiems." Продолжает тему обновления остановок.', ruExplanation:'C: Остановки будут приспособлены и для людей с ограниченными возможностями. Развивает тему остановок.'
+    },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RAŠYMAS (WRITING)
+// ═══════════════════════════════════════════════════════════════
+function renderRasymas(el) {
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+      <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+      <h1 style="margin:0">Rašymas / Письмо</h1>
+    </div>
+    <p class="subtitle">Шаблоны и структура формальных писем для экзамена (1 val., ~20 taškų)</p>
+
+    <div class="card">
+      <h3>Типы писем на экзамене B2</h3>
+      <div class="grid grid-2">
+        <div class="theory-block">
+          <h4>1. Padėkos laiškas</h4>
+          <p>Благодарственное письмо (как в bandomasis testas — письмо больнице)</p>
+        </div>
+        <div class="theory-block">
+          <h4>2. Skundas / претензия</h4>
+          <p>Жалоба на услуги, товар, обслуживание</p>
+        </div>
+        <div class="theory-block">
+          <h4>3. Prašymas / заявление</h4>
+          <p>Официальный запрос, обращение в учреждение</p>
+        </div>
+        <div class="theory-block">
+          <h4>4. Nuomonės raiška</h4>
+          <p>Выражение мнения по общественному вопросу</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Šablonas: Oficialus laiškas / Шаблон официального письма</h3>
+      <div class="text-passage" style="font-size:14px;line-height:2">
+        <strong>Gerbiamasis (-oji) [vardas / pone / ponia],</strong><br><br>
+
+        <span style="color:var(--primary)">[Kreipimasis / Обращение — зачем пишете]</span><br>
+        Kreipuosi į Jus dėl... / Rašau Jums norėdamas (-a)... / Norėčiau atkreipti Jūsų dėmesį į...<br><br>
+
+        <span style="color:var(--primary)">[Pagrindinė dalis / Основная часть — детали]</span><br>
+        Visų pirma, norėčiau paminėti, kad...<br>
+        Be to, svarbu pabrėžti...<br>
+        Taip pat norėčiau atkreipti dėmesį į tai, kad...<br><br>
+
+        <span style="color:var(--primary)">[Pabaiga / Заключение — просьба/пожелание]</span><br>
+        Tikiuosi, kad mano prašymas bus išnagrinėtas.<br>
+        Būčiau dėkingas (-a), jei galėtumėte...<br>
+        Laukiu Jūsų atsakymo.<br><br>
+
+        <strong>Pagarbiai,</strong><br>
+        [Vardas Pavardė]
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Полезные фразы для B2 письма</h3>
+      <table class="grammar-table">
+        <tr><th>Функция</th><th>Lietuviškai</th><th>По-русски</th></tr>
+        <tr><td>Начало</td><td>Kreipuosi į Jus dėl...</td><td>Обращаюсь к Вам по поводу...</td></tr>
+        <tr><td>Начало</td><td>Norėčiau išreikšti savo nuomonę apie...</td><td>Хотел бы выразить мнение о...</td></tr>
+        <tr><td>Аргумент</td><td>Visų pirma, reikia pažymėti, kad...</td><td>Прежде всего, следует отметить...</td></tr>
+        <tr><td>Аргумент</td><td>Be to, svarbu pabrėžti...</td><td>Кроме того, важно подчеркнуть...</td></tr>
+        <tr><td>Контраст</td><td>Kita vertus, negalima nepastebėti...</td><td>С другой стороны, нельзя не заметить...</td></tr>
+        <tr><td>Пример</td><td>Pavyzdžiui, galima paminėti...</td><td>Например, можно упомянуть...</td></tr>
+        <tr><td>Вывод</td><td>Apibendrinant galima teigti, kad...</td><td>Подводя итог, можно утверждать...</td></tr>
+        <tr><td>Просьба</td><td>Maloniai prašau / Būčiau dėkingas (-a)...</td><td>Прошу / Был бы благодарен...</td></tr>
+        <tr><td>Конец</td><td>Pagarbiai, / Su pagarba,</td><td>С уважением,</td></tr>
+        <tr><td>Благодарность</td><td>Nuoširdžiai dėkoju už...</td><td>Искренне благодарю за...</td></tr>
+        <tr><td>Жалоба</td><td>Esu nepatenkintas (-a) dėl...</td><td>Я недоволен/недовольна из-за...</td></tr>
+        <tr><td>Жалоба</td><td>Prašau imtis priemonių...</td><td>Прошу принять меры...</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Пример: Padėkos laiškas ligoninei</h3>
+      <div class="text-passage" style="font-size:14px;line-height:2">
+        Gerbiamieji,<br><br>
+        Norėčiau išreikšti nuoširdžią padėką už puikų gydymą ir priežiūrą, kurią gavau jūsų ligoninėje. Čia džiaugiausi aukščiausios kokybės medicininėmis paslaugomis, bet ir patyriau žmogišką šilumą bei dėmesį, kurie labai padėjo sveikti.<br><br>
+        Jau nuo pat pirmos dienos ligoninėje skyriaus gydytojai buvo pasirengę atsakyti į visus mano klausimus ir noriai aiškino man skirtą gydymo eigą. Mane sužavėjo slaugytojų rūpestingumas ir dėmesingumas. Jų kasdienės šypsenos ir padrąsinimai kėlė gerą nuotaiką bei teikė pasitikėjimo.<br><br>
+        Taip pat norėčiau padėkoti visiems skyriaus administracijos darbuotojams, kurie operatyviai sprendė organizacinius klausimus. Jų dėka mano gydymo procesas buvo sklandus.<br><br>
+        Galėdama viešai pasidalinti savo gera patirtimi ir per jus padėkoti visam skyriaus kolektyvui, esu dėkinga. Visų Jūsų profesionalumas, atsidavimas ir nuoširdus rūpestis pacientais yra tikras pavyzdys sveikatos priežiūros įstaigoms.<br><br>
+        Dar vieną kartą dėkoju už jūsų pastangas ir linkiu visiems sėkmės šiame svarbiame ir atsakingame darbe gydant ligonius.<br><br>
+        Pagarbiai,<br>
+        [Vardas Pavardė]
+      </div>
+      <div class="theory-block">
+        <h4>Это тот же текст из bandomasis testas!</h4>
+        <p class="ru-note">Обратите внимание на структуру: обращение → благодарность → конкретика → общая похвала → пожелание → подпись. Этот шаблон работает для любого благодарственного письма.</p>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// JUNGTUKAI (CONJUNCTIONS)
+// ═══════════════════════════════════════════════════════════════
+function renderJungtukai(el) {
+  let currentTab = 'theory';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Jungtukai / Союзы</h1>
+      </div>
+      <p class="subtitle">Союзы и сложные предложения — критически важно для B2 письма и кalbos vartojimo</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._jnTab('theory')">Teorija</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._jnTab('drill1')">Pratimas 1</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._jnTab('drill2')">Pratimas 2</button>
+      </div>
+      <div id="jn-content"></div>`;
+    const ct = document.getElementById('jn-content');
+    if (currentTab === 'theory') renderJnTheory(ct);
+    else if (currentTab === 'drill1') createExerciseRunner(ct, getJnDrill1(), 'jn-1', 'Jungtukai: pasirinkimas', 'Выберите правильный союз');
+    else if (currentTab === 'drill2') createExerciseRunner(ct, getJnDrill2(), 'jn-2', 'Jungtukai: sakinių jungimas', 'Соедините предложения правильным союзом');
+  }
+  window._jnTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderJnTheory(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Зачем нужны союзы для B2?</h3>
+      <p>На экзамене B2 союзы проверяются в заданиях "kalbos vartojimas" и особенно в "rašymas". Умение строить сложные предложения — ключевое отличие B2 от B1.</p>
+    </div>
+    <div class="card">
+      <h3>Sujungiamieji jungtukai / Сочинительные союзы</h3>
+      <table class="grammar-table">
+        <tr><th>Jungtukas</th><th>Значение</th><th>Пример</th></tr>
+        <tr><td><strong>ir</strong></td><td>и</td><td>Jis dirba <strong>ir</strong> mokosi. (Он работает и учится.)</td></tr>
+        <tr><td><strong>bei</strong></td><td>и, а также</td><td>Šiluma <strong>bei</strong> dėmesys. (Тепло и внимание.)</td></tr>
+        <tr><td><strong>ar / arba</strong></td><td>или</td><td>Kava <strong>ar</strong> arbata? (Кофе или чай?)</td></tr>
+        <tr><td><strong>bet / tačiau</strong></td><td>но / однако</td><td>Noriu, <strong>bet</strong> negaliu. (Хочу, но не могу.)</td></tr>
+        <tr><td><strong>o</strong></td><td>а (противопоставление)</td><td>Jis dirba, <strong>o</strong> ji ilsisi. (Он работает, а она отдыхает.)</td></tr>
+        <tr><td><strong>ne tik... bet ir</strong></td><td>не только... но и</td><td><strong>Ne tik</strong> miestui, <strong>bet ir</strong> šaliai. (Не только городу, но и стране.)</td></tr>
+        <tr><td><strong>tiek... tiek</strong></td><td>как... так и</td><td><strong>Tiek</strong> vaikai, <strong>tiek</strong> suaugusieji. (Как дети, так и взрослые.)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Prijungiamieji jungtukai / Подчинительные союзы</h3>
+      <table class="grammar-table">
+        <tr><th>Jungtukas</th><th>Значение</th><th>Пример</th><th>Запятая?</th></tr>
+        <tr><td><strong>kad</strong></td><td>что / чтобы</td><td>Žinau, <strong>kad</strong> jis ateis. (Знаю, что он придёт.)</td><td>✅ ДА</td></tr>
+        <tr><td><strong>nes / kadangi</strong></td><td>потому что / поскольку</td><td>Neatėjau, <strong>nes</strong> sirgau. (Не пришёл, т.к. болел.)</td><td>✅ ДА</td></tr>
+        <tr><td><strong>nors</strong></td><td>хотя</td><td><strong>Nors</strong> lyja, eisime. (Хотя идёт дождь, пойдём.)</td><td>✅ ДА</td></tr>
+        <tr><td><strong>jeigu / jei</strong></td><td>если</td><td><strong>Jei</strong> norėsi, ateik. (Если захочешь, приходи.)</td><td>✅ ДА</td></tr>
+        <tr><td><strong>kai</strong></td><td>когда</td><td><strong>Kai</strong> baigsi, paskambink. (Когда закончишь, позвони.)</td><td>✅ ДА</td></tr>
+        <tr><td><strong>kol</strong></td><td>пока</td><td><strong>Kol</strong> lauki, paskaityk. (Пока ждёшь, почитай.)</td><td>✅ ДА</td></tr>
+        <tr><td><strong>todėl / dėl to</strong></td><td>поэтому</td><td>Sirgau, <strong>todėl</strong> neatėjau. (Болел, поэтому не пришёл.)</td><td>✅ ДА</td></tr>
+        <tr><td><strong>kuris / kuri</strong></td><td>который / которая</td><td>Žmogus, <strong>kuris</strong> atėjo... (Человек, который пришёл...)</td><td>✅ ДА</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Главное правило!</h4>
+        <p>Перед подчинительными союзами <strong>ВСЕГДА</strong> ставится запятая: <em>kad, nes, nors, jei, kai, kol, kuris</em>.</p>
+        <p class="ru-note">В русском перед "что, потому что, хотя, если, когда, который" тоже запятая. Здесь правила совпадают!</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin:24px 0">
+      <button class="btn btn-primary" onclick="window._jnTab('drill1')">Pradėti pratimus →</button>
+    </div>`;
+}
+
+function getJnDrill1() {
+  return [
+    { type:'choice', question:'<em>"Jis neatėjo į darbą, _____ sirgo."</em><br>Он не пришёл на работу, _____ болел.', options:['nes','kad','bet','ir'], correct:0, topic:'Причина', hint:'Причина: потому что = nes', explanation:'nes = потому что (причина).', ruExplanation:'Потому что. "Nes" — самый распространённый союз причины.' },
+    { type:'choice', question:'<em>"_____ baigsi studijas, galėsi dirbti."</em><br>_____ закончишь учёбу, сможешь работать.', options:['Kai','Kad','Nes','Bet'], correct:0, topic:'Время', hint:'Когда = kai', explanation:'Kai = когда (временной союз).', ruExplanation:'Когда. "Kai" = когда (временной союз).' },
+    { type:'choice', question:'<em>"Žinome, _____ tai nėra lengva."</em><br>Мы знаем, _____ это нелегко.', options:['kad','nes','kai','kol'], correct:0, topic:'Изъяснительный', hint:'Знаем, ЧТО... = kad', explanation:'kad = что (изъяснительный союз).', ruExplanation:'Что. "Kad" = что (после глаголов знания, речи, мнения).' },
+    { type:'choice', question:'<em>"_____ lyja, mes vis tiek eisime pasivaikščioti."</em><br>_____ идёт дождь, мы всё равно пойдём гулять.', options:['Nors','Nes','Kad','Kai'], correct:0, topic:'Уступка', hint:'Хотя = nors', explanation:'Nors = хотя (уступительный союз).', ruExplanation:'Хотя. "Nors" = хотя. Выражает уступку.' },
+    { type:'choice', question:'<em>"Palauk, _____ aš grįšiu."</em><br>Подожди, _____ я вернусь.', options:['kol','kai','kad','nes'], correct:0, topic:'Время (пока)', hint:'Пока = kol', explanation:'kol = пока (действие продолжается до момента).', ruExplanation:'Пока. "Kol" = пока (подожди, пока...).' },
+    { type:'choice', question:'<em>"Festivalis svarbus _____ miestui, _____ visai šaliai."</em>', options:['ne tik... bet ir','ir... ir','tiek... tiek','nei... nei'], correct:0, topic:'Не только... но и', hint:'Не только... но и', explanation:'ne tik... bet ir = не только... но и.', ruExplanation:'Не только... но и. Парный союз для усиления.' },
+    { type:'choice', question:'<em>"_____ turėtum pinigų, ką pirktum?"</em><br>_____ бы у тебя были деньги, что бы купил?', options:['Jeigu','Kai','Kad','Kol'], correct:0, topic:'Условие', hint:'Если (бы) = jeigu / jei', explanation:'Jeigu = если (условный союз).', ruExplanation:'Если. "Jeigu/jei" = если. Условный союз.' },
+    { type:'choice', question:'<em>"Sirgau, _____ negalėjau ateiti."</em><br>Болел, _____ не смог прийти.', options:['todėl','nes','kad','bet'], correct:0, topic:'Следствие', hint:'Поэтому = todėl', explanation:'todėl = поэтому (следствие).', ruExplanation:'Поэтому. "Todėl" — союз следствия (не причины!).' },
+    { type:'choice', question:'<em>"Jis mokosi, _____ dirba vakarais."</em><br>Он учится, а работает по вечерам.', options:['o','ir','bet','nes'], correct:0, topic:'Противопоставление', hint:'А (противопоставление) = o', explanation:'o = а (мягкое противопоставление).', ruExplanation:'"А" (противопоставление). "O" — мягче, чем "bet" (но).' },
+    { type:'choice', question:'<em>"Norėčiau, _____ jūs atsiųstumėte man informaciją."</em><br>Хотел бы, _____ вы прислали мне информацию.', options:['kad','kai','nes','todėl'], correct:0, topic:'Изъяснительный + сослагательное', hint:'Хотел бы, ЧТОБЫ = kad + tariamoji nuosaka', explanation:'kad + сослагательное наклонение = чтобы.', ruExplanation:'Чтобы. "Kad" + сослагательное наклонение (tariamoji nuosaka) = чтобы. Norėčiau, kad atsiųstumėte.' },
+  ];
+}
+
+function getJnDrill2() {
+  return [
+    { type:'input', question:'Вставьте союз:<br><em>"Aš mokau lietuvių kalbą, _____ noriu išlaikyti B2 egzaminą."</em><br>Я учу литовский, _____ хочу сдать экзамен B2.', answer:['nes','kadangi'], hint:'Причина → nes / kadangi', explanation:'nes / kadangi = потому что / поскольку.', ruExplanation:'Потому что / поскольку.' },
+    { type:'input', question:'<em>"Važiuosime į pajūrį, _____ oras bus geras."</em><br>Поедем на море, _____ погода будет хорошей.', answer:['jei','jeigu'], hint:'Условие → jei / jeigu', explanation:'jei / jeigu = если (условие).', ruExplanation:'Если.' },
+    { type:'input', question:'<em>"Jis kalbėjo taip tyliai, _____ niekas negirdėjo."</em><br>Он говорил так тихо, _____ никто не слышал.', answer:['kad'], hint:'Следствие: так тихо, ЧТО... = kad', explanation:'kad = что (следствие). Taip... kad = так... что.', ruExplanation:'Что (следствие). "Taip... kad" = так... что.' },
+    { type:'input', question:'<em>"_____ mokiausi universitete, dirbau vakarais."</em><br>_____ учился в университете, работал по вечерам.', answer:['Kai','Kol'], hint:'Когда / пока → kai / kol', explanation:'Kai = когда. Kol = пока. Оба подходят.', ruExplanation:'Когда / пока.' },
+    { type:'input', question:'<em>"Jis neturi _____ pinigų, _____ laiko."</em><br>У него нет ни денег, ни времени.', answer:['nei... nei'], hint:'Ни... ни = nei... nei', explanation:'nei... nei = ни... ни.', ruExplanation:'Ни... ни. Отрицательный парный союз.' },
+    { type:'input', question:'<em>"Reikia pasiruošti, _____ egzaminas jau greitai."</em><br>Нужно подготовиться, _____ экзамен уже скоро.', answer:['nes','kadangi','juk'], hint:'Причина → nes / kadangi / juk (ведь)', explanation:'nes / kadangi / juk = потому что / ведь.', ruExplanation:'Потому что / ведь.' },
+    { type:'input', question:'<em>"_____ ir kaip stengčiausi, nepavyko."</em><br>Как ни старался, не получилось.', answer:['Kad'], hint:'Как ни... = Kad ir kaip', explanation:'Kad ir kaip = как ни (уступительный оборот).', ruExplanation:'Как ни... "Kad ir kaip" — устойчивое уступительное выражение.' },
+    { type:'input', question:'<em>"Jis ne _____ protingas, _____ ir darbštus."</em><br>Он не только умный, но и трудолюбивый.', answer:['tik... bet ir'], hint:'Не только... но и = ne tik... bet ir', explanation:'ne tik... bet ir = не только... но и.', ruExplanation:'Не только... но и.' },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ŽODŽIŲ DARYBA (WORD FORMATION)
+// ═══════════════════════════════════════════════════════════════
+function renderZodziuDaryba(el) {
+  let currentTab = 'theory';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Žodžių daryba / Словообразование</h1>
+      </div>
+      <p class="subtitle">Приставки, суффиксы и производные слова — проверяется в "kalbos vartojimas"</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._zdTab('theory')">Teorija</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._zdTab('drill1')">Pratimas 1: Приставки</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._zdTab('drill2')">Pratimas 2: Суффиксы</button>
+      </div>
+      <div id="zd-content"></div>`;
+    const ct = document.getElementById('zd-content');
+    if (currentTab === 'theory') renderZdTheory(ct);
+    else if (currentTab === 'drill1') createExerciseRunner(ct, getZdDrill1(), 'zd-1', 'Priešdėliai', 'Приставки существительных и прилагательных');
+    else if (currentTab === 'drill2') createExerciseRunner(ct, getZdDrill2(), 'zd-2', 'Priesagos', 'Суффиксы — образуйте правильное слово');
+  }
+  window._zdTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderZdTheory(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Зачем это для B2?</h3>
+      <p>В заданиях 4-5 экзамена (kalbos vartojimas) часто нужно выбрать из слов с одним корнем, но разными суффиксами/приставками. Например: <em>požiūris / peržiūra / nuožiūra / apžiūra</em> — все от "žiūrėti", но значения разные!</p>
+    </div>
+    <div class="card">
+      <h3>Основные приставки (priešdėliai)</h3>
+      <table class="grammar-table">
+        <tr><th>Priešdėlis</th><th>Значение</th><th>Примеры</th></tr>
+        <tr><td><strong>ne-</strong></td><td>не (отрицание)</td><td>geras → <strong>ne</strong>geras, galima → <strong>ne</strong>galima</td></tr>
+        <tr><td><strong>per-</strong></td><td>через, пере-, слишком</td><td><strong>per</strong>skaityti (прочитать), <strong>per</strong>daug (слишком много)</td></tr>
+        <tr><td><strong>iš-</strong></td><td>из, вы-</td><td><strong>iš</strong>eiti (выйти), <strong>iš</strong>spręsti (решить)</td></tr>
+        <tr><td><strong>su-</strong></td><td>с, со- (объединение)</td><td><strong>su</strong>rinkti (собрать), <strong>su</strong>tvarkyti (привести в порядок)</td></tr>
+        <tr><td><strong>pa-</strong></td><td>по- (немного, начало)</td><td><strong>pa</strong>skaityti (почитать), <strong>pa</strong>rašyti (написать)</td></tr>
+        <tr><td><strong>at-</strong></td><td>от-, обратно</td><td><strong>at</strong>eiti (прийти), <strong>at</strong>sakyti (ответить)</td></tr>
+        <tr><td><strong>pra-</strong></td><td>про-</td><td><strong>pra</strong>eiti (пройти), <strong>pra</strong>dėti (начать)</td></tr>
+        <tr><td><strong>nu-</strong></td><td>с-, у- (завершение)</td><td><strong>nu</strong>eiti (уйти), <strong>nu</strong>statyti (установить)</td></tr>
+        <tr><td><strong>pri-</strong></td><td>при-</td><td><strong>pri</strong>eiti (подойти), <strong>pri</strong>imti (принять)</td></tr>
+        <tr><td><strong>už-</strong></td><td>за-</td><td><strong>už</strong>daryti (закрыть), <strong>už</strong>rašyti (записать)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>Основные суффиксы (priesagos) для существительных</h3>
+      <table class="grammar-table">
+        <tr><th>Priesaga</th><th>Значение</th><th>Примеры</th></tr>
+        <tr><td><strong>-umas</strong></td><td>абстрактное качество (от прилаг.)</td><td>gražus → graž<strong>umas</strong> (красота), sveikas → sveik<strong>umas</strong> (здоровье-не-болезнь)</td></tr>
+        <tr><td><strong>-imas</strong></td><td>процесс / действие (от глаг.)</td><td>mokyti → moky<strong>mas</strong> (обучение), skaityti → skaity<strong>mas</strong> (чтение)</td></tr>
+        <tr><td><strong>-tojas/-toja</strong></td><td>деятель (от глаг.)</td><td>mokyti → moky<strong>tojas</strong> (учитель), skaityti → skaity<strong>tojas</strong> (читатель)</td></tr>
+        <tr><td><strong>-ybė / -ybа</strong></td><td>абстрактное понятие</td><td>draugauti → draug<strong>ystė</strong> (дружба), tarnаuti → tarn<strong>ybа</strong> (служба)</td></tr>
+        <tr><td><strong>-ėjas/-ėja</strong></td><td>деятель (разновидность)</td><td>siųsti → siunt<strong>ėjas</strong> (отправитель), pirkti → pirk<strong>ėjas</strong> (покупатель)</td></tr>
+        <tr><td><strong>-inis/-inė</strong></td><td>относительное прилаг.</td><td>medicina → medicin<strong>inis</strong> (медицинский), sportas → sport<strong>inis</strong> (спортивный)</td></tr>
+        <tr><td><strong>-ingas/-inga</strong></td><td>обладающий качеством</td><td>rūpestis → rūpest<strong>ingas</strong> (заботливый), dėmesys → dėmes<strong>ingas</strong> (внимательный)</td></tr>
+      </table>
+    </div>
+    <div style="text-align:center;margin:24px 0">
+      <button class="btn btn-primary" onclick="window._zdTab('drill1')">Pradėti pratimus →</button>
+    </div>`;
+}
+
+function getZdDrill1() {
+  return [
+    { type:'choice', question:'<em>"Šis sprendimas yra visiškai _____."</em><br>Это решение совершенно _____ (неприемлемо).', options:['nepriimtinas','priimtinas','priimtas','nepriimtas'], correct:0, topic:'ne- + priimtinas', hint:'Отрицание + приемлемый = ne-priimtinas', explanation:'nepriimtinas = неприемлемый. ne- + priimtinas.', ruExplanation:'Неприемлемый. Приставка "ne-" для отрицания.' },
+    { type:'choice', question:'<em>"Ši informacija yra labai _____."</em><br>Эта информация очень _____ (важная, значительная).', options:['svarbi','svarbumas','svarbiai','svarbinti'], correct:0, topic:'Часть речи', hint:'Yra KOKIA? → прилагательное', explanation:'svarbi — būdvardis (прилагательное), mot. giminė.', ruExplanation:'Важная. Нужно прилагательное (какая?), а не существительное и не наречие.' },
+    { type:'choice', question:'<em>"Jo _____ padėjo išspręsti problemą."</em><br>Его _____ (опыт / опытность) помог решить проблему.', options:['patirtis','patyręs','patirtas','patirdamas'], correct:0, topic:'Существительное', hint:'Jo KAS? → существительное', explanation:'patirtis = опыт (существительное). Kas padėjo? — patirtis.', ruExplanation:'Опыт. Нужно существительное (подлежащее). Не причастие, не наречие.' },
+    { type:'choice', question:'<em>"Labai _____ dėkoju už pagalbą."</em><br>Очень _____ (искренне) благодарю за помощь.', options:['nuoširdžiai','nuoširdus','nuoširdumas','nuoširdžią'], correct:0, topic:'Наречие', hint:'КАК благодарю? → наречие → -ai', explanation:'nuoširdžiai — prieveiksmis (наречие). Dėkoju KAIP? — nuoširdžiai.', ruExplanation:'Искренне. Нужно наречие (как?). Окончание -ai типично для наречий.' },
+    { type:'choice', question:'<em>"_____ sistema leidžia taupyti laiką."</em><br>_____ (электронная) система позволяет экономить время.', options:['Elektroninė','Elektronė','Elektronika','Elektroniška'], correct:0, topic:'-inė (относительное)', hint:'КАКАЯ система? → относительное прилагательное → -inė', explanation:'elektroninė — относительное прилагательное (-inė). Электронная.', ruExplanation:'Электронная. Суффикс -inis/-inė образует относительные прилагательные.' },
+    { type:'choice', question:'<em>"Jūsų _____ padės kitiem pacientams."</em><br>Ваша _____ (благодарность) поможет другим пациентам.', options:['padėka','padėkoti','dėkingas','padėkojimas'], correct:0, topic:'Существительное', hint:'Jūsų KAS? → существительное', explanation:'padėka = благодарность (существительное).', ruExplanation:'Благодарность. Существительное от глагола padėkoti.' },
+    { type:'choice', question:'<em>"Tai labai _____ paslauga."</em><br>Это очень _____ (полезная) услуга.', options:['naudinga','naudingumas','naudoti','naudingai'], correct:0, topic:'-inga', hint:'KOKIA paslauga? → прилагательное', explanation:'naudinga — būdvardis (прилагательное, -inga). Полезная.', ruExplanation:'Полезная. Суффикс -ingas/-inga = обладающий качеством (naud-inga = имеющая пользу).' },
+    { type:'choice', question:'<em>"Buvo priimtas svarbus _____ dėl miesto plėtros."</em><br>Было принято важное _____ (решение) о развитии города.', options:['sprendimas','spręsti','sprendžiamas','išspręstas'], correct:0, topic:'-imas', hint:'KAS buvo priimtas? → существительное', explanation:'sprendimas = решение. Существительное от spręsti (-imas).', ruExplanation:'Решение. Суффикс -imas образует существительные действия от глаголов.' },
+  ];
+}
+
+function getZdDrill2() {
+  return [
+    { type:'input', question:'Образуйте существительное от прилагательного <strong>gražus</strong> (красивый):<br><em>"Gamtos _____ yra neįkainojamas."</em> (Красота природы бесценна.)', answer:['grožis','grožis'], hint:'Красота = grožis (не grožumas!)', explanation:'grožis = красота. Исключение — не по стандартной модели -umas.', ruExplanation:'Красота = grožis. Это исключение! Обычно от прилагательных: -umas (sveikas → sveikumas), но gražus → grožis.' },
+    { type:'input', question:'Образуйте наречие от <strong>greitas</strong> (быстрый):<br><em>"Jis bėga labai _____."</em>', answer:['greitai'], hint:'Наречие от прилагательного: -as → -ai', explanation:'greitas → greitai. Окончание -ai для наречий.', ruExplanation:'Быстро. Прилагательное → наречие: -as/-us → -ai (greitas → greitai).' },
+    { type:'input', question:'Образуйте существительное (деятель) от <strong>skaityti</strong> (читать):<br><em>"Jis yra aktyvus knygų _____."</em>', answer:['skaitytojas'], hint:'Деятель от глагола: -tojas', explanation:'skaityti → skaitytojas (читатель).', ruExplanation:'Читатель. Суффикс -tojas/-toja для обозначения деятеля.' },
+    { type:'input', question:'Образуйте прилагательное от <strong>sportas</strong> (спорт):<br><em>"Tai _____ renginys."</em> (Это спортивное мероприятие.)', answer:['sportinis'], hint:'Относительное прилагательное: -inis', explanation:'sportas → sportinis (спортивный).', ruExplanation:'Спортивный. Суффикс -inis/-inė для относительных прилагательных.' },
+    { type:'input', question:'Образуйте существительное (процесс) от <strong>mokyti</strong> (обучать):<br><em>"_____ trunka trejus metus."</em> (Обучение длится три года.)', answer:['Mokymas'], hint:'Процесс от глагола: -ymas/-imas', explanation:'mokyti → mokymas (обучение).', ruExplanation:'Обучение. Суффикс -ymas/-imas для обозначения процесса.' },
+    { type:'input', question:'Образуйте прилагательное с приставкой <strong>ne-</strong> от <strong>tikėtinas</strong> (ожидаемый):<br><em>"Tai buvo _____ rezultatas."</em> (неожиданный результат)', answer:['netikėtas','netikėtinas'], hint:'не + ожидаемый → ne-tikėtas / ne-tikėtinas', explanation:'netikėtas = неожиданный. ne- + tikėtas.', ruExplanation:'Неожиданный. Приставка ne- для отрицания.' },
+    { type:'input', question:'Образуйте существительное от <strong>dėmesingas</strong> (внимательный):<br><em>"Ačiū už jūsų _____."</em> (Спасибо за вашу внимательность.)', answer:['dėmesingumą','dėmesingumas'], hint:'Абстрактное качество: -umas. Но нужен Galininkas!', explanation:'dėmesingas → dėmesingumas. Už KĄ? → dėmesingumą (G.).', ruExplanation:'Внимательность. -ingas → -ingumas (абстрактное качество).' },
+    { type:'input', question:'Образуйте наречие от <strong>profesionalus</strong> (профессиональный):<br><em>"Ji dirba labai _____."</em>', answer:['profesionaliai'], hint:'-us → -iai', explanation:'profesionalus → profesionaliai.', ruExplanation:'Профессионально. -us → -iai (наречие).' },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SKYRYBA (PUNCTUATION)
+// ═══════════════════════════════════════════════════════════════
+function renderSkyryba(el) {
+  let currentTab = 'theory';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Skyryba / Пунктуация</h1>
+      </div>
+      <p class="subtitle">Правила пунктуации — важно для "rašymas" и "kalbos vartojimas"</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._skrTab('theory')">Teorija</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._skrTab('drill1')">Pratimas</button>
+      </div>
+      <div id="skr-content"></div>`;
+    const ct = document.getElementById('skr-content');
+    if (currentTab === 'theory') renderSkrTheory(ct);
+    else if (currentTab === 'drill1') createExerciseRunner(ct, getSkrDrill1(), 'skr-1', 'Skyryba', 'Правила пунктуации');
+  }
+  window._skrTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderSkrTheory(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Основные правила пунктуации литовского языка</h3>
+      <p>Пунктуация важна для части "rašymas" и может проверяться в "kalbos vartojimas". Многие правила совпадают с русскими, но есть ключевые отличия.</p>
+    </div>
+    <div class="card">
+      <h3>1. Запятая перед подчинительными союзами — ВСЕГДА</h3>
+      <div class="theory-block">
+        <h4>Правило</h4>
+        <p>Перед <strong>kad, nes, nors, jei/jeigu, kai, kol, kuris/kuri, kur, kaip</strong> всегда ставится запятая:</p>
+        <p><em>Žinau<strong>,</strong> kad jis ateis.</em> — Знаю, что он придёт.<br>
+        <em>Neatėjau<strong>,</strong> nes sirgau.</em> — Не пришёл, потому что болел.<br>
+        <em>Žmogus<strong>,</strong> kuris čia gyvena<strong>,</strong> yra mano draugas.</em> — Человек, который здесь живёт, мой друг.</p>
+        <p class="ru-note">Совпадает с русским! Перед "что, потому что, хотя, если, когда, который" — запятая.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>2. Причастные обороты (dalyvinės aplinkybės)</h3>
+      <div class="theory-block">
+        <h4>Правило</h4>
+        <p>Причастный оборот, стоящий <strong>после</strong> определяемого слова, выделяется запятыми:</p>
+        <p><em>Žmogus<strong>,</strong> skaitantis knygą<strong>,</strong> sėdėjo ant suolo.</em><br>
+        Человек, читающий книгу, сидел на скамейке.</p>
+        <p>Причастный оборот <strong>перед</strong> определяемым словом — <strong>БЕЗ</strong> запятой:</p>
+        <p><em>Skaitantis knygą žmogus sėdėjo ant suolo.</em><br>
+        Читающий книгу человек сидел на скамейке.</p>
+        <p class="ru-note">Отличие от русского! В русском причастный оборот ПОСЛЕ определяемого слова — запятая (совпадает). Перед определяемым словом — без запятой (тоже совпадает). Правила идентичны!</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>3. Pusdalyvis и padalyvis</h3>
+      <div class="theory-block">
+        <h4>Правило</h4>
+        <p>Обороты с pusdalyvis (-damas/-dama) и padalyvis выделяются запятыми:</p>
+        <p><em><strong>Grįždamas namo,</strong> jis pamatė kaimyną.</em><br>
+        Возвращаясь домой, он увидел соседа.</p>
+        <p><em><strong>Baigusi darbą,</strong> ji išėjo namo.</em><br>
+        Закончив работу, она ушла домой.</p>
+        <p class="ru-note">Как в русском: деепричастные обороты всегда выделяются запятыми.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>4. Однородные члены (vienarūšės sakinio dalys)</h3>
+      <div class="theory-block">
+        <h4>Правило</h4>
+        <p>Запятая между однородными членами, соединёнными без союза:</p>
+        <p><em>Jis pirko duonos<strong>,</strong> pieno<strong>,</strong> sviesto ir kiaušinių.</em><br>
+        Он купил хлеба, молока, масла и яиц.</p>
+        <p>Перед одиночным <strong>ir/bei</strong> запятая <strong>НЕ</strong> ставится (как в русском перед "и").</p>
+        <p>Но перед повторяющимся <strong>ir... ir</strong> — ставится:<br>
+        <em><strong>Ir</strong> vaikai<strong>,</strong> <strong>ir</strong> suaugusieji dalyvavo.</em></p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>5. Прямая речь</h3>
+      <div class="theory-block">
+        <h4>Правило</h4>
+        <p>В литовском прямая речь оформляется так:</p>
+        <p><em>Jis pasakė: „Aš ateisiu rytoj."</em><br>
+        <em>„Aš ateisiu rytoj", – pasakė jis.</em></p>
+        <p class="ru-note">Отличие: кавычки в литовском „ " (внизу-вверху), а не « » как в русском. Тире перед автором, если речь впереди.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin:24px 0">
+      <button class="btn btn-primary" onclick="window._skrTab('drill1')">Pradėti pratimus →</button>
+    </div>`;
+}
+
+function getSkrDrill1() {
+  return [
+    { type:'choice', question:'Где нужна запятая?<br><em>"Žinau __ kad jis ateis."</em>', options:['Žinau, kad jis ateis.','Žinau kad, jis ateis.','Žinau kad jis, ateis.','Žinau kad jis ateis.'], correct:0, topic:'Перед kad', explanation:'Запятая перед "kad" (подчинительный союз).', ruExplanation:'Запятая перед "kad" (что) — всегда! Как в русском: "Знаю, что он придёт."' },
+    { type:'choice', question:'Правильная пунктуация?<br><em>"Žmogus skaitantis knygą sėdėjo parke."</em><br>(Причастие ПОСЛЕ определяемого)', options:['Žmogus, skaitantis knygą, sėdėjo parke.','Žmogus skaitantis knygą, sėdėjo parke.','Žmogus, skaitantis knygą sėdėjo parke.','Žmogus skaitantis, knygą sėdėjo parke.'], correct:0, topic:'Dalyvinis pažyminys', hint:'Причастный оборот ПОСЛЕ определяемого → запятые с обеих сторон', explanation:'Причастный оборот после определяемого слова выделяется запятыми с обеих сторон.', ruExplanation:'Причастный оборот после определяемого слова — запятые. Как в русском!' },
+    { type:'choice', question:'Правильная пунктуация?<br><em>"Grįždamas namo jis pamatė kaimyną."</em>', options:['Grįždamas namo, jis pamatė kaimyną.','Grįždamas, namo jis pamatė kaimyną.','Grįždamas namo jis, pamatė kaimyną.','Grįždamas namo jis pamatė, kaimyną.'], correct:0, topic:'Pusdalyvis', hint:'Оборот с pusdalyvis → запятая после оборота', explanation:'Pusdalyvis оборот отделяется запятой от главного предложения.', ruExplanation:'Деепричастный оборот → запятая. Как в русском: "Возвращаясь домой, он увидел..."' },
+    { type:'choice', question:'Нужна ли запятая?<br><em>"Jis pirko duonos pieno ir sviesto."</em>', options:['Jis pirko duonos, pieno ir sviesto.','Jis pirko duonos pieno, ir sviesto.','Jis pirko, duonos pieno ir sviesto.','Jis pirko duonos pieno ir, sviesto.'], correct:0, topic:'Однородные + ir', hint:'Однородные через запятую, перед одиночным "ir" — нет', explanation:'Между однородными — запятая, перед одиночным "ir" — нет.', ruExplanation:'Как в русском: хлеба, молока и масла. Перед одиночным "и" запятая не ставится.' },
+    { type:'choice', question:'<em>"Nors lyja __ mes vis tiek eisime."</em><br>Хотя идёт дождь, мы всё равно пойдём.', options:['Nors lyja, mes vis tiek eisime.','Nors, lyja mes vis tiek eisime.','Nors lyja mes, vis tiek eisime.','Nors lyja mes vis tiek, eisime.'], correct:0, topic:'Перед nors', hint:'После придаточного с "nors" → запятая', explanation:'Придаточное "Nors lyja" отделяется запятой от главного.', ruExplanation:'Запятая между придаточным и главным предложением. Как в русском: "Хотя дождь, мы пойдём."' },
+    { type:'choice', question:'<em>"Skaitantis knygą žmogus atsisėdo ant suolo."</em><br>Нужна ли запятая?', options:['Запятая не нужна — оборот ПЕРЕД определяемым словом','Нужна: Skaitantis, knygą žmogus...','Нужна: Skaitantis knygą, žmogus...','Нужна: Skaitantis knygą žmogus, atsisėdo...'], correct:0, topic:'Dalyvinis PRIEŠ', hint:'Причастный оборот ПЕРЕД определяемым → без запятой', explanation:'Когда причастный оборот стоит ПЕРЕД определяемым словом, запятая не нужна.', ruExplanation:'Причастный оборот ПЕРЕД определяемым словом — без запятой. Совпадает с русским!' },
+    { type:'choice', question:'<em>"Aš ateisiu jei turėsiu laiko."</em><br>Поставьте запятую.', options:['Aš ateisiu, jei turėsiu laiko.','Aš ateisiu jei, turėsiu laiko.','Aš, ateisiu jei turėsiu laiko.','Aš ateisiu jei turėsiu, laiko.'], correct:0, topic:'Перед jei', hint:'Перед "jei" (если) → всегда запятая', explanation:'Запятая перед "jei" (подчинительный союз условия).', ruExplanation:'Перед "если" — запятая. Как в русском.' },
+    { type:'choice', question:'Как оформить прямую речь по-литовски?<br><em>Он сказал: "Я приду завтра."</em>', options:['Jis pasakė: „Aš ateisiu rytoj."','Jis pasakė: «Aš ateisiu rytoj.»','Jis pasakė: "Aš ateisiu rytoj."','Jis pasakė „Aš ateisiu rytoj."'], correct:0, topic:'Прямая речь', hint:'Литовские кавычки: „ " (внизу-вверху)', explanation:'Литовские кавычки: „ " (открывающая внизу, закрывающая вверху).', ruExplanation:'В литовском кавычки „ " (не « » как в русском и не " " как в английском).' },
+  ];
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GRAMATIKOS ŽINYNAS (GRAMMAR REFERENCE)
+// ═══════════════════════════════════════════════════════════════
+function renderZinynas(el) {
+  let currentTab = 'nuosakos';
+  function renderInner() {
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+        <h1 style="margin:0">Gramatikos žinynas / Справочник грамматики</h1>
+      </div>
+      <p class="subtitle">Полный справочник — наклонения, пассив, прилагательные, управление глаголов</p>
+      <div class="tabs">
+        <button class="tab ${currentTab==='nuosakos'?'active':''}" onclick="window._znTab('nuosakos')">Nuosakos (наклонения)</button>
+        <button class="tab ${currentTab==='pasyvas'?'active':''}" onclick="window._znTab('pasyvas')">Neveik. rūšis (пассив)</button>
+        <button class="tab ${currentTab==='budvardziai'?'active':''}" onclick="window._znTab('budvardziai')">Būdvardžiai (прилаг.)</button>
+        <button class="tab ${currentTab==='valdymas'?'active':''}" onclick="window._znTab('valdymas')">Valdymas (управление)</button>
+        <button class="tab ${currentTab==='prielinksniai'?'active':''}" onclick="window._znTab('prielinksniai')">Prielinksniai (предлоги)</button>
+        <button class="tab ${currentTab==='ivardis'?'active':''}" onclick="window._znTab('ivardis')">Įvardžiai (местоимения)</button>
+      </div>
+      <div id="zn-content"></div>`;
+    const ct = document.getElementById('zn-content');
+    if (currentTab === 'nuosakos') renderZnNuosakos(ct);
+    else if (currentTab === 'pasyvas') renderZnPasyvas(ct);
+    else if (currentTab === 'budvardziai') renderZnBudvardziai(ct);
+    else if (currentTab === 'valdymas') renderZnValdymas(ct);
+    else if (currentTab === 'prielinksniai') renderZnPrielinksniai(ct);
+    else if (currentTab === 'ivardis') renderZnIvardis(ct);
+  }
+  window._znTab = (t) => { currentTab = t; renderInner(); };
+  renderInner();
+}
+
+function renderZnNuosakos(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Tariamoji nuosaka / Сослагательное наклонение</h3>
+      <div class="theory-block">
+        <h4>Критически важно для B2!</h4>
+        <p>Сослагательное наклонение используется в формальных письмах, просьбах, условных предложениях. На экзамене B2 в части "rašymas" без него не обойтись.</p>
+        <p class="ru-note">Аналог русского "бы": Я хотел <strong>бы</strong>, мог <strong>бы</strong>, сделал <strong>бы</strong>.</p>
+      </div>
+      <h4>Образование: основа прош. вр. + -čiau, -tum, -tų, -tume/-tumėme, -tute/-tumėte, -tų</h4>
+      <table class="grammar-table">
+        <tr><th></th><th>dirbti (работать)</th><th>rašyti (писать)</th><th>mylėti (любить)</th></tr>
+        <tr><td><strong>aš</strong></td><td>dirb<strong>čiau</strong></td><td>rašy<strong>čiau</strong></td><td>mylė<strong>čiau</strong></td></tr>
+        <tr><td><strong>tu</strong></td><td>dirb<strong>tum</strong></td><td>rašy<strong>tum</strong></td><td>mylė<strong>tum</strong></td></tr>
+        <tr><td><strong>jis/ji</strong></td><td>dirb<strong>tų</strong></td><td>rašy<strong>tų</strong></td><td>mylė<strong>tų</strong></td></tr>
+        <tr><td><strong>mes</strong></td><td>dirb<strong>tumėme</strong></td><td>rašy<strong>tumėme</strong></td><td>mylė<strong>tumėme</strong></td></tr>
+        <tr><td><strong>jūs</strong></td><td>dirb<strong>tumėte</strong></td><td>rašy<strong>tumėte</strong></td><td>mylė<strong>tumėte</strong></td></tr>
+        <tr><td><strong>jie/jos</strong></td><td>dirb<strong>tų</strong></td><td>rašy<strong>tų</strong></td><td>mylė<strong>tų</strong></td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Использование в формальных письмах</h4>
+        <p><em>Norė<strong>čiau</strong> paprašyti informacijos.</em> — Хотел бы попросить информацию.<br>
+        <em>Bū<strong>čiau</strong> dėkingas, jei galė<strong>tumėte</strong> atsiųsti.</em> — Был бы благодарен, если бы вы могли прислать.<br>
+        <em>Ar galė<strong>tumėte</strong> man padėti?</em> — Не могли бы вы мне помочь?<br>
+        <em>Prašy<strong>čiau</strong> atkreipti dėmesį...</em> — Просил бы обратить внимание...</p>
+        <p class="ru-note">Формулы для письма: Norėčiau + инфинитив, Būčiau dėkingas + jei + tariamoji, Prašyčiau + инфинитив. Выучите их наизусть!</p>
+      </div>
+
+      <h4 style="margin-top:16px">Условные предложения (sąlyginiai sakiniai)</h4>
+      <div class="theory-block">
+        <p><strong>Реальное условие</strong> (будущее): <em>Jei <strong>turėsiu</strong> laiko, <strong>ateisiu</strong>.</em> — Если буду иметь время, приду. (Изъявительное!)<br>
+        <strong>Нереальное условие</strong> (бы): <em>Jei <strong>turėčiau</strong> laiko, <strong>ateičiau</strong>.</em> — Если бы имел время, пришёл бы. (Сослагательное!)<br>
+        <strong>Нереальное в прошлом</strong>: <em>Jei <strong>būčiau turėjęs</strong> laiko, <strong>būčiau atėjęs</strong>.</em> — Если бы имел время (тогда), пришёл бы.</p>
+        <p class="ru-note">Нереальное в прошлом: būčiau + причастие прош. вр. (= был бы + сделавший). Это составная форма — аналог русского "если бы я тогда знал..."</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Liepiamoji nuosaka / Повелительное наклонение</h3>
+      <table class="grammar-table">
+        <tr><th></th><th>dirbti</th><th>rašyti</th><th>eiti</th><th>skaityti</th></tr>
+        <tr><td><strong>tu</strong></td><td>dirb<strong>k</strong></td><td>rašy<strong>k</strong></td><td>ei<strong>k</strong></td><td>skaity<strong>k</strong></td></tr>
+        <tr><td><strong>jūs</strong></td><td>dirb<strong>kite</strong></td><td>rašy<strong>kite</strong></td><td>ei<strong>kite</strong></td><td>skaity<strong>kite</strong></td></tr>
+        <tr><td><strong>mes</strong></td><td>dirb<strong>kime</strong></td><td>rašy<strong>kime</strong></td><td>ei<strong>kime</strong></td><td>skaity<strong>kime</strong></td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Правила образования</h4>
+        <p><strong>Tu:</strong> основа инфинитива + <strong>-k</strong>: dirbti → dirb-k, rašyti → rašy-k<br>
+        <strong>Jūs:</strong> основа + <strong>-kite</strong>: dirb-kite, rašy-kite<br>
+        <strong>Mes:</strong> основа + <strong>-kime</strong>: dirb-kime (= давайте работать)</p>
+        <p>Вежливая просьба (формальная): <em>Prašau, <strong>rašykite</strong> aiškiai.</em> — Пожалуйста, пишите разборчиво.<br>
+        Или ещё вежливее (tariamoji): <em>Ar <strong>galėtumėte</strong> parašyti?</em> — Не могли бы вы написать?</p>
+        <p class="ru-note">Для B2 экзамена лучше использовать вежливые формы с tariamoji nuosaka, а не голое повелительное наклонение!</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Netiesioginė nuosaka / Косвенное наклонение (пересказательное)</h3>
+      <div class="theory-block">
+        <h4>Уникальная для литовского!</h4>
+        <p>Используется, когда передаёте чужие слова или информацию, за которую не ручаетесь. В русском аналога нет — используется "говорят, что" / "якобы".</p>
+        <p>Образование: причастие в нужном времени (без вспомогательного глагола):</p>
+        <p><em>Jis <strong>dirbąs</strong> šioje įmonėje.</em> — (Говорят,) он работает в этой фирме.<br>
+        <em>Ji <strong>buvusi</strong> gera mokinė.</em> — (Говорят,) она была хорошей ученицей.<br>
+        <em>Jie <strong>atvyksią</strong> rytoj.</em> — (Говорят,) они приедут завтра.</p>
+        <p class="ru-note">Формы: esamasis → -ąs/-anti, būtasis → -ęs/-usi, būsimasis → -siąs/-sianti. На экзамене B2 достаточно понимать, что это, при чтении.</p>
+      </div>
+    </div>`;
+}
+
+function renderZnPasyvas(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Neveikiamoji rūšis / Пассивный залог</h3>
+      <div class="theory-block">
+        <h4>Зачем для B2?</h4>
+        <p>Пассив очень распространён в формальных и публицистических текстах — именно тех, что на экзамене. Часто используется в официальных документах, новостях, научных текстах.</p>
+        <p class="ru-note">В русском пассив: "письмо было написано", "решение принято". В литовском — то же самое, но чаще.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Способы выражения пассива</h3>
+
+      <h4>1. Neveikiamasis dalyvis + būti (аналитический пассив)</h4>
+      <div class="theory-block">
+        <p><strong>Настоящее:</strong> <em>Laiškas <strong>yra rašomas</strong>.</em> — Письмо пишется (сейчас).<br>
+        <strong>Прошедшее:</strong> <em>Laiškas <strong>buvo parašytas</strong>.</em> — Письмо было написано.<br>
+        <strong>Будущее:</strong> <em>Laiškas <strong>bus parašytas</strong>.</em> — Письмо будет написано.</p>
+        <p>Причастие согласуется с подлежащим:<br>
+        <em>Knyga <strong>buvo parašyta</strong>.</em> (ж.р.) — Книга была написана.<br>
+        <em>Dokumentai <strong>buvo paruošti</strong>.</em> (мн.ч.) — Документы были подготовлены.</p>
+        <p class="ru-note">Полностью аналогично русскому: подлежащее + было + страдательное причастие. Только причастие согласуется!</p>
+      </div>
+
+      <h4>2. Безличный пассив (самый частый в литовском!)</h4>
+      <div class="theory-block">
+        <p>Используется форма среднего рода причастия (без подлежащего):</p>
+        <p><em>Čia <strong>kalbama</strong> lietuviškai.</em> — Здесь говорят по-литовски. (букв. "здесь говоримо")<br>
+        <em><strong>Buvo nuspręsta</strong> atidėti posėdį.</em> — Было решено отложить заседание.<br>
+        <em><strong>Planuojama</strong> statyti naują mokyklą.</em> — Планируется построить новую школу.<br>
+        <em>Apie tai daug <strong>diskutuojama</strong>.</em> — Об этом много дискутируется.</p>
+        <p class="ru-note">Это ключевая конструкция для B2! В текстах экзамена она встречается постоянно. Безличное причастие среднего рода на -ma (наст.) или -ta (прош.).</p>
+      </div>
+
+      <h4>3. Пассив с деятелем</h4>
+      <div class="theory-block">
+        <p>Деятель выражается через <strong>Kilmininkas</strong> (родительный):</p>
+        <p><em>Ši knyga <strong>parašyta mokslininko</strong>.</em> — Эта книга написана учёным.<br>
+        <em><strong>Gyventojų</strong> buvo surinkti parašai.</em> — Жителями были собраны подписи.</p>
+        <p class="ru-note">В русском деятель в творительном (написана КЕМ? учёнЫМ). В литовском — в родительном (KO? mokslininko)! Частая ошибка!</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Конструкция "galima / reikia / būtina"</h3>
+      <div class="theory-block">
+        <h4>Безличные модальные конструкции</h4>
+        <p><strong>galima</strong> + инфинитив = можно<br>
+        <strong>negalima</strong> + инф. = нельзя<br>
+        <strong>reikia</strong> + инф. = нужно, надо<br>
+        <strong>nereikia</strong> + инф. = не нужно<br>
+        <strong>būtina</strong> + инф. = необходимо<br>
+        <strong>verta</strong> + инф. = стоит, имеет смысл<br>
+        <strong>neverta</strong> + инф. = не стоит<br>
+        <strong>draudžiama</strong> + инф. = запрещается</p>
+        <p><em><strong>Galima</strong> užsiregistruoti internetu.</em> — Можно зарегистрироваться онлайн.<br>
+        <em><strong>Reikia</strong> pateikti dokumentus.</em> — Нужно предоставить документы.<br>
+        <em><strong>Draudžiama</strong> rūkyti.</em> — Запрещается курить.</p>
+        <p class="ru-note">Эти конструкции невероятно часты в формальных текстах экзамена!</p>
+      </div>
+    </div>`;
+}
+
+function renderZnBudvardziai(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Būdvardžių laipsniai / Степени сравнения прилагательных</h3>
+
+      <h4>Aukštesnysis laipsnis (сравнительная степень): -esnis/-esnė</h4>
+      <table class="grammar-table">
+        <tr><th>Nelyginamasis</th><th>Aukštesnysis vyr.</th><th>Aukštesnysis mot.</th><th>Русский</th></tr>
+        <tr><td>didelis (большой)</td><td>did<strong>esnis</strong></td><td>did<strong>esnė</strong></td><td>больший</td></tr>
+        <tr><td>mažas (маленький)</td><td>maž<strong>esnis</strong></td><td>maž<strong>esnė</strong></td><td>меньший</td></tr>
+        <tr><td>geras (хороший)</td><td>ger<strong>esnis</strong></td><td>ger<strong>esnė</strong></td><td>лучший</td></tr>
+        <tr><td>blogas (плохой)</td><td>blog<strong>esnis</strong></td><td>blog<strong>esnė</strong></td><td>худший</td></tr>
+        <tr><td>senas (старый)</td><td>sen<strong>esnis</strong></td><td>sen<strong>esnė</strong></td><td>старше</td></tr>
+        <tr><td>jaunas (молодой)</td><td>jaun<strong>esnis</strong></td><td>jaun<strong>esnė</strong></td><td>моложе</td></tr>
+        <tr><td>gražus (красивый)</td><td>graž<strong>esnis</strong></td><td>graž<strong>esnė</strong></td><td>красивее</td></tr>
+        <tr><td>svarbus (важный)</td><td>svarb<strong>esnis</strong></td><td>svarb<strong>esnė</strong></td><td>важнее</td></tr>
+        <tr><td>ilgas (длинный)</td><td>ilg<strong>esnis</strong></td><td>ilg<strong>esnė</strong></td><td>длиннее</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Конструкции сравнения</h4>
+        <p><strong>už + G.</strong>: <em>Jis <strong>vyresnis už</strong> mane.</em> — Он старше меня.<br>
+        <strong>nei / negu</strong>: <em>Jis vyresnis <strong>nei</strong> aš.</em> — Он старше, чем я.<br>
+        <strong>kuo... tuo...</strong>: <em><strong>Kuo</strong> daugiau mokosi, <strong>tuo</strong> geriau supranta.</em> — Чем больше учится, тем лучше понимает.</p>
+        <p class="ru-note">"Kuo... tuo..." = "Чем... тем..." — очень частая конструкция на B2!</p>
+      </div>
+
+      <h4 style="margin-top:16px">Aukščiausiasis laipsnis (превосходная степень): -iausias/-iausia</h4>
+      <table class="grammar-table">
+        <tr><th>Nelyginamasis</th><th>Aukščiausiasis vyr.</th><th>Aukščiausiasis mot.</th><th>Русский</th></tr>
+        <tr><td>didelis</td><td>did<strong>žiausias</strong></td><td>did<strong>žiausia</strong></td><td>самый большой</td></tr>
+        <tr><td>geras</td><td>ger<strong>iausias</strong></td><td>ger<strong>iausia</strong></td><td>лучший (самый)</td></tr>
+        <tr><td>gražus</td><td>graž<strong>iausias</strong></td><td>graž<strong>iausia</strong></td><td>самый красивый</td></tr>
+        <tr><td>svarbus</td><td>svarb<strong>iausias</strong></td><td>svarb<strong>iausia</strong></td><td>самый важный</td></tr>
+        <tr><td>mažas</td><td>maž<strong>iausias</strong></td><td>maž<strong>iausia</strong></td><td>самый маленький</td></tr>
+        <tr><td>blogas</td><td>blog<strong>iausias</strong></td><td>blog<strong>iausia</strong></td><td>самый плохой</td></tr>
+      </table>
+      <div class="theory-block">
+        <p>Превосходная степень склоняется! <em>Geriausiam draugui</em> (лучшему другу, N.).<br>
+        <em>Gražiausiame mieste</em> (в красивейшем городе, Vt.).</p>
+      </div>
+
+      <h4 style="margin-top:16px">Наречия: степени сравнения</h4>
+      <table class="grammar-table">
+        <tr><th>Наречие</th><th>Сравнительная</th><th>Превосходная</th></tr>
+        <tr><td>gerai (хорошо)</td><td>ger<strong>iau</strong></td><td>ger<strong>iausiai</strong></td></tr>
+        <tr><td>blogai (плохо)</td><td>blog<strong>iau</strong></td><td>blog<strong>iausiai</strong></td></tr>
+        <tr><td>greitai (быстро)</td><td>greit<strong>iau</strong></td><td>greit<strong>iausiai</strong></td></tr>
+        <tr><td>daug (много)</td><td>daug<strong>iau</strong></td><td>daug<strong>iausiai</strong></td></tr>
+        <tr><td>mažai (мало)</td><td>maž<strong>iau</strong></td><td>maž<strong>iausiai</strong></td></tr>
+      </table>
+      <div class="theory-block">
+        <p class="ru-note">Наречия: сравнительная на <strong>-iau</strong>, превосходная на <strong>-iausiai</strong>. Проще, чем прилагательные — не склоняются!</p>
+      </div>
+    </div>`;
+}
+
+function renderZnValdymas(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Veiksmažodžių valdymas / Управление глаголов</h3>
+      <div class="theory-block">
+        <h4>Почему это важно?</h4>
+        <p>Многие литовские глаголы требуют других падежей, чем аналогичные русские! Это самый частый источник ошибок русскоязычных на B2.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Глаголы, отличающиеся от русского управления</h3>
+      <table class="grammar-table">
+        <tr><th>Глагол</th><th>Литовское управление</th><th>Русское управление</th><th>Пример</th></tr>
+        <tr><td><strong>padėkoti</strong><br>(поблагодарить)</td><td>+ <strong>Naudininkas</strong> (кому)</td><td>кого (вин.)</td><td>Padėkoti <strong>draugui</strong> (другу)</td></tr>
+        <tr><td><strong>padėti</strong><br>(помочь)</td><td>+ <strong>Naudininkas</strong></td><td>кому (дат.) ✓</td><td>Padėti <strong>draugui</strong> (другу) — совпадает!</td></tr>
+        <tr><td><strong>skambinti</strong><br>(звонить)</td><td>+ <strong>Naudininkas</strong></td><td>кому (дат.) ✓</td><td>Skambinti <strong>mamai</strong> (маме)</td></tr>
+        <tr><td><strong>skatinti</strong><br>(побуждать)</td><td>+ <strong>Galininkas</strong> (что)</td><td>к чему (дат.)</td><td>Skatinti <strong>plėtrą</strong> (развитие)</td></tr>
+        <tr><td><strong>mokyti</strong><br>(учить кого)</td><td>+ <strong>Galininkas</strong></td><td>кого (вин.) ✓</td><td>Mokyti <strong>vaikus</strong> (детей)</td></tr>
+        <tr><td><strong>mokytis</strong><br>(учить что)</td><td>+ <strong>Kilmininkas</strong> (чего)</td><td>что (вин.)</td><td>Mokytis <strong>kalbos</strong> (языка)</td></tr>
+        <tr><td><strong>klausyti</strong><br>(слушать)</td><td>+ <strong>Kilmininkas</strong></td><td>что/кого (вин.)</td><td>Klausyti <strong>muzikos</strong> (музыки)</td></tr>
+        <tr><td><strong>ieškoti</strong><br>(искать)</td><td>+ <strong>Kilmininkas</strong></td><td>что/кого (вин.)</td><td>Ieškoti <strong>darbo</strong> (работы)</td></tr>
+        <tr><td><strong>laukti</strong><br>(ждать)</td><td>+ <strong>Kilmininkas</strong></td><td>что/кого (вин.)</td><td>Laukti <strong>autobuso</strong> (автобуса)</td></tr>
+        <tr><td><strong>prašyti</strong><br>(просить)</td><td>+ <strong>Kilmininkas</strong> (чего)</td><td>что (вин.)</td><td>Prašyti <strong>pagalbos</strong> (помощи)</td></tr>
+        <tr><td><strong>linkėti</strong><br>(желать)</td><td>+ <strong>Kilmininkas</strong></td><td>чего (род.) ✓</td><td>Linkėti <strong>sėkmės</strong> (успехов)</td></tr>
+        <tr><td><strong>vengti</strong><br>(избегать)</td><td>+ <strong>Kilmininkas</strong></td><td>чего (род.) ✓</td><td>Vengti <strong>klaidų</strong> (ошибок)</td></tr>
+        <tr><td><strong>džiaugtis</strong><br>(радоваться)</td><td>+ <strong>Įnagininkas</strong> (чем)</td><td>чему (дат.)</td><td>Džiaugtis <strong>gyvenimu</strong> (жизнью)</td></tr>
+        <tr><td><strong>naudotis</strong><br>(пользоваться)</td><td>+ <strong>Įnagininkas</strong></td><td>чем (тв.) ✓</td><td>Naudotis <strong>internetu</strong> (интернетом)</td></tr>
+        <tr><td><strong>domėtis</strong><br>(интересоваться)</td><td>+ <strong>Įnagininkas</strong></td><td>чем (тв.) ✓</td><td>Domėtis <strong>menu</strong> (искусством)</td></tr>
+        <tr><td><strong>rūpintis</strong><br>(заботиться)</td><td>+ <strong>Įnagininkas</strong></td><td>о чём/о ком (предл.)</td><td>Rūpintis <strong>vaikais</strong> (детьми)</td></tr>
+        <tr><td><strong>tikėtis</strong><br>(надеяться)</td><td>+ <strong>Kilmininkas</strong></td><td>на что (вин.)</td><td>Tikėtis <strong>pagalbos</strong> (помощи)</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Ключевые правила</h4>
+        <p><strong>Kilmininkas</strong> (род.): mokytis, klausyti, ieškoti, laukti, prašyti, linkėti, vengti, tikėtis — учить, слушать, искать, ждать, просить, желать, избегать, надеяться<br>
+        <strong>Įnagininkas</strong> (тв.): džiaugtis, naudotis, domėtis, rūpintis — радоваться, пользоваться, интересоваться, заботиться<br>
+        <strong>Galininkas</strong> (вин.): skatinti, mokyti, mylėti, matyti — побуждать, учить, любить, видеть</p>
+        <p class="ru-note">Правило большого пальца: если в русском глагол + ЧТО/КОГО (вин.), в литовском часто Kilmininkas (род.)! Проверяйте каждый глагол.</p>
+      </div>
+    </div>`;
+}
+
+function renderZnPrielinksniai(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Полная таблица предлогов и их управления</h3>
+      <table class="grammar-table">
+        <tr><th>Prielinksnis</th><th>Значение</th><th>Linksnis</th><th>Пример</th></tr>
+        <tr style="background:#eff6ff"><td colspan="4"><strong>+ Kilmininkas (родительный)</strong></td></tr>
+        <tr><td><strong>ant</strong></td><td>на (поверхности)</td><td>K.</td><td>ant <strong>stalo</strong> (на столе)</td></tr>
+        <tr><td><strong>iš</strong></td><td>из</td><td>K.</td><td>iš <strong>miesto</strong> (из города)</td></tr>
+        <tr><td><strong>nuo</strong></td><td>от, с</td><td>K.</td><td>nuo <strong>ryto</strong> (с утра)</td></tr>
+        <tr><td><strong>iki</strong></td><td>до</td><td>K.</td><td>iki <strong>vakaro</strong> (до вечера)</td></tr>
+        <tr><td><strong>prie</strong></td><td>у, около, при</td><td>K.</td><td>prie <strong>namo</strong> (у дома)</td></tr>
+        <tr><td><strong>be</strong></td><td>без</td><td>K.</td><td>be <strong>vandens</strong> (без воды)</td></tr>
+        <tr><td><strong>dėl</strong></td><td>из-за, ради</td><td>K.</td><td>dėl <strong>ligos</strong> (из-за болезни)</td></tr>
+        <tr><td><strong>po</strong> (после)</td><td>после</td><td>K.</td><td>po <strong>darbo</strong> (после работы)</td></tr>
+        <tr><td><strong>tarp</strong></td><td>между</td><td>K.</td><td>tarp <strong>namų</strong> (между домами)</td></tr>
+        <tr><td><strong>šalia</strong></td><td>рядом с</td><td>K.</td><td>šalia <strong>mokyklos</strong> (рядом со школой)</td></tr>
+        <tr><td><strong>viduje / vidury</strong></td><td>внутри / посреди</td><td>K.</td><td>vidury <strong>miesto</strong> (посреди города)</td></tr>
+        <tr><td><strong>vietoj</strong></td><td>вместо</td><td>K.</td><td>vietoj <strong>manęs</strong> (вместо меня)</td></tr>
+        <tr><td><strong>anot</strong></td><td>по мнению, по словам</td><td>K.</td><td>anot <strong>mokslininko</strong> (по мнению учёного)</td></tr>
+
+        <tr style="background:#f0fdf4"><td colspan="4"><strong>+ Galininkas (винительный)</strong></td></tr>
+        <tr><td><strong>į</strong></td><td>в (направление)</td><td>G.</td><td>į <strong>miestą</strong> (в город)</td></tr>
+        <tr><td><strong>per</strong></td><td>через, за (время)</td><td>G.</td><td>per <strong>savaitę</strong> (за неделю)</td></tr>
+        <tr><td><strong>apie</strong></td><td>о, про, около</td><td>G.</td><td>apie <strong>darbą</strong> (о работе)</td></tr>
+        <tr><td><strong>prieš</strong></td><td>перед, против, назад</td><td>G.</td><td>prieš <strong>metus</strong> (год назад)</td></tr>
+        <tr><td><strong>už</strong></td><td>за (позади), чем (сравн.)</td><td>G.</td><td>už <strong>namo</strong> (за домом), vyresnis už <strong>mane</strong></td></tr>
+        <tr><td><strong>pas</strong></td><td>у, к (человеку)</td><td>G.</td><td>pas <strong>draugą</strong> (у друга)</td></tr>
+        <tr><td><strong>pro</strong></td><td>мимо</td><td>G.</td><td>pro <strong>langą</strong> (мимо окна)</td></tr>
+
+        <tr style="background:#fef3c7"><td colspan="4"><strong>+ Įnagininkas (творительный)</strong></td></tr>
+        <tr><td><strong>su</strong></td><td>с (совместность)</td><td>Įn.</td><td>su <strong>draugu</strong> (с другом)</td></tr>
+        <tr><td><strong>po</strong> (под)</td><td>под</td><td>Įn.</td><td>po <strong>stalu</strong> (под столом)</td></tr>
+        <tr><td><strong>ties</strong></td><td>у, напротив</td><td>Įn.</td><td>ties <strong>namu</strong> (напротив дома)</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Критические отличия от русского!</h4>
+        <p><strong>apie</strong> (о, про) + <strong>Galininkas</strong> (в русском "о" + предложный!)<br>
+        <strong>pas</strong> (у, к человеку) + <strong>Galininkas</strong> (в русском "к" + дательный!)<br>
+        <strong>po</strong> = 2 значения: "после" + K., "под" + Įn. (омоним!)<br>
+        <strong>tarp</strong> (между) + <strong>Kilmininkas</strong> (в русском "между" + творительный!)</p>
+        <p class="ru-note">Запомните: большинство предлогов → Kilmininkas! Только į, per, apie, prieš, už, pas, pro → Galininkas. Su, po (под), ties → Įnagininkas.</p>
+      </div>
+    </div>`;
+}
+
+function renderZnIvardis(el) {
+  el.innerHTML = `
+    <div class="card">
+      <h3>Asmeniniai įvardžiai / Личные местоимения</h3>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>aš (я)</th><th>tu (ты)</th><th>jis (он)</th><th>ji (она)</th><th>mes (мы)</th><th>jūs (вы)</th><th>jie (они м.)</th><th>jos (они ж.)</th></tr>
+        <tr><td>V.</td><td>aš</td><td>tu</td><td>jis</td><td>ji</td><td>mes</td><td>jūs</td><td>jie</td><td>jos</td></tr>
+        <tr><td>K.</td><td>manęs</td><td>tavęs</td><td>jo</td><td>jos</td><td>mūsų</td><td>jūsų</td><td>jų</td><td>jų</td></tr>
+        <tr><td>N.</td><td>man</td><td>tau</td><td>jam</td><td>jai</td><td>mums</td><td>jums</td><td>jiems</td><td>joms</td></tr>
+        <tr><td>G.</td><td>mane</td><td>tave</td><td>jį</td><td>ją</td><td>mus</td><td>jus</td><td>juos</td><td>jas</td></tr>
+        <tr><td>Įn.</td><td>manimi</td><td>tavimi</td><td>juo</td><td>ja</td><td>mumis</td><td>jumis</td><td>jais</td><td>jomis</td></tr>
+        <tr><td>Vt.</td><td>manyje</td><td>tavyje</td><td>jame</td><td>joje</td><td>mumyse</td><td>jumyse</td><td>juose</td><td>jose</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Savybiniai įvardžiai / Притяжательные местоимения</h3>
+      <table class="grammar-table">
+        <tr><th>Asmuo</th><th>Формы</th><th>Русский</th><th>Пример</th></tr>
+        <tr><td><strong>aš</strong></td><td>mano</td><td>мой/моя/моё</td><td><em>mano namas</em> (мой дом)</td></tr>
+        <tr><td><strong>tu</strong></td><td>tavo</td><td>твой</td><td><em>tavo knyga</em> (твоя книга)</td></tr>
+        <tr><td><strong>jis</strong></td><td>jo</td><td>его</td><td><em>jo automobilis</em> (его машина)</td></tr>
+        <tr><td><strong>ji</strong></td><td>jos</td><td>её</td><td><em>jos katė</em> (её кошка)</td></tr>
+        <tr><td><strong>mes</strong></td><td>mūsų</td><td>наш</td><td><em>mūsų šalis</em> (наша страна)</td></tr>
+        <tr><td><strong>jūs</strong></td><td>jūsų</td><td>ваш</td><td><em>jūsų nuomonė</em> (ваше мнение)</td></tr>
+        <tr><td><strong>jie/jos</strong></td><td>jų</td><td>их</td><td><em>jų vaikai</em> (их дети)</td></tr>
+        <tr><td><strong>savo</strong></td><td>savo</td><td>свой</td><td><em>Jis myli <strong>savo</strong> šeimą.</em> (Он любит <strong>свою</strong> семью.)</td></tr>
+      </table>
+      <div class="theory-block">
+        <h4>Важно: "savo" vs "jo/jos"</h4>
+        <p><em>Jis myli <strong>savo</strong> mamą.</em> — Он любит <strong>свою</strong> маму (= его собственную).<br>
+        <em>Jis myli <strong>jo</strong> mamą.</em> — Он любит <strong>его</strong> маму (= чужую!).</p>
+        <p class="ru-note">Точно как в русском: "свой" = принадлежит подлежащему, "его/её" = принадлежит другому лицу.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Santykiniai įvardžiai / Относительные местоимения</h3>
+      <div class="theory-block">
+        <h4>kuris/kuri = который/которая</h4>
+        <p>Склоняется как прилагательное! Согласуется по роду и числу с определяемым словом, а падеж определяется функцией в придаточном предложении.</p>
+        <p><em>Žmogus, <strong>kuris</strong> čia gyvena...</em> — Человек, <strong>который</strong> здесь живёт... (V. — подлежащее)<br>
+        <em>Žmogus, <strong>kurį</strong> matau...</em> — Человек, <strong>которого</strong> вижу... (G. — дополнение)<br>
+        <em>Žmogus, <strong>kuriam</strong> padėjau...</em> — Человек, <strong>которому</strong> помог... (N. — дополнение)<br>
+        <em>Moteris, <strong>kurios</strong> laukiu...</em> — Женщина, <strong>которую</strong> жду... (K. — laukti + K.!)</p>
+      </div>
+      <table class="grammar-table">
+        <tr><th>Linksnis</th><th>Vyr. vns.</th><th>Mot. vns.</th><th>Vyr. dgs.</th><th>Mot. dgs.</th></tr>
+        <tr><td>V.</td><td>kuris</td><td>kuri</td><td>kurie</td><td>kurios</td></tr>
+        <tr><td>K.</td><td>kurio</td><td>kurios</td><td>kurių</td><td>kurių</td></tr>
+        <tr><td>N.</td><td>kuriam</td><td>kuriai</td><td>kuriems</td><td>kurioms</td></tr>
+        <tr><td>G.</td><td>kurį</td><td>kurią</td><td>kuriuos</td><td>kurias</td></tr>
+        <tr><td>Įn.</td><td>kuriuo</td><td>kuria</td><td>kuriais</td><td>kuriomis</td></tr>
+        <tr><td>Vt.</td><td>kuriame</td><td>kurioje</td><td>kuriuose</td><td>kuriose</td></tr>
+      </table>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EGZAMINAS (MOCK EXAM)
+// ═══════════════════════════════════════════════════════════════
+function renderEgzaminas(el) {
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+      <button class="btn btn-outline btn-sm" onclick="showPage('home')">← Atgal</button>
+      <h1 style="margin:0">Bandomasis egzaminas / Пробный экзамен</h1>
+    </div>
+    <p class="subtitle">Комбинированный тест в формате экзамена</p>
+    <div id="egz-content"></div>`;
+  const allExercises = [
+    ...getKvDrill1().slice(0,4).map(e => ({...e, topic:'Kalbos vartojimas'})),
+    ...getDalyviaiDrill3().slice(0,4).map(e => ({...e, topic:'Dalyviai'})),
+    ...getLinksniaiDrill1().slice(0,4).map(e => ({...e, topic:'Linksniai'})),
+    ...getLinksniaiDrill3().slice(0,3).map(e => ({...e, topic:'Prielinksniai'})),
+    ...getKvDrill3().slice(0,3).map(e => ({...e, topic:'Laisvas įrašymas'})),
+    ...getKvDrill2().slice(0,3).map(e => ({...e, topic:'Žodžių formos'})),
+    ...getJnDrill1().slice(0,3).map(e => ({...e, topic:'Jungtukai'})),
+    ...getZdDrill1().slice(0,3).map(e => ({...e, topic:'Žodžių daryba'})),
+    ...getSkrDrill1().slice(0,2).map(e => ({...e, topic:'Skyryba'})),
+    ...getVzDrill2().slice(0,2).map(e => ({...e, topic:'Veiksmažodžiai'})),
+    ...getDalyviaiDrill1().slice(0,3).map(e => ({...e, topic:'Dalyvių formavimas'})),
+  ];
+  for (let i = allExercises.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allExercises[i], allExercises[j]] = [allExercises[j], allExercises[i]];
+  }
+  createExerciseRunner(document.getElementById('egz-content'), allExercises, 'egzaminas', 'Bandomasis egzaminas', `${allExercises.length} klausimų — mišrus formatas`);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+showPage('home');
+</script>
+</body>
+</html>
