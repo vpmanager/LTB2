@@ -159,6 +159,9 @@ h3 { font-size:18px; margin-bottom:8px; }
 </style>
 </head>
 <body>
+<script src="data/dalyviai.js"></script>
+<script src="data/linksniai.js"></script>
+<script src="data/veiksmazodziai.js"></script>
 
 <nav>
   <div class="nav-inner">
@@ -475,16 +478,24 @@ function renderDalyviai(el) {
       <p class="subtitle">Самая важная грамматическая тема для B2. Причастия используются в литовском гораздо чаще, чем в русском.</p>
       <div class="tabs">
         <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._dlTab('theory')">Teorija / Теория</button>
-        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._dlTab('drill1')">Pratimas 1: Формы</button>
-        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._dlTab('drill2')">Pratimas 2: Контекст</button>
-        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._dlTab('drill3')">Pratimas 3: Экзамен</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._dlTab('drill1')">1: Формы</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._dlTab('drill2')">2: Контекст</button>
+        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._dlTab('drill3')">3: Экзамен</button>
+        <button class="tab ${currentTab==='drill4'?'active':''}" onclick="window._dlTab('drill4')">4: Склонение</button>
+        <button class="tab ${currentTab==='drill5'?'active':''}" onclick="window._dlTab('drill5')">5: Деепричастия</button>
+        <button class="tab ${currentTab==='drill6'?'active':''}" onclick="window._dlTab('drill6')">6: Трансформации</button>
+        <button class="tab ${currentTab==='drill7'?'active':''}" onclick="window._dlTab('drill7')">7: Все типы</button>
       </div>
       <div id="dalyviai-content"></div>`;
     const ct = document.getElementById('dalyviai-content');
-    if (currentTab === 'theory') renderDalyviaiTheory(ct);
+    if (currentTab === 'theory') { renderDalyviaiTheory(ct); ct.innerHTML += getDalyviaiExpandedTheory(); }
     else if (currentTab === 'drill1') createExerciseRunner(ct, getDalyviaiDrill1(), 'dalyviai-1', 'Dalyviai: formavimas', 'Образование причастий — выберите правильную форму');
     else if (currentTab === 'drill2') createExerciseRunner(ct, getDalyviaiDrill2(), 'dalyviai-2', 'Dalyviai: kontekstas', 'Причастия в контексте — вставьте нужную форму');
     else if (currentTab === 'drill3') createExerciseRunner(ct, getDalyviaiDrill3(), 'dalyviai-3', 'Dalyviai: egzamino formatas', 'Формат экзамена — выберите из вариантов');
+    else if (currentTab === 'drill4') createExerciseRunner(ct, getDalyviaiDrill4(), 'dalyviai-4', 'Dalyvių linksniavimas', 'Склонение причастий — правильный падеж');
+    else if (currentTab === 'drill5') createExerciseRunner(ct, getDalyviaiDrill5(), 'dalyviai-5', 'Pusdalyvis ir padalyvis', 'Деепричастия — одновременное и предшествующее действие');
+    else if (currentTab === 'drill6') createExerciseRunner(ct, getDalyviaiDrill6(), 'dalyviai-6', 'Sakinių transformavimas', 'Замена придаточных причастными оборотами');
+    else if (currentTab === 'drill7') createExerciseRunner(ct, getDalyviaiDrill7(), 'dalyviai-7', 'Visų tipų dalyviai', 'Все типы причастий — смешанный тест');
   }
   window._dlTab = (t) => { currentTab = t; renderInner(); };
   renderInner();
@@ -683,16 +694,20 @@ function renderLinksniai(el) {
       <p class="subtitle">7 падежей литовского языка — сравнение с русским и практика</p>
       <div class="tabs">
         <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._lnTab('theory')">Teorija / Теория</button>
-        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._lnTab('drill1')">Pratimas 1: Падеж</button>
-        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._lnTab('drill2')">Pratimas 2: Окончания</button>
-        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._lnTab('drill3')">Pratimas 3: Предлоги</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._lnTab('drill1')">1: Падеж</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._lnTab('drill2')">2: Окончания</button>
+        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._lnTab('drill3')">3: Предлоги</button>
+        <button class="tab ${currentTab==='drill4'?'active':''}" onclick="window._lnTab('drill4')">4: Мн. число</button>
+        <button class="tab ${currentTab==='drill5'?'active':''}" onclick="window._lnTab('drill5')">5: Управление</button>
       </div>
       <div id="linksniai-content"></div>`;
     const ct = document.getElementById('linksniai-content');
-    if (currentTab === 'theory') renderLinksniaiTheory(ct);
+    if (currentTab === 'theory') { renderLinksniaiTheory(ct); ct.innerHTML += getLinksniaiExpandedTheory(); }
     else if (currentTab === 'drill1') createExerciseRunner(ct, getLinksniaiDrill1(), 'linksniai-1', 'Linksniai: atpažinimas', 'Определите правильный падеж');
     else if (currentTab === 'drill2') createExerciseRunner(ct, getLinksniaiDrill2(), 'linksniai-2', 'Linksniai: galūnės', 'Впишите правильное окончание');
     else if (currentTab === 'drill3') createExerciseRunner(ct, getLinksniaiDrill3(), 'linksniai-3', 'Prielinksniai + linksniai', 'Предлоги и управление падежами');
+    else if (currentTab === 'drill4') createExerciseRunner(ct, getLinksniaiDrill4(), 'linksniai-4', 'Daugiskaitos linksniai', 'Множественное число — все склонения');
+    else if (currentTab === 'drill5') createExerciseRunner(ct, getLinksniaiDrill5(), 'linksniai-5', 'Veiksmažodžių valdymas', 'Управление глаголов — выберите правильный падеж');
   }
   window._lnTab = (t) => { currentTab = t; renderInner(); };
   renderInner();
@@ -909,16 +924,20 @@ function renderVeiksmazodziai(el) {
       <p class="subtitle">Спряжения, времена и возвратные глаголы</p>
       <div class="tabs">
         <button class="tab ${currentTab==='theory'?'active':''}" onclick="window._vzTab('theory')">Teorija</button>
-        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._vzTab('drill1')">Pratimas 1: Спряжение</button>
-        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._vzTab('drill2')">Pratimas 2: Времена</button>
-        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._vzTab('drill3')">Pratimas 3: Приставки</button>
+        <button class="tab ${currentTab==='drill1'?'active':''}" onclick="window._vzTab('drill1')">1: Спряжение</button>
+        <button class="tab ${currentTab==='drill2'?'active':''}" onclick="window._vzTab('drill2')">2: Времена</button>
+        <button class="tab ${currentTab==='drill3'?'active':''}" onclick="window._vzTab('drill3')">3: Приставки</button>
+        <button class="tab ${currentTab==='drill4'?'active':''}" onclick="window._vzTab('drill4')">4: Возвратные</button>
+        <button class="tab ${currentTab==='drill5'?'active':''}" onclick="window._vzTab('drill5')">5: Сослагательное</button>
       </div>
       <div id="vz-content"></div>`;
     const ct = document.getElementById('vz-content');
-    if (currentTab === 'theory') renderVzTheory(ct);
+    if (currentTab === 'theory') { renderVzTheory(ct); ct.innerHTML += getVzExpandedTheory(); }
     else if (currentTab === 'drill1') createExerciseRunner(ct, getVzDrill1(), 'vz-1', 'Veiksmažodžiai: asmenavimas', 'Спряжение глаголов');
     else if (currentTab === 'drill2') createExerciseRunner(ct, getVzDrill2(), 'vz-2', 'Veiksmažodžiai: laikai', 'Выберите правильное время глагола');
     else if (currentTab === 'drill3') createExerciseRunner(ct, getVzDrill3(), 'vz-3', 'Priešdėliai', 'Глагольные приставки — тонкие различия');
+    else if (currentTab === 'drill4') createExerciseRunner(ct, getVzDrill4(), 'vz-4', 'Sangrąžiniai veiksmažodžiai', 'Возвратные глаголы — спряжение во всех временах');
+    else if (currentTab === 'drill5') createExerciseRunner(ct, getVzDrill5(), 'vz-5', 'Tariamoji nuosaka', 'Сослагательное наклонение — условные предложения и вежливые просьбы');
   }
   window._vzTab = (t) => { currentTab = t; renderInner(); };
   renderInner();
@@ -2129,14 +2148,19 @@ function renderEgzaminas(el) {
   const allExercises = [
     ...getKvDrill1().slice(0,4).map(e => ({...e, topic:'Kalbos vartojimas'})),
     ...getDalyviaiDrill3().slice(0,4).map(e => ({...e, topic:'Dalyviai'})),
+    ...getDalyviaiDrill4().slice(0,3).map(e => ({...e, topic:'Dalyvių linksniavimas'})),
+    ...getDalyviaiDrill5().slice(0,3).map(e => ({...e, topic:'Pusdalyvis/Padalyvis'})),
+    ...getDalyviaiDrill7().slice(0,3).map(e => ({...e, topic:'Dalyviai: mišrus'})),
     ...getLinksniaiDrill1().slice(0,4).map(e => ({...e, topic:'Linksniai'})),
     ...getLinksniaiDrill3().slice(0,3).map(e => ({...e, topic:'Prielinksniai'})),
+    ...getLinksniaiDrill5().slice(0,2).map(e => ({...e, topic:'Valdymas'})),
     ...getKvDrill3().slice(0,3).map(e => ({...e, topic:'Laisvas įrašymas'})),
     ...getKvDrill2().slice(0,3).map(e => ({...e, topic:'Žodžių formos'})),
     ...getJnDrill1().slice(0,3).map(e => ({...e, topic:'Jungtukai'})),
     ...getZdDrill1().slice(0,3).map(e => ({...e, topic:'Žodžių daryba'})),
     ...getSkrDrill1().slice(0,2).map(e => ({...e, topic:'Skyryba'})),
     ...getVzDrill2().slice(0,2).map(e => ({...e, topic:'Veiksmažodžiai'})),
+    ...getVzDrill5().slice(0,2).map(e => ({...e, topic:'Tariamoji nuosaka'})),
     ...getDalyviaiDrill1().slice(0,3).map(e => ({...e, topic:'Dalyvių formavimas'})),
   ];
   for (let i = allExercises.length - 1; i > 0; i--) {
